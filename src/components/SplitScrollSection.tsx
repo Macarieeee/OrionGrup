@@ -97,35 +97,37 @@ function AnimatedCard({
 </motion.div>
       </div>
 
-      {/* MOBILE layout */}
-      <div className="flex flex-col md:hidden items-center justify-center w-full gap-4 px-4">
-        <motion.div
-          initial={{ x: -100, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          viewport={{ once: false, amount: 0.2 }}
-          className="w-full h-56 rounded-2xl bg-white/20 border border-white/30 backdrop-blur-md flex items-center justify-center shadow-lg"
-        >
-          <span className="text-white font-semibold">Placeholder</span>
-        </motion.div>
+{/* MOBILE layout */}
+<div className="flex flex-col md:hidden items-center justify-center w-full gap-4 px-4">
+  {/* Imaginea */}
+  <motion.div
+    initial={{ x: -100, opacity: 0 }}
+    whileInView={{ x: 0, opacity: 1 }}
+    transition={{ duration: 0.7, ease: "easeOut" }}
+    viewport={{ once: false, amount: 0.2 }}
+    className="w-full h-56 rounded-2xl overflow-hidden 
+               bg-white/20 border border-white/30 backdrop-blur-md shadow-lg"
+  >
+    <img
+      src={image}
+      alt={title}
+      className="w-full h-full object-cover"
+      loading="lazy"
+    />
+  </motion.div>
 
-       <motion.div
-  initial={{ x: -100, opacity: 0 }}
-  whileInView={{ x: 0, opacity: 1 }}
-  transition={{ duration: 0.7, ease: "easeOut" }}
-  viewport={{ once: false, amount: 0.2 }}
-  className="w-full h-56 rounded-2xl overflow-hidden 
-             bg-white/20 border border-white/30 backdrop-blur-md shadow-lg"
->
-  <img
-    src={image}
-    alt={title}
-    className="w-full h-full object-cover"
-    loading="lazy"
-  />
-</motion.div>
-
-      </div>
+  {/* Textul */}
+  <motion.div
+    initial={{ x: 100, opacity: 0 }}
+    whileInView={{ x: 0, opacity: 1 }}
+    transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+    viewport={{ once: false, amount: 0.2 }}
+    className="text-center text-white"
+  >
+    <h1 className="text-2xl font-bold mb-2">{title}</h1>
+    <p className="text-base text-gray-300">{text}</p>
+  </motion.div>
+</div>
     </div>
   );
 }
