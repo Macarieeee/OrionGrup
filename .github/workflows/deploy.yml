@@ -1,8 +1,9 @@
-name: Deploy site to GitHub Pages
+name: Build and Deploy
 
 on:
   push:
-    branches: [ main ]   # rulează la fiecare push pe branch-ul main
+    branches:
+      - main   # rulează workflow-ul doar când faci push pe branch-ul main
 
 jobs:
   build-deploy:
@@ -23,8 +24,10 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build   # ⚠️ schimbă în ./build dacă React îți generează build-ul în build
+      - name: Setup Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Deploy 🚀
+        run: npm run deploy
