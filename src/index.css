@@ -1,0 +1,142 @@
+
+@import "tailwindcss";
+
+/* Spune-i lui Tailwind ce fișiere să scaneze */
+@source "./index.html";
+@source "./src/**/*.{js,jsx,ts,tsx}";
+
+/* (opțional) tema ta */
+@theme {
+  /* Font (opțional) */
+  --font-sans: Inter, system-ui, Arial, sans-serif;
+
+  /* Bază (fundaluri) */
+  --color-background: #0a0b0d;    /* negru închis – pagina */
+  --color-surface:    #0e1116;    /* panouri/carduri */
+  --color-surface-2:  #131720;    /* panouri mai ridicate */
+
+  /* Primare / secundare */
+  --color-primary:   #ffffff;     /* alb – butoane primare, highlights */
+  --color-secondary: #d9dee7;     /* gri deschis, “nu foarte” */
+
+  /* Text */
+  --color-foreground: #f5f7fb;    /* text principal pe dark */
+  --color-muted:      #ffffffb3;  /* 70% – subtitluri */
+  --color-subtle:     #ffffff80;  /* 50% – descrieri fine */
+  --color-ink:        #0a0b0d;    /* text pe suprafețe deschise (ex. btn secondary) */
+
+  /* Contururi / efecte */
+  --color-border:        #ffffff26; /* 15% alb – borduri soft */
+  --color-border-strong: #ffffff33; /* 20% – când vrei mai vizibil */
+  --color-ring:          #a6b5ff55; /* inel focus rece, discret */
+}
+
+html, body, #root { height: 100%; }
+body { margin: 0; }
+
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #0a0b0d;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+
+/* Variabilă animabilă pentru poziția frontului de lumină */
+@property --p {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+
+/* Sweep top→down + fade-in */
+@keyframes beam-sweep {
+  0%   { --p: var(--start); opacity: 0; }
+  100% { --p: var(--end);   opacity: var(--beam-opacity, 0.5); }
+}
+
+/* Respectă preferința de reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .beam-anim { animation: none !important; opacity: 0.4 !important; }
+}
+
+/* Animație: beam-ul coboară și apare ușor */
+@keyframes beam-drop {
+  from { transform: translateY(var(--startY, -50%)); opacity: 0; }
+  to   { transform: translateY(0%);                  opacity: var(--beam-opacity, .5); }
+}
+
+
+/* Navbar slide-in from top */
+@keyframes nav-drop {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  100% { transform: translateY(0);     opacity: 1; }
+}
+
+/* Respect “reduce motion” */
+@media (prefers-reduced-motion: reduce) {
+  .nav-anim { animation: none !important; opacity: 1 !important; transform: none !important; }
+}
+.nav-anim {
+  animation: nav-drop var(--nav-dur, .6s) cubic-bezier(0.16,1,0.3,1) both;
+}
+
+/* ===== Hero content animations ===== */
+
+/* fade & slight rise (pentru text) */
+@keyframes fade-up {
+  0%   { opacity: 0; transform: translate3d(0, 14px, 0) }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) }
+}
+
+/* slide din dreapta + mic scale (pentru mockup) */
+@keyframes slide-in-right {
+  0%   { opacity: 0; transform: translate3d(28px, 0, 0) scale(.98) }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1) }
+}
+
+/* mic pop pentru buton */
+@keyframes pop {
+  0%   { opacity: 0; transform: scale(.96) }
+  100% { opacity: 1; transform: scale(1) }
+}
+
+/* respectă preferința de reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-anim { animation: none !important; opacity: 1 !important; transform: none !important; }
+}
+
+/* slide-in stânga/dreapta */
+@keyframes slide-in-left {
+  0%   { opacity: 0; transform: translate3d(-28px, 0, 0) scale(.98); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes slide-in-right {
+  0%   { opacity: 0; transform: translate3d(28px, 0, 0) scale(.98); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+/* reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-anim { animation: none !important; opacity: 1 !important; transform: none !important; }
+}
+
+/* Hide scrollbars cross-browser */
+.no-scrollbar {
+  -ms-overflow-style: none;   /* IE/Edge */
+  scrollbar-width: none;      /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;              /* Chrome/Safari */
+}
