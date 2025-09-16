@@ -3,7 +3,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - main   # rulează workflow-ul doar când faci push pe branch-ul main
+      - main
 
 jobs:
   build-deploy:
@@ -31,3 +31,5 @@ jobs:
 
       - name: Deploy 🚀
         run: npm run deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
