@@ -96,7 +96,12 @@ export default function AboutUs() {
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
           className="w-full h-72 md:h-96 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md flex items-center justify-center shadow-xl text-white"
         >
-          Imagine / Video echipă
+         <img
+    src="./src/assets/WhatsApp Image 2023-03-30 at 2.06.37 PM-1.webp" // pune imaginea ta aici (ex: în public/mockups/)
+    alt="Hero mockup"
+     className="w-full h-72 md:h-96 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md flex items-center justify-center shadow-xl text-white"
+    loading="lazy"
+  />
         </motion.div>
       </div>
     </section>

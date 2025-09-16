@@ -6,6 +6,7 @@ type CardData = {
   id: string;
   title: string;
   text: string;
+  image: string;
   reverse?: boolean;
 };
 
@@ -14,21 +15,35 @@ const cards: CardData[] = [
     id: "1",
     title: "Titlu Placeholder 1",
     text: "Acesta este un paragraf descriptiv pentru primul placeholder.",
+    image: "./src/assets/Screenshot 2023-06-02 at 10.27.01.webp", // pune imaginile tale în /public/images/
   },
   {
     id: "2",
     title: "Titlu Placeholder 2",
     text: "Acesta este un paragraf descriptiv pentru al doilea placeholder.",
+    image: "./src/assets/Poza Rezidential.webp",
     reverse: true,
   },
   {
     id: "3",
     title: "Titlu Placeholder 3",
     text: "Acesta este un paragraf descriptiv pentru al treilea placeholder.",
+    image: "./src/assets/IMG-5434-4.webp",
   },
 ];
 
-function AnimatedCard({ title, text, reverse }: { title: string; text: string; reverse?: boolean }) {
+
+function AnimatedCard({
+  title,
+  text,
+  image,
+  reverse,
+}: {
+  title: string;
+  text: string;
+  image: string;
+  reverse?: boolean;
+}) {
   const triggerRef = useRef<HTMLDivElement>(null);
   const controlsPlaceholder = useAnimation();
   const controlsText = useAnimation();
@@ -66,12 +81,18 @@ function AnimatedCard({ title, text, reverse }: { title: string; text: string; r
         </motion.div>
 
         <motion.div
-          animate={controlsPlaceholder}
-          initial={{ x: "0%" }}
-          className="relative z-20 w-[37vw] h-[40vh] rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md flex items-center justify-center shadow-xl"
-        >
-          <span className="text-white font-semibold">Placeholder</span>
-        </motion.div>
+  animate={controlsPlaceholder}
+  initial={{ x: "0%" }}
+  className="relative z-20 w-[37vw] h-[40vh] rounded-2xl overflow-hidden 
+             bg-white/10 border border-white/20 backdrop-blur-md shadow-xl"
+>
+  <img
+    src={image}
+    alt={title}
+    className="w-full h-full object-cover"
+    loading="lazy"
+  />
+</motion.div>
       </div>
 
       {/* MOBILE layout */}
@@ -86,16 +107,22 @@ function AnimatedCard({ title, text, reverse }: { title: string; text: string; r
           <span className="text-white font-semibold">Placeholder</span>
         </motion.div>
 
-        <motion.div
-          initial={{ x: 100, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
-          viewport={{ once: false, amount: 0.2 }}
-          className="text-center text-white"
-        >
-          <h1 className="text-2xl font-bold mb-2">{title}</h1>
-          <p className="text-base text-gray-300">{text}</p>
-        </motion.div>
+       <motion.div
+  initial={{ x: -100, opacity: 0 }}
+  whileInView={{ x: 0, opacity: 1 }}
+  transition={{ duration: 0.7, ease: "easeOut" }}
+  viewport={{ once: false, amount: 0.2 }}
+  className="w-full h-56 rounded-2xl overflow-hidden 
+             bg-white/20 border border-white/30 backdrop-blur-md shadow-lg"
+>
+  <img
+    src={image}
+    alt={title}
+    className="w-full h-full object-cover"
+    loading="lazy"
+  />
+</motion.div>
+
       </div>
     </div>
   );
@@ -166,9 +193,16 @@ export default function MiddleSection() {
       </div>
 
       {/* ===== Cardurile animate ===== */}
-      {cards.map((card) => (
-        <AnimatedCard key={card.id} title={card.title} text={card.text} reverse={card.reverse} />
-      ))}
+     {cards.map((card) => (
+  <AnimatedCard
+    key={card.id}
+    title={card.title}
+    text={card.text}
+    image={card.image}
+    reverse={card.reverse}
+  />
+))}
+
     </section>
   );
 }

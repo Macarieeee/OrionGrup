@@ -121,14 +121,22 @@ export default function Hero() {
       className="hero-anim relative animate-[slide-in-right_2.8s_cubic-bezier(0.16,1,0.3,1)_both] md:pl-4"
       style={{ animationDelay: "160ms" }}
     >
-      <div className="aspect-[16/10] w-full rounded-[28px] border border-white/10 bg-white/5 shadow-2xl backdrop-blur overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-[radial-gradient(60%_120%_at_50%_0%,rgba(255,255,255,0.20),transparent_60%)]" />
-        </div>
-        <div className="grid h-full w-full place-items-center text-white/50">
-          <span>Place product image / mockup here</span>
-        </div>
-      </div>
+      <div className="aspect-[16/10] w-full rounded-[28px] border border-white/10 bg-white/5 shadow-2xl backdrop-blur overflow-hidden relative">
+  {/* overlay luminos peste imagine */}
+  <div className="absolute inset-0 pointer-events-none">
+    <div className="absolute inset-0" />
+  </div>
+
+{/* bg-[radial-gradient(60%_120%_at_50%_0%,rgba(255,255,255,0.20),transparent_60%)] iluminare ușoară imagine */}
+
+  {/* imaginea propriu-zisă */}
+  <img
+    src="./src/assets/Screenshot 2023-06-02 at 10.22.52.webp" // pune imaginea ta aici (ex: în public/mockups/)
+    alt="Hero mockup"
+    className="h-full w-full object-cover"
+    loading="lazy"
+  />
+</div>
       <div className="mt-2 flex items-center gap-3 text-sm text-white/60">
         <div className="h-2 w-2 rounded-full bg-white/70" />
         <span>This a preview from a client</span>
