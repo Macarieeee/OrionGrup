@@ -7,7 +7,7 @@ export default function Hero() {
   className="relative w-screen overflow-hidden text-white"
   style={{
     minHeight: "100svh",
-    height: "100vh",
+    height: "auto",
     paddingTop: "calc(var(--nav-h, 72px) + env(safe-area-inset-top))", // suport iOS notch
   }}
 >
