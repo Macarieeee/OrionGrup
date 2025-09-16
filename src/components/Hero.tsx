@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Lightbulb } from "lucide-react";
+import HeroImg from "../assets/Hero.webp";
 export { GlowSweep, Beam, GlowSpot };
 export default function Hero() {
   return (
@@ -131,7 +132,7 @@ export default function Hero() {
 
   {/* imaginea propriu-zisă */}
   <img
-    src="./src/assets/Screenshot 2023-06-02 at 10.22.52.webp" // pune imaginea ta aici (ex: în public/mockups/)
+    src={HeroImg} // pune imaginea ta aici (ex: în public/mockups/)
     alt="Hero mockup"
     className="h-full w-full object-cover"
     loading="lazy"

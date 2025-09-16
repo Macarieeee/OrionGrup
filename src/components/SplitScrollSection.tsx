@@ -1,7 +1,9 @@
 import React, { useRef } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { GlowSweep, Beam } from "./Hero";
-
+import Portfolio1 from "../assets/Portfolio1.webp";
+import Portfolio2 from "../assets/Portfolio2.webp";
+import Portfolio3 from "../assets/Portfolio3.webp";
 type CardData = {
   id: string;
   title: string;
@@ -15,20 +17,20 @@ const cards: CardData[] = [
     id: "1",
     title: "Titlu Placeholder 1",
     text: "Acesta este un paragraf descriptiv pentru primul placeholder.",
-    image: "./src/assets/Screenshot 2023-06-02 at 10.27.01.webp", // pune imaginile tale în /public/images/
+    image: Portfolio1, // pune imaginile tale în /public/images/
   },
   {
     id: "2",
     title: "Titlu Placeholder 2",
     text: "Acesta este un paragraf descriptiv pentru al doilea placeholder.",
-    image: "./src/assets/Poza Rezidential.webp",
+    image: Portfolio2,
     reverse: true,
   },
   {
     id: "3",
     title: "Titlu Placeholder 3",
     text: "Acesta este un paragraf descriptiv pentru al treilea placeholder.",
-    image: "./src/assets/IMG-5434-4.webp",
+    image: Portfolio3,
   },
 ];
 

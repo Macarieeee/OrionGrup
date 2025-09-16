@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { GlowSweep, Beam } from "./Hero"; // importă componentele din Hero
-
+import AboutImage from "../assets/About.webp";
 export default function AboutUs() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
@@ -97,7 +97,7 @@ export default function AboutUs() {
           className="w-full h-72 md:h-96 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md flex items-center justify-center shadow-xl text-white"
         >
          <img
-    src="./src/assets/WhatsApp Image 2023-03-30 at 2.06.37 PM-1.webp" // pune imaginea ta aici (ex: în public/mockups/)
+    src={AboutImage} // pune imaginea ta aici (ex: în public/mockups/)
     alt="Hero mockup"
      className="w-full h-72 md:h-96 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md flex items-center justify-center shadow-xl text-white"
     loading="lazy"
