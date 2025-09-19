@@ -1,156 +1,115 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Lightbulb } from "lucide-react";
-import HeroImg from "../assets/Hero.webp";
 export { GlowSweep, Beam, GlowSpot };
+import HeroVideo from "../assets/Modus  i-LèD - Linea Light Group (1080p, h264).mp4";
+
 export default function Hero() {
   return (
     <section
   className="relative w-screen overflow-hidden text-white"
-  style={{
-    height: "110vh",
-    paddingTop: "calc(var(--nav-h, 72px) + env(safe-area-inset-top))", // suport iOS notch
-  }}
+  style={{ height: "100vh" }}
 >
-      {/* ===== BACKDROP foarte închis ===== */}
-      <div className="absolute inset-0 z-[-30] bg-[#0a0b0d]" />
+  {/* ===== DESKTOP (text + video diagonal) ===== */}
+  <div className="hidden md:flex h-full">
+    {/* VIDEO BACKDROP */}
+    <div className="absolute right-0 top-0 w-[70vw] h-full overflow-hidden z-[-30]">
+      <video
+        className="absolute right-0 top-0 w-full h-full object-cover z-[-30]"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        style={{
+          clipPath: "polygon(20% 0, 100% 0, 100% 100%, 0% 100%)",
+        }}
+      >
+        <source src={HeroVideo} type="video/mp4" />
+      </video>
+    </div>
+
+    {/* TEXT & BUTTONS */}
+    <div className="relative z-10 flex h-full ml-[4vw] px-6 items-center">
       <div
-        className="absolute inset-0 z-[-20] pointer-events-none
-          bg-[radial-gradient(120%_85%_at_0%_0%,#0e1116_0%,transparent_60%),
-              radial-gradient(120%_85%_at_100%_0%,#0e1116_0%,transparent_60%),
-              radial-gradient(170%_120%_at_50%_120%,#07090c_0%,#0a0b0d_60%)]"
-      />
+        className="animate-[slide-in-left_2s_cubic-bezier(0.16,1,0.3,1)_both] space-y-6 max-w-lg"
+        style={{ animationDelay: "150ms" }}
+      >
+        <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/70">
+          <Lightbulb className="h-5 w-5 text-primary-500" strokeWidth={2} /> Professional Lightning
+        </div>
 
-      {/* ===== Glow rece (alb-gri) sincron cu fasciculele ===== */}
-      <GlowSweep
-        className="absolute left-0 top-[-16%] h-[90%] w-full z-[-15]"
-        intensity={0.12}
-        drop={34}
-        duration={1400}
-        delay={0}
-      />
-      <GlowSpot
-        className="absolute left-[36%] top-[-18%] h-[88%] w-[16%] -rotate-[16deg] z-[-15]"
-        intensity={0.16} blur={30}
-        drop={32} duration={1300} delay={120}
-      />
-      <GlowSpot
-        className="absolute left-[48%] top-[-20%] h-[92%] w-[18%] -rotate-[11deg] z-[-15]"
-        intensity={0.20} blur={26}
-        drop={34} duration={1400} delay={0}
-      />
-      <GlowSpot
-        className="absolute left-[58%] top-[-18%] h-[90%] w-[16%] -rotate-[7deg] z-[-15]"
-        intensity={0.15} blur={30}
-        drop={33} duration={1350} delay={200}
-      />
+        <h1 className="text-4xl font-extrabold tracking-tight w-[28vw]">
+          Exceptional <br /> Lighting Solutions
+        </h1>
 
-      {/* ===== 3 FASCICULE reci (animate) ===== */}
-      <div className="absolute inset-0 z-[-10] pointer-events-none">
-        <Beam
-          className="left-[36%] top-[-20%] h-[80%] w-[7%] -rotate-[16deg]"
-          intensity={0.30} soft={28} band={9}
-          drop={32} duration={1300} delay={120}
-        />
-        <Beam
-          className="left-[48%] top-[-10%] h-[86%] w-[8%] -rotate-[11deg]"
-          intensity={0.58} soft={24} band={11}
-          drop={34} duration={1400} delay={0}
-        />
-        <Beam
-          className="left-[58%] top-[-12%] h-[84%] w-[7%] -rotate-[7deg]"
-          intensity={0.34} soft={26} band={9}
-          drop={33} duration={1350} delay={200}
-        />
+        <p className="text-white/70 w-[28vw] text-md">
+          Transform your space with our premium lighting solutions that combine elegant design with superior functionality for every environment.
+        </p>
+
+        <div className="flex flex-col lg:flex-row items-start gap-3 sm:gap-4">
+          <button className="rounded-xl bg-primary text-ink px-6 py-3 font-semibold shadow-lg hover:bg-primary/90 active:translate-y-px transition text-xs">
+            Start your project
+          </button>
+          <button className="rounded-xl bg-secondary text-ink px-6 py-3 font-semibold shadow inline-flex items-center gap-2 hover:bg-secondary/90 active:translate-y-px transition text-xs">
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+            Watch demo
+          </button>
+        </div>
       </div>
+    </div>
+  </div>
 
-      {/* ===== CONȚINUT HERO (fără navbar) cu animații stagger ===== */}
-      <div className="relative mx-auto flex h-full max-w-7xl flex-col px-6">
-  <div className="grid flex-1 items-center gap-12 py-10 lg:grid-cols-2">
-    {/* LEFT: text + form — intră DIN STÂNGA */}
-    <div
-      className="hero-anim animate-[slide-in-left_2.8s_cubic-bezier(0.16,1,0.3,1)_both] md:pr-4"
-      style={{ animationDelay: "120ms" }}
-    >
-      {/* scoate eventualele animate-[fade-up...] de pe elementele interne */}
+  {/* ===== MOBILE (text 50vh + video card 50vh) ===== */}
+  <div className="flex flex-col md:hidden h-full">
+    {/* TEXT (50vh) */}
+    <div className="flex flex-col justify-center items-center h-[50vh] px-6 text-center gap-4">
       <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/70">
-        <Lightbulb className="h-5 w-5 text-primary-500" strokeWidth={2} aria-hidden /> Professional Lightning
+        <Lightbulb className="h-5 w-5 text-primary-500" strokeWidth={2} /> Professional Lightning
       </div>
 
-      <h1 className="mt-6 text-5xl font-extrabold tracking-tight md:text-6xl">
+      <h1 className="text-3xl font-extrabold tracking-tight">
         Exceptional <br /> Lighting Solutions
       </h1>
 
-      <p className="mt-5 max-w-xl text-white/70">
+      <p className="text-white/70 text-sm max-w-md">
         Transform your space with our premium lighting solutions that combine elegant design with superior functionality for every environment.
       </p>
 
-     {/* CTA buttons */}
-<div className="mt-8 flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
-  {/* Primar – alb (primary) */}
-  <button
-    type="button"
-    className="rounded-xl bg-primary text-ink px-6 py-3 font-semibold shadow-lg
-               hover:bg-primary/90 active:translate-y-px transition
-               focus:outline-none focus:ring-2 focus:ring-ring"
-  >
-    Start your project
-  </button>
-
-  {/* Secundar – gri (secondary) + icon play */}
-  <button
-    type="button"
-    className="rounded-xl bg-secondary text-ink px-6 py-3 font-semibold shadow
-               hover:bg-secondary/90 active:translate-y-px transition
-               focus:outline-none focus:ring-2 focus:ring-ring
-               inline-flex items-center gap-2"
-  >
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      className="h-4 w-4"
-      fill="currentColor"
-    >
-      <path d="M8 5v14l11-7z" />
-    </svg>
-    Watch demo
-  </button>
-</div>
+      <div className="flex gap-3 mt-2">
+        <button className="rounded-xl bg-primary text-ink px-4 py-2 font-semibold shadow-lg hover:bg-primary/90 active:translate-y-px transition text-sm">
+          Start your project
+        </button>
+        <button className="rounded-xl bg-secondary text-ink px-4 py-2 font-semibold shadow inline-flex items-center gap-2 hover:bg-secondary/90 active:translate-y-px transition text-sm">
+          <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+          Watch demo
+        </button>
+      </div>
     </div>
 
-    {/* RIGHT: mockup — intră DIN DREAPTA */}
-    <div
-      className="hero-anim relative animate-[slide-in-right_2.8s_cubic-bezier(0.16,1,0.3,1)_both] md:pl-4"
-      style={{ animationDelay: "160ms" }}
-    >
-      <div className="aspect-[16/10] w-full rounded-[28px] border border-white/10 bg-white/5 shadow-2xl backdrop-blur overflow-hidden relative">
-  {/* overlay luminos peste imagine */}
-  <div className="absolute inset-0 pointer-events-none">
-    <div className="absolute inset-0" />
-  </div>
-
-{/* bg-[radial-gradient(60%_120%_at_50%_0%,rgba(255,255,255,0.20),transparent_60%)] iluminare ușoară imagine */}
-
-  {/* imaginea propriu-zisă */}
-  <img
-    src={HeroImg} // pune imaginea ta aici (ex: în public/mockups/)
-    alt="Hero mockup"
-    className="h-full w-full object-cover"
-    loading="lazy"
-  />
-</div>
-      <div className="mt-2 flex items-center gap-3 text-sm text-white/60">
-        <div className="h-2 w-2 rounded-full bg-white/70" />
-        <span>This a preview from a client</span>
+    {/* VIDEO (50vh) */}
+    <div className="w-full h-[50vh] px-6 pb-6">
+      <div className="w-full h-full rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md flex items-center justify-center shadow-xl overflow-hidden">
+        <video
+          className="w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        >
+          <source src={HeroVideo} type="video/mp4" />
+        </video>
       </div>
     </div>
   </div>
-</div>
-    </section>
+</section>
+
   );
 }
-
-/* ================== Helpers (în același fișier) ================== */
-
 /** Spălare largă, rece, care “aprinde” fundalul odată cu fasciculele */
 function GlowSweep({
   className = "",
