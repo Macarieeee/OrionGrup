@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Lightbulb } from "lucide-react";
 export { GlowSweep, Beam, GlowSpot };
-import HeroVideo from "../assets/Modus  i-LèD - Linea Light Group (1080p, h264).mp4";
+import HeroVideo from "../assets/HeroVideo.mp4";
 
 export default function Hero() {
   return (
