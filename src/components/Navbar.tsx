@@ -84,7 +84,7 @@ export default function Navbar() {
                   Model 1
                 </a>
                 <a
-                  href="/portfolio/model-2"
+                  href="https://macarieeee.github.io/transfo-light/"
                   className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
                 >
                   Model 2
@@ -139,7 +139,7 @@ export default function Navbar() {
                   <a
                     onClick={() => setOpen(false)}
                     className="block rounded-lg px-5 py-2 hover:bg-white/10"
-                    href="/portfolio/model-2"
+                    href="https://macarieeee.github.io/transfo-light/"
                   >
                     Model 2
                   </a>
