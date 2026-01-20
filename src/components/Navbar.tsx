@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -50,47 +51,9 @@ export default function Navbar() {
           <nav className="relative z-10 ml-2 hidden md:flex items-center gap-6 text-sm text-white/70">
             <a className="hover:text-white transition" href="/">Home</a>
             <a className="hover:text-white transition" href="/shop">Shop</a>
-
-            {/* Portfolio + DROPDOWN (hover/focus) */}
-            <div className="relative group">
-              <a
-                href="/portfolio"
-                className="hover:text-white transition inline-flex items-center gap-1"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Portfolio
-                <svg className="h-4 w-4 opacity-70" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path d="M5.23 7.21a.75.75 0 011.06.02L10 10.939l3.71-3.71a.75.75 0 111.06 1.062l-4.24 4.24a.75.75 0 01-1.06 0L5.25 8.29a.75.75 0 01-.02-1.08z" />
-                </svg>
-              </a>
-
-              {/* dropdown: visible pe hover și focus-within */}
-              <div
-                className="
-                  pointer-events-auto absolute left-0 mt-2 w-48
-                  rounded-2xl border border-white/15 bg-black/70 backdrop-blur
-                  p-1 shadow-[0_10px_35px_rgba(0,0,0,.35)]
-                  invisible opacity-0 translate-y-1
-                  group-hover:visible group-hover:opacity-100 group-hover:translate-y-0
-                  focus-within:visible focus-within:opacity-100 focus-within:translate-y-0
-                  transition-all duration-200
-                "
-              >
-                <a
-                  href="https://macarieeee.github.io/lumen-shift-showcase/"
-                  className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
-                >
-                  Model 1
-                </a>
-                <a
-                  href="https://macarieeee.github.io/transfo-light/"
-                  className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
-                >
-                  Model 2
-                </a>
-              </div>
-            </div>
+            <Link to="/portofoliu" className="hover:text-white transition">
+  Portofoliu
+</Link>
 
             <a className="hover:text-white transition" href="/about">About Us</a>
           </nav>
@@ -127,23 +90,9 @@ export default function Navbar() {
                 <a onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-white/10" href="/shop">Shop</a>
 
                 {/* Submeniul Portfolio in mobil */}
-                <div className="rounded-lg">
-                  <div className="px-3 py-2 text-white/70">Portfolio</div>
-                  <a
-                    onClick={() => setOpen(false)}
-                    className="block rounded-lg px-5 py-2 hover:bg-white/10"
-                    href="https://macarieeee.github.io/lumen-shift-showcase/"
-                  >
-                    Model 1
-                  </a>
-                  <a
-                    onClick={() => setOpen(false)}
-                    className="block rounded-lg px-5 py-2 hover:bg-white/10"
-                    href="https://macarieeee.github.io/transfo-light/"
-                  >
-                    Model 2
-                  </a>
-                </div>
+<Link to="/portofoliu" className="hover:text-white transition">
+  Portofoliu
+</Link>
 
                 <a onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-white/10" href="/about">
                   About Us

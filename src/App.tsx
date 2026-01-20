@@ -1,22 +1,26 @@
-import './App.css'
-import Hero from "./components/Hero";
-import Navbar from './components/Navbar';
-import Shop from "./components/Shop";
-import Brands from "./components/Brands";
-import MiddleSection from "./components/SplitScrollSection";
-import AboutUs from './components/AboutUs';
-import Footer from './components/Footer';
+import "./App.css";
+import { Routes, Route } from "react-router-dom";
+
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
+import Index from "./pages/Index";
+import Portofoliu from "./pages/Portofoliu";
 
 export default function App() {
   return (
-    <main className="w-full overflow-x-hidden" style={{ minHeight: "100svh" }}>
+    <>
       <Navbar />
-      <Hero /> 
-      <MiddleSection />
-      <Shop />
-      <AboutUs />
-      <Brands speedMs={18000} />
+
+      {/* padding-top pentru navbar fixed */}
+      <main className="w-full overflow-x-hidden" style={{ minHeight: "100svh" }}>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/portofoliu" element={<Portofoliu />} />
+        </Routes>
+      </main>
+
       <Footer />
-    </main>
+    </>
   );
 }
