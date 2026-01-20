@@ -43,13 +43,13 @@ export default function Navbar() {
         >
           <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[linear-gradient(to_bottom,rgba(255,255,255,.14),rgba(255,255,255,0))] opacity-40" />
 
-          <a href="/" className="relative z-10 font-extrabold text-xl text-white">
+          <a href="/OrionGrup/" className="relative z-10 font-extrabold text-xl text-white">
             ORION.
           </a>
 
           {/* DESKTOP NAV */}
           <nav className="relative z-10 ml-2 hidden md:flex items-center gap-6 text-sm text-white/70">
-            <a className="hover:text-white transition" href="/">Home</a>
+            <a className="hover:text-white transition" href="/OrionGrup/">Home</a>
             <a className="hover:text-white transition" href="/shop">Shop</a>
             <Link to="/portofoliu" className="hover:text-white transition">
   Portofoliu
