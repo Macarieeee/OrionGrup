@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { usePreloadImages } from "../hooks/usePreloadImages";
 
 type Solution =
   | "Ceiling Recessed"
@@ -188,6 +189,15 @@ export default function Shop() {
     []
   );
 
+  // ✅ preload all images (tiles + products) BEFORE rendering page
+  const allImageUrls = useMemo(() => {
+    const tileUrls = tiles.map((t) => t.imageUrl);
+    const productUrls = products.map((p) => p.imageUrl);
+    return [...tileUrls, ...productUrls];
+  }, [tiles, products]);
+
+  const { ready } = usePreloadImages(allImageUrls, { timeoutMs: 9000 });
+
   // selected filter (Solutions)
   const [selectedSolutions, setSelectedSolutions] = useState<Solution[]>([]);
   const [layout, setLayout] = useState<"grid" | "list">("grid");
@@ -210,118 +220,91 @@ export default function Shop() {
   const watchingLabel =
     selectedSolutions.length === 0 ? "All products" : selectedSolutions.join(", ");
 
+  // ✅ block render until images are loaded (or timeout)
+  if (!ready) {
+    return (
+      <main className="min-h-screen pt-[var(--nav-h)] grid place-items-center">
+        <div className="flex flex-col items-center gap-3 text-white/80">
+          <div className="h-10 w-10 rounded-full border border-white/20 border-t-white/80 animate-spin" />
+          <div className="text-sm tracking-wide">Loading shop…</div>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="text-white pt-[var(--nav-h)]">
-      {/* TOP HALF: Category tiles (poza 1) */}
-      {/* <section className="px-6 lg:px-10 pt-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
-          {tiles.map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              onClick={() => {
-                // click pe tile = filtrează după acea soluție
-                setSelectedSolutions([t.label]);
-                // scroll către produse
-                document
-                  .getElementById("product-selector")
-                  ?.scrollIntoView({ behavior: "smooth", block: "start" });
-              }}
-              className="group text-left"
-            >
-              <div className="relative w-full aspect-[16/9] overflow-hidden rounded-3xl border border-white/10">
+      {/* CATEGORY GRID (3x3) */}
+      <section className="w-full h-[60vh] px-4 lg:px-[20vw]">
+        <div className="h-full">
+          <div className="grid h-full grid-cols-3 grid-rows-3 gap-6">
+            {tiles.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => {
+                  setSelectedSolutions([t.label]);
+                  document
+                    .getElementById("product-selector")
+                    ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                className="
+                  group
+                  relative
+                  rounded-3xl
+                  overflow-hidden
+                  border
+                  border-white/10
+                  hover:border-white/30
+                  transition
+                  duration-300
+                "
+              >
                 <img
                   src={t.imageUrl}
                   alt={t.label}
-                  className="h-full w-full object-cover opacity-90 group-hover:opacity-100 transition duration-300"
+                  className="
+                    absolute inset-0
+                    h-full w-full
+                    object-cover
+                    scale-100
+                    group-hover:scale-105
+                    transition
+                    duration-500
+                  "
                   loading="lazy"
                 />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/0" />
-              </div>
 
-              <div className="mt-4 text-sm md:text-base text-white/85 group-hover:text-white transition">
-                {t.label}
-              </div>
-            </button>
-          ))}
-        </div>
-        <div className="h-[10vh] md:h-[14vh]" />
-      </section> */}
-{/* CATEGORY GRID (3x3) */}
-<section className="w-full h-[60vh] px-4 lg:px-[20vw]">
-  <div className="h-full">
-    <div className="grid h-full grid-cols-3 grid-rows-3 gap-6">
-      {tiles.map((t) => (
-        <button
-          key={t.id}
-          type="button"
-          onClick={() => {
-            setSelectedSolutions([t.label]);
-            document
-              .getElementById("product-selector")
-              ?.scrollIntoView({ behavior: "smooth", block: "start" });
-          }}
-          className="
-            group
-            relative
-            rounded-3xl
-            overflow-hidden
-            border
-            border-white/10
-            hover:border-white/30
-            transition
-            duration-300
-          "
-        >
-          {/* imagine */}
-          <img
-            src={t.imageUrl}
-            alt={t.label}
-            className="
-              absolute inset-0
-              h-full w-full
-              object-cover
-              scale-100
-              group-hover:scale-105
-              transition
-              duration-500
-            "
-            loading="lazy"
-          />
+                <div
+                  className="
+                    absolute inset-0
+                    bg-black/45
+                    group-hover:bg-black/30
+                    transition
+                    duration-300
+                  "
+                />
 
-          {/* overlay pentru lizibilitate */}
-          <div
-            className="
-              absolute inset-0
-              bg-black/45
-              group-hover:bg-black/30
-              transition
-              duration-300
-            "
-          />
-
-          {/* label centrat */}
-          <div className="relative z-10 h-full w-full flex items-center justify-center px-4">
-            <span
-              className="
-                text-center
-                text-sm
-                md:text-base
-                font-semibold
-                tracking-wide
-                text-white
-                drop-shadow
-              "
-            >
-              {t.label}
-            </span>
+                <div className="relative z-10 h-full w-full flex items-center justify-center px-4">
+                  <span
+                    className="
+                      text-center
+                      text-sm
+                      md:text-base
+                      font-semibold
+                      tracking-wide
+                      text-white
+                      drop-shadow
+                    "
+                  >
+                    {t.label}
+                  </span>
+                </div>
+              </button>
+            ))}
           </div>
-        </button>
-      ))}
-    </div>
-  </div>
-</section>
-
+        </div>
+      </section>
 
       {/* PRODUCT SELECTOR (poza 2) */}
       <section id="product-selector" className="px-6 lg:px-10 pb-16 pt-16">
@@ -375,19 +358,24 @@ export default function Shop() {
                       onChange={() => toggleSolution(s)}
                       className="h-4 w-4 accent-white"
                     />
-                    <span className={checked ? "text-white underline" : ""}>{s}</span>
+                    <span className={checked ? "text-white underline" : ""}>
+                      {s}
+                    </span>
                   </label>
                 );
               })}
             </div>
 
-            {/* Extra sections like in screenshot (collapsed UI placeholders) */}
             <div className="mt-10 space-y-6 text-white/85">
               <Collapsible title="Collections" defaultOpen={false} />
               <Collapsible title="Categories" defaultOpen={true}>
                 <div className="mt-3 space-y-2 text-sm text-white/70">
-                  <div className="hover:text-white transition cursor-pointer">All Categories</div>
-                  <div className="hover:text-white transition cursor-pointer">Lighting</div>
+                  <div className="hover:text-white transition cursor-pointer">
+                    All Categories
+                  </div>
+                  <div className="hover:text-white transition cursor-pointer">
+                    Lighting
+                  </div>
                   <div className="pl-4 space-y-2">
                     <div className="hover:text-white transition cursor-pointer">
                       Interior lighting
@@ -406,7 +394,6 @@ export default function Shop() {
 
           {/* RIGHT PRODUCTS */}
           <div>
-            {/* top bar */}
             <div className="flex items-center justify-between gap-4">
               <div className="text-white/85 font-semibold">
                 {filteredProducts.length} Products
@@ -466,8 +453,6 @@ export default function Shop() {
   );
 }
 
-
-
 /* -------------------- Small UI components -------------------- */
 
 function ProductCard({ p }: { p: Product }) {
@@ -492,7 +477,9 @@ function ProductCard({ p }: { p: Product }) {
 
       <div className="mt-4 text-white/85">{p.brand}</div>
       <div className="mt-1 text-sm text-white/60">{p.name}</div>
-      {p.subtitle ? <div className="mt-1 text-xs text-white/45">{p.subtitle}</div> : null}
+      {p.subtitle ? (
+        <div className="mt-1 text-xs text-white/45">{p.subtitle}</div>
+      ) : null}
     </div>
   );
 }
