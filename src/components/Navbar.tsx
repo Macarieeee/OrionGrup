@@ -49,14 +49,11 @@ export default function Navbar() {
 
           {/* DESKTOP NAV */}
           <nav className="relative z-10 ml-2 hidden md:flex items-center gap-6 text-sm text-white/70">
-            <a className="hover:text-white transition" href="/OrionGrup/">Home</a>
-            <a className="hover:text-white transition" href="/shop">Shop</a>
-            <Link to="/portofoliu" className="hover:text-white transition">
-  Portofoliu
-</Link>
-
-            <a className="hover:text-white transition" href="/about">About Us</a>
-          </nav>
+  <Link className="hover:text-white transition" to="/OrionGrup/">Home</Link>
+  <Link className="hover:text-white transition" to="/shop">Shop</Link>
+  <Link className="hover:text-white transition" to="/portofoliu">Portofoliu</Link>
+  <Link className="hover:text-white transition" to="/about">About Us</Link>
+</nav>
 
           {/* ACTIONS + MOBILE TOGGLER */}
           <div className="relative z-10 ml-auto flex items-center gap-3">
@@ -87,10 +84,20 @@ export default function Navbar() {
             >
               <div className="flex flex-col text-white/85 text-sm">
                 <a onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-white/10" href="/">Home</a>
-                <a onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-white/10" href="/shop">Shop</a>
+                <Link
+  to="/shop"
+  onClick={() => setOpen(false)}
+  className="rounded-lg px-3 py-2 hover:bg-white/10"
+>
+  Shop
+</Link>
 
                 {/* Submeniul Portfolio in mobil */}
-<Link to="/portofoliu" className="hover:text-white transition">
+<Link
+  to="/shop"
+  onClick={() => setOpen(false)}
+  className="rounded-lg px-3 py-2 hover:bg-white/10"
+>
   Portofoliu
 </Link>
 
