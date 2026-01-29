@@ -94,14 +94,14 @@ export default function Navbar() {
 
                 {/* Submeniul Portfolio in mobil */}
 <Link
-  to="/shop"
+  to="/portofoliu"
   onClick={() => setOpen(false)}
   className="rounded-lg px-3 py-2 hover:bg-white/10"
 >
   Portofoliu
 </Link>
 
-                <a onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-white/10" href="/about">
+                <a onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-white/10" href="/despre">
                   About Us
                 </a>
               </div>
