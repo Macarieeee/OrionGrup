@@ -6,7 +6,9 @@ import Footer from "./components/Footer";
 
 import Index from "./pages/Index";
 import Portofoliu from "./pages/Portofoliu";
+import DespreNoi from "./pages/DespreNoi";
 import Shop from "./pages/Shop";
+import Proiect1 from "./pages/Proiecte/Proiect1";
 
 export default function App() {
   return (
@@ -18,6 +20,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/portofoliu" element={<Portofoliu />} />
+          <Route path="/despre" element={<DespreNoi />} />
+          <Route path="/proiect1" element={<Proiect1 />} />
           <Route path="/shop" element={<Shop />} />
         </Routes>
       </main>

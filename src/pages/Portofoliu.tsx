@@ -7,6 +7,9 @@ import P5 from "../assets/P5.webp";
 import P6 from "../assets/P6.webp";
 import P7 from "../assets/P7.webp";
 import P8 from "../assets/Portfolio2.webp";
+import { useNavigate } from "react-router-dom";
+
+
 
 type Project = {
   id: string;
@@ -14,11 +17,13 @@ type Project = {
   description: string;
   imageUrl: string;
   numberLabel: string; // "01", "02", ...
+  slug: string;
 };
 
 const VISIBLE_COUNT = 4;
 
 export default function App() {
+  const navigate = useNavigate();
   const projects: Project[] = useMemo(
     () => [
       {
@@ -28,6 +33,7 @@ export default function App() {
           "Lucrăm cu o gamă largă de clienți, de la proprietari de locuințe la corporații mari și suntem capabili să oferim soluții de iluminat personalizate pentru orice proiect. Echipa noastră de experți are cunoștințe extinse în domeniul iluminatului, iar noi cercetăm și ne menținem în permanență la curent cu cele mai recente tendințe și tehnologii.",
         imageUrl: P1,
         numberLabel: "01",
+        slug: "/proiect1",
       },
       {
         id: "p2",
@@ -37,6 +43,7 @@ export default function App() {
         imageUrl:
           P2,
         numberLabel: "02",
+        slug: "/proiecte/orion-grup",
       },
       {
         id: "p3",
@@ -46,6 +53,7 @@ export default function App() {
         imageUrl:
           P3,
         numberLabel: "03",
+        slug: "/proiecte/orion-grup",
       },
       {
         id: "p4",
@@ -55,6 +63,7 @@ export default function App() {
         imageUrl:
           P4,
         numberLabel: "04",
+        slug: "/proiecte/orion-grup",
       },
       {
         id: "p5",
@@ -64,6 +73,7 @@ export default function App() {
         imageUrl:
           P5,
         numberLabel: "05",
+        slug: "/proiecte/orion-grup",
       },
       {
         id: "p6",
@@ -73,6 +83,7 @@ export default function App() {
         imageUrl:
           P6,
         numberLabel: "06",
+        slug: "/proiecte/orion-grup",
       },
       {
         id: "p7",
@@ -82,6 +93,7 @@ export default function App() {
         imageUrl:
           P7,
         numberLabel: "07",
+        slug: "/proiecte/orion-grup",
       },
       {
         id: "p8",
@@ -91,6 +103,7 @@ export default function App() {
         imageUrl:
           P8,
         numberLabel: "08",
+        slug: "/proiecte/orion-grup",
       },
     ],
     []
@@ -157,37 +170,41 @@ const goNext = () => {
 
       return (
         <button
-          key={p.id}
-          type="button"
-          onMouseEnter={() => setSelectedId(p.id)}
-          onFocus={() => setSelectedId(p.id)}
-          onClick={() => setSelectedId(p.id)}
-          className={[
-            "group relative h-full outline-none",
-            "transition-all duration-500 ease-in-out",
-            "flex-[1_1_0%] hover:flex-[3_1_0%]",
-            isActive ? "flex-[3_1_0%]" : "",
-          ].join(" ")}
-        >
-          {/* Image */}
-          <div
-            className="absolute inset-0 bg-center bg-cover"
-            style={{ backgroundImage: `url(${p.imageUrl})` }}
-          />
+  key={p.id}
+  type="button"
+  onMouseEnter={() => setSelectedId(p.id)}
+  onFocus={() => setSelectedId(p.id)}
+  onClick={() => {
+    setSelectedId(p.id);
+    if (p.slug) navigate(p.slug);
+  }}
+  className={[
+    "group relative h-full outline-none",
+    "transition-all duration-500 ease-in-out",
+    "flex-[1_1_0%] hover:flex-[3_1_0%]",
+    isActive ? "flex-[3_1_0%]" : "",
+  ].join(" ")}
+>
+  {/* Image */}
+  <div
+    className="absolute inset-0 bg-center bg-cover"
+    style={{ backgroundImage: `url(${p.imageUrl})` }}
+  />
 
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-black/40 group-hover:bg-black/25 transition-colors duration-500" />
+  {/* Dark overlay */}
+  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/25 transition-colors duration-500" />
 
-          {/* Bottom number */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 select-none">
-            <span className="text-white/85 text-[56px] lg:text-[72px] font-light tracking-widest">
-              {p.numberLabel}
-            </span>
-          </div>
+  {/* Bottom number */}
+  <div className="absolute bottom-8 left-1/2 -translate-x-1/2 select-none">
+    <span className="text-white/85 text-[56px] lg:text-[72px] font-light tracking-widest">
+      {p.numberLabel}
+    </span>
+  </div>
 
-          {/* Divider */}
-          <div className="absolute top-0 right-0 h-full w-px bg-white/10" />
-        </button>
+  {/* Divider */}
+  <div className="absolute top-0 right-0 h-full w-px bg-white/10" />
+</button>
+
       );
     })}
   </div>

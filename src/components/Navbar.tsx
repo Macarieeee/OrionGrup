@@ -49,10 +49,10 @@ export default function Navbar() {
 
           {/* DESKTOP NAV */}
           <nav className="relative z-10 ml-2 hidden md:flex items-center gap-6 text-sm text-white/70">
-  <Link className="hover:text-white transition" to="/OrionGrup/">Home</Link>
+  <Link className="hover:text-white transition" to="/">Home</Link>
   <Link className="hover:text-white transition" to="/shop">Shop</Link>
   <Link className="hover:text-white transition" to="/portofoliu">Portofoliu</Link>
-  <Link className="hover:text-white transition" to="/about">About Us</Link>
+  <Link className="hover:text-white transition" to="/despre">Despre Noi</Link>
 </nav>
 
           {/* ACTIONS + MOBILE TOGGLER */}
