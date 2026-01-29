@@ -112,7 +112,7 @@ export default function App() {
   const [startIndex, setStartIndex] = useState(0);
   const [selectedId, setSelectedId] = useState(projects[0].id);
 
-  const maxStart = Math.max(0, projects.length - VISIBLE_COUNT);
+  // const maxStart = Math.max(0, projects.length - VISIBLE_COUNT);
 const visibleProjects = useMemo(() => {
   return Array.from({ length: VISIBLE_COUNT }, (_, i) => {
     return projects[(startIndex + i) % projects.length];
