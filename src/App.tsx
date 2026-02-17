@@ -9,6 +9,8 @@ import Portofoliu from "./pages/Portofoliu";
 import DespreNoi from "./pages/DespreNoi";
 import Shop from "./pages/Shop";
 import Proiect1 from "./pages/Proiecte/Proiect1";
+import ProductPage from "./pages/ProductPage";
+import ScrollToTop from "./components/ScrollToTop";
 
 export default function App() {
   return (
@@ -17,12 +19,14 @@ export default function App() {
 
       {/* padding-top pentru navbar fixed */}
       <main className="w-full overflow-x-hidden" style={{ minHeight: "100svh" }}>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/portofoliu" element={<Portofoliu />} />
           <Route path="/despre" element={<DespreNoi />} />
           <Route path="/proiect1" element={<Proiect1 />} />
           <Route path="/shop" element={<Shop />} />
+          <Route path="/shop/:productId" element={<ProductPage />} />
         </Routes>
       </main>
 

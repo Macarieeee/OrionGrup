@@ -1,16 +1,20 @@
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { usePreloadImages } from "../hooks/usePreloadImages";
 
-type Solution =
-  | "Ceiling Recessed"
-  | "Surface"
-  | "Suspension"
-  | "Wall"
-  | "Table & Floor"
-  | "Tracklights"
-  | "Custom Systems"
-  | "Lamps"
-  | "Outdoor";
+import {
+  SHOP_CATEGORIES,
+  SHOP_PRODUCTS,
+  ALL_SOLUTIONS,
+  type Solution,
+} from "../data/shopCatalog";
+
+/**
+ * Notă:
+ * - păstrez layout-ul 1:1 cu Shop.tsx-ul tău vechi
+ * - doar sursa datelor e mutată în /data
+ * - cardurile sunt clickable (navigate -> /shop/:productId)
+ */
 
 type CategoryTile = {
   id: string;
@@ -18,8 +22,8 @@ type CategoryTile = {
   imageUrl: string;
 };
 
-type Product = {
-  id: string;
+type ProductCardVM = {
+  id: string; // folosit în URL
   brand: string;
   name: string;
   subtitle?: string;
@@ -27,172 +31,35 @@ type Product = {
   solutions: Solution[];
 };
 
-const ALL_SOLUTIONS: Solution[] = [
-  "Ceiling Recessed",
-  "Surface",
-  "Suspension",
-  "Wall",
-  "Table & Floor",
-  "Tracklights",
-  "Custom Systems",
-  "Lamps",
-  "Outdoor",
-];
-
 export default function Shop() {
-  // --- top tiles (grid ca în poza 1)
-  const tiles: CategoryTile[] = useMemo(
-    () => [
-      {
-        id: "t1",
-        label: "Ceiling Recessed",
-        imageUrl:
-          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80",
-      },
-      {
-        id: "t2",
-        label: "Surface",
-        imageUrl:
-          "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80",
-      },
-      {
-        id: "t3",
-        label: "Suspension",
-        imageUrl:
-          "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80",
-      },
-      {
-        id: "t4",
-        label: "Wall",
-        imageUrl:
-          "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=1200&q=80",
-      },
-      {
-        id: "t5",
-        label: "Table & Floor",
-        imageUrl:
-          "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=1200&q=80",
-      },
-      {
-        id: "t6",
-        label: "Tracklights",
-        imageUrl:
-          "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1200&q=80",
-      },
-      {
-        id: "t7",
-        label: "Custom Systems",
-        imageUrl:
-          "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80",
-      },
-      {
-        id: "t8",
-        label: "Lamps",
-        imageUrl:
-          "https://images.unsplash.com/photo-1484101403633-562f891dc89a?auto=format&fit=crop&w=1200&q=80",
-      },
-      {
-        id: "t9",
-        label: "Outdoor",
-        imageUrl:
-          "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80",
-      },
-    ],
-    []
-  );
+  const navigate = useNavigate();
 
-  // --- products (mock ca în poza 2)
-  const products: Product[] = useMemo(
-    () => [
-      {
-        id: "p1",
-        brand: "Arkoslight",
-        name: "MAGNETIC 24V MICRO SHAPER",
-        subtitle: "LED adjustable semi-inset spotlight",
-        imageUrl:
-          "https://images.unsplash.com/photo-1484101403633-562f891dc89a?auto=format&fit=crop&w=1200&q=80",
-        solutions: ["Ceiling Recessed", "Tracklights"],
-      },
-      {
-        id: "p2",
-        brand: "Arkoslight",
-        name: "NANO RECESSED",
-        subtitle: "Round LED recessed aluminium spotlight",
-        imageUrl:
-          "https://images.unsplash.com/photo-1615876234886-fd9a39fda97f?auto=format&fit=crop&w=800&q=80",
-        solutions: ["Ceiling Recessed"],
-      },
-      {
-        id: "p3",
-        brand: "Arkoslight",
-        name: "NANO TRIMLESS",
-        subtitle: "LED round recessed aluminium spotlight",
-        imageUrl:
-          "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80",
-        solutions: ["Ceiling Recessed"],
-      },
-      {
-        id: "p4",
-        brand: "Arkoslight",
-        name: "SLOT SYSTEM",
-        subtitle: "Modular linear system",
-        imageUrl:
-          "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
-        solutions: ["Custom Systems", "Tracklights"],
-      },
-      {
-        id: "p5",
-        brand: "Arkoslight",
-        name: "WALL WASH",
-        subtitle: "Architectural wall light",
-        imageUrl:
-          "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=800&q=80",
-        solutions: ["Wall"],
-      },
-      {
-        id: "p6",
-        brand: "Arkoslight",
-        name: "PENDANT LINE",
-        subtitle: "Suspended linear light",
-        imageUrl:
-          "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80",
-        solutions: ["Suspension"],
-      },
-      {
-        id: "p7",
-        brand: "Arkoslight",
-        name: "SURFACE DOT",
-        subtitle: "Compact surface spotlight",
-        imageUrl:
-          "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=800&q=80",
-        solutions: ["Surface"],
-      },
-      {
-        id: "p8",
-        brand: "Arkoslight",
-        name: "OUTDOOR BEAM",
-        subtitle: "IP-rated outdoor spot",
-        imageUrl:
-          "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80",
-        solutions: ["Outdoor"],
-      },
-      {
-        id: "p9",
-        brand: "Arkoslight",
-        name: "FLOOR LIGHT",
-        subtitle: "Table & floor ambient lamp",
-        imageUrl:
-          "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=800&q=80",
-        solutions: ["Table & Floor", "Lamps"],
-      },
-    ],
-    []
-  );
+  // --- top tiles (grid ca în poza 1) - acum din data
+  const tiles: CategoryTile[] = useMemo(() => {
+    // SHOP_CATEGORIES are exact fields: id, label, imageUrl
+    return SHOP_CATEGORIES.map((t) => ({
+      id: t.id,
+      label: t.label,
+      imageUrl: t.imageUrl,
+    }));
+  }, []);
+
+  // --- products (mock ca în poza 2) - acum din data
+  const products: ProductCardVM[] = useMemo(() => {
+    return SHOP_PRODUCTS.map((p) => ({
+      id: p.id,
+      brand: p.brand,
+      name: p.name,
+      subtitle: p.subtitle,
+      imageUrl: p.images?.[0] ?? "",
+      solutions: p.solutions,
+    }));
+  }, []);
 
   // ✅ preload all images (tiles + products) BEFORE rendering page
   const allImageUrls = useMemo(() => {
     const tileUrls = tiles.map((t) => t.imageUrl);
-    const productUrls = products.map((p) => p.imageUrl);
+    const productUrls = products.map((p) => p.imageUrl).filter(Boolean);
     return [...tileUrls, ...productUrls];
   }, [tiles, products]);
 
@@ -275,8 +142,10 @@ export default function Shop() {
                   loading="lazy"
                 />
 
+                {/* IMPORTANT: overlay-ul e decorativ => nu blochează click */}
                 <div
                   className="
+                    pointer-events-none
                     absolute inset-0
                     bg-black/45
                     group-hover:bg-black/30
@@ -415,6 +284,7 @@ export default function Shop() {
                     layout === "list" ? "text-white" : "text-white/60",
                   ].join(" ")}
                   title="List view"
+                  type="button"
                 >
                   <ListIcon />
                 </button>
@@ -425,6 +295,7 @@ export default function Shop() {
                     layout === "grid" ? "text-white" : "text-white/60",
                   ].join(" ")}
                   title="Grid view"
+                  type="button"
                 >
                   <GridIcon />
                 </button>
@@ -435,13 +306,21 @@ export default function Shop() {
               {layout === "grid" ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-10 gap-y-14">
                   {filteredProducts.map((p) => (
-                    <ProductCard key={p.id} p={p} />
+                    <ProductCard
+                      key={p.id}
+                      p={p}
+                      onOpen={() => navigate(`/shop/${p.id}`)}
+                    />
                   ))}
                 </div>
               ) : (
                 <div className="space-y-6">
                   {filteredProducts.map((p) => (
-                    <ProductRow key={p.id} p={p} />
+                    <ProductRow
+                      key={p.id}
+                      p={p}
+                      onOpen={() => navigate(`/shop/${p.id}`)}
+                    />
                   ))}
                 </div>
               )}
@@ -455,21 +334,41 @@ export default function Shop() {
 
 /* -------------------- Small UI components -------------------- */
 
-function ProductCard({ p }: { p: Product }) {
+function ProductCard({
+  p,
+  onOpen,
+}: {
+  p: ProductCardVM;
+  onOpen: () => void;
+}) {
   return (
-    <div className="group">
+    <button
+      type="button"
+      onClick={onOpen}
+      className="group text-left"
+    >
       <div className="relative aspect-square overflow-hidden rounded-3xl border border-white/10">
-        <img
-          src={p.imageUrl}
-          alt={`${p.brand} ${p.name}`}
-          className="h-full w-full object-cover opacity-95 group-hover:opacity-100 transition duration-300"
-          loading="lazy"
-        />
+        {p.imageUrl ? (
+          <img
+            src={p.imageUrl}
+            alt={`${p.brand} ${p.name}`}
+            className="h-full w-full object-cover opacity-95 group-hover:opacity-100 transition duration-300"
+            loading="lazy"
+          />
+        ) : (
+          <div className="h-full w-full grid place-items-center text-white/40">
+            No image
+          </div>
+        )}
+
         <button
           className="absolute top-4 right-4 h-10 w-10 rounded-full border border-white/15 bg-black/30 backdrop-blur
                      grid place-items-center text-white/80 hover:text-white hover:border-white/30 transition"
           title="Save"
           type="button"
+          onClick={(e) => {
+            e.stopPropagation(); // IMPORTANT: să nu navigheze când apeși inimioara
+          }}
         >
           <HeartIcon />
         </button>
@@ -480,21 +379,43 @@ function ProductCard({ p }: { p: Product }) {
       {p.subtitle ? (
         <div className="mt-1 text-xs text-white/45">{p.subtitle}</div>
       ) : null}
-    </div>
+    </button>
   );
 }
 
-function ProductRow({ p }: { p: Product }) {
+function ProductRow({
+  p,
+  onOpen,
+}: {
+  p: ProductCardVM;
+  onOpen: () => void;
+}) {
   return (
-    <div className="flex items-center gap-6 rounded-2xl border border-white/10 p-4">
+    <button
+      type="button"
+      onClick={onOpen}
+      className="w-full text-left flex items-center gap-6 rounded-2xl border border-white/10 p-4"
+    >
       <div className="relative h-20 w-20 overflow-hidden rounded-xl border border-white/10">
-        <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover" />
+        {p.imageUrl ? (
+          <img
+            src={p.imageUrl}
+            alt={p.name}
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <div className="h-full w-full grid place-items-center text-white/40">
+            No image
+          </div>
+        )}
       </div>
 
       <div className="flex-1">
         <div className="text-white/85">{p.brand}</div>
         <div className="text-sm text-white/60">{p.name}</div>
-        {p.subtitle ? <div className="text-xs text-white/45">{p.subtitle}</div> : null}
+        {p.subtitle ? (
+          <div className="text-xs text-white/45">{p.subtitle}</div>
+        ) : null}
       </div>
 
       <button
@@ -502,10 +423,13 @@ function ProductRow({ p }: { p: Product }) {
                    grid place-items-center text-white/80 hover:text-white hover:border-white/30 transition"
         title="Save"
         type="button"
+        onClick={(e) => {
+          e.stopPropagation(); // IMPORTANT: să nu navigheze când apeși inimioara
+        }}
       >
         <HeartIcon />
       </button>
-    </div>
+    </button>
   );
 }
 
