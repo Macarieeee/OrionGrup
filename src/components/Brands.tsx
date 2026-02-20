@@ -1,32 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
-type Brand = { id: string; src: string; alt?: string };
+type Brand = {
+  id: string;
+  src: string;
+  alt?: string;
+};
 
 type Props = {
   className?: string;
 
-  // Desktop marquee speed (px/sec)
+  // Desktop (marquee CSS) – px/sec (mai mare = mai rapid)
   pxPerSecDesktop?: number;
 
-  // Mobile autoplay speed (px/sec)
+  // Mobile (transform GPU) – px/sec (mai mare = mai rapid)
   pxPerSecMobile?: number;
 
-  // Pause autoplay after user interaction (ms)
+  // Pauză după swipe/drag înainte să reia autoplay
   mobileResumeDelayMs?: number;
 };
 
 export default function Brands({
   className = "",
-  pxPerSecDesktop = 60,
-  pxPerSecMobile =2000,
-  mobileResumeDelayMs = 900,
+  pxPerSecDesktop = 60, // lent premium
+  pxPerSecMobile = 60,  // foarte smooth + lent pe mobil
+  mobileResumeDelayMs = 700,
 }: Props) {
   const [items, setItems] = useState<Brand[]>([]);
+
   const base = import.meta.env.BASE_URL;
   const jsonUrl = `${base}logos/logos.json`;
 
-  // detect mobile (updates on resize)
+  // detect mobil (live)
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768);
@@ -35,7 +40,7 @@ export default function Brands({
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // load logos from public/logos/logos.json
+  // load logos din public/logos/logos.json
   useEffect(() => {
     fetch(jsonUrl, { cache: "no-store" })
       .then((r) => r.json())
@@ -50,7 +55,7 @@ export default function Brands({
       .catch(() => setItems([]));
   }, [jsonUrl, base]);
 
-  // duplicate for desktop marquee and for mobile infinite scroll
+  // dublăm lista (ne trebuie atât pentru desktop loop, cât și pentru mobil loop)
   const items2 = useMemo(
     () => items.map((b) => ({ ...b, id: `${b.id}-dup` })),
     [items]
@@ -58,12 +63,18 @@ export default function Brands({
 
   const LogoBadge = ({ src, alt }: { src: string; alt?: string }) => (
     <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border border-white/15 bg-white shadow-[0_8px_25px_rgba(0,0,0,.35)]">
-      <img src={src} alt={alt ?? "Logo"} className="w-full h-full object-cover" loading="lazy" />
+      <img
+        src={src}
+        alt={alt ?? "Logo"}
+        className="w-full h-full object-cover"
+        loading="lazy"
+        draggable={false}
+      />
     </div>
   );
 
   /* ---------------------------
-     DESKTOP: CSS marquee
+     DESKTOP: CSS marquee (smooth)
   --------------------------- */
   const set1Ref = useRef<HTMLDivElement | null>(null);
   const frameRef = useRef<HTMLDivElement | null>(null);
@@ -81,11 +92,13 @@ export default function Brands({
       const setW = set1El.getBoundingClientRect().width;
       const frameW = frameEl.getBoundingClientRect().width;
 
+      // pornește centrat
       setStartPx(-(setW / 2 - frameW / 2));
 
+      // durată bazată pe distanță (px) / viteză (px/sec)
       const loopDistancePx = setW;
       const ms = (loopDistancePx / pxPerSecDesktop) * 1000;
-      setDurationMs(Math.max(ms, 20000));
+      setDurationMs(Math.max(ms, 20000)); // minim 20s pt premium
     };
 
     compute();
@@ -101,67 +114,97 @@ export default function Brands({
   }, [items.length, pxPerSecDesktop, isMobile]);
 
   /* ---------------------------
-     MOBILE: native scroll + autoplay (scrollLeft)
+     MOBILE: transform (GPU) autoplay + drag (smooth)
   --------------------------- */
-  const scrollerRef = useRef<HTMLDivElement | null>(null);
-  const pauseUntilRef = useRef<number>(0);
-  const rafRef = useRef<number | null>(null);
-  const lastTsRef = useRef<number>(0);
+  const mobileFrameRef = useRef<HTMLDivElement | null>(null);
+  const mobileTrackRef = useRef<HTMLDivElement | null>(null);
 
-  // helper: pause autoplay for a while after user interaction
-  const pauseMobileAutoplay = () => {
-    pauseUntilRef.current = Date.now() + mobileResumeDelayMs;
-  };
+  const xRef = useRef(0); // poziția curentă (px)
+  const lastTsRef = useRef<number>(0);
+  const rafRef = useRef<number | null>(null);
+
+  const draggingRef = useRef(false);
+  const dragStartXRef = useRef(0);
+  const dragStartPosRef = useRef(0);
+  const resumeAtRef = useRef(0);
+
+  // reset poziție când schimbă items / intră pe mobil
+  useEffect(() => {
+    if (!isMobile) return;
+    xRef.current = 0;
+    const track = mobileTrackRef.current;
+    if (track) track.style.transform = `translate3d(0px,0,0)`;
+  }, [isMobile, items.length]);
 
   useEffect(() => {
     if (!isMobile) return;
-    const el = scrollerRef.current;
-    if (!el) return;
+    const track = mobileTrackRef.current;
+    if (!track) return;
 
-    // start from middle so user can scroll both ways (because list is duplicated)
-    const jumpToMiddle = () => {
-      // contentWidth / 2 is approximately one set length
-      const max = el.scrollWidth;
-      if (max > 0) el.scrollLeft = max / 4; // safe-ish starting point
-    };
-
-    // after items render
-    const t = window.setTimeout(jumpToMiddle, 0);
-
-    // autoplay loop
     const tick = (ts: number) => {
-      const now = Date.now();
-
       if (!lastTsRef.current) lastTsRef.current = ts;
-      const dt = (ts - lastTsRef.current) / 1000; // seconds
+      const dt = (ts - lastTsRef.current) / 1000; // sec
       lastTsRef.current = ts;
 
-      // pause while user interacts / right after
-      if (now < pauseUntilRef.current) {
-        rafRef.current = requestAnimationFrame(tick);
-        return;
+      const now = Date.now();
+
+      // autoplay doar când nu tragi și după delay
+      if (!draggingRef.current && now >= resumeAtRef.current) {
+        xRef.current -= pxPerSecMobile * dt; // se mișcă spre stânga
       }
 
-      // increment scrollLeft by pxPerSecMobile * dt
-      el.scrollLeft += pxPerSecMobile * dt;
+      // loop infinit: avem track dublat, deci "half" = o listă
+      const half = track.scrollWidth / 2;
+      if (half > 0) {
+        if (xRef.current <= -half) xRef.current += half;
+        if (xRef.current > 0) xRef.current -= half;
+      }
 
-      // infinite wrap: if we pass half, jump back by half
-      const half = el.scrollWidth / 2;
-      if (el.scrollLeft >= half) el.scrollLeft -= half;
-      if (el.scrollLeft < 0) el.scrollLeft += half;
-
+      track.style.transform = `translate3d(${xRef.current}px, 0, 0)`;
       rafRef.current = requestAnimationFrame(tick);
     };
 
     rafRef.current = requestAnimationFrame(tick);
 
     return () => {
-      window.clearTimeout(t);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
       lastTsRef.current = 0;
     };
-  }, [isMobile, items.length, pxPerSecMobile, mobileResumeDelayMs]);
+  }, [isMobile, items.length, pxPerSecMobile]);
+
+  const onMobilePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    draggingRef.current = true;
+    resumeAtRef.current = Date.now() + mobileResumeDelayMs;
+
+    dragStartXRef.current = e.clientX;
+    dragStartPosRef.current = xRef.current;
+
+    e.currentTarget.setPointerCapture?.(e.pointerId);
+  };
+
+  const onMobilePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!draggingRef.current) return;
+
+    const track = mobileTrackRef.current;
+    if (!track) return;
+
+    const dx = e.clientX - dragStartXRef.current;
+    xRef.current = dragStartPosRef.current + dx;
+
+    const half = track.scrollWidth / 2;
+    if (half > 0) {
+      if (xRef.current <= -half) xRef.current += half;
+      if (xRef.current > 0) xRef.current -= half;
+    }
+
+    track.style.transform = `translate3d(${xRef.current}px, 0, 0)`;
+  };
+
+  const onMobilePointerUp = () => {
+    draggingRef.current = false;
+    resumeAtRef.current = Date.now() + mobileResumeDelayMs;
+  };
 
   return (
     <section className={`relative bg-background ${className}`} aria-label="Brands">
@@ -178,6 +221,7 @@ export default function Brands({
                   animation: "brands_marquee_x var(--brands-ms) linear infinite",
                 }}
               >
+                {/* SET 1 */}
                 <div ref={set1Ref} className="inline-flex items-center gap-14">
                   {items.map((b) => (
                     <div key={b.id} className="shrink-0">
@@ -186,6 +230,7 @@ export default function Brands({
                   ))}
                 </div>
 
+                {/* SET 2 */}
                 <div className="inline-flex items-center gap-14">
                   {items2.map((b) => (
                     <div key={b.id} className="shrink-0">
@@ -207,23 +252,25 @@ export default function Brands({
         </div>
       )}
 
-      {/* MOBILE: swipe + autoplay */}
+      {/* MOBILE: drag + autoplay smooth */}
       {isMobile && (
         <div className="w-full py-10">
           <div
-            ref={scrollerRef}
-            className="no-scrollbar overflow-x-auto px-6"
+            ref={mobileFrameRef}
+            className="relative overflow-hidden px-6"
+            onPointerDown={onMobilePointerDown}
+            onPointerMove={onMobilePointerMove}
+            onPointerUp={onMobilePointerUp}
+            onPointerCancel={onMobilePointerUp}
             style={{
-              WebkitOverflowScrolling: "touch",
-              overscrollBehaviorX: "contain",
+              touchAction: "pan-y",
             }}
-            onTouchStart={pauseMobileAutoplay}
-            onTouchMove={pauseMobileAutoplay}
-            onTouchEnd={pauseMobileAutoplay}
-            onPointerDown={pauseMobileAutoplay}
-            onScroll={pauseMobileAutoplay}
           >
-            <div className="flex items-center gap-8 w-max pr-6">
+            <div
+              ref={mobileTrackRef}
+              className="flex items-center gap-8 w-max will-change-transform"
+              style={{ transform: "translate3d(0,0,0)" }}
+            >
               {[...items, ...items2].map((b) => (
                 <div key={b.id} className="shrink-0">
                   <LogoBadge src={b.src} alt={b.alt} />
