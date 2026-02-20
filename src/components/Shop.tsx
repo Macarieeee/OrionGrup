@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState } from "react";
-
+import { Link } from "react-router-dom";
+import { SHOP_PRODUCTS } from "../data/shopCatalog";
 /* ---------------------------------------------------
    Util: hook simplu pentru "in viewport"
 --------------------------------------------------- */
@@ -67,19 +68,12 @@ type Product = {
 const WHITE_IMG =
   'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="white"/></svg>';
 
-const products: Product[] = [
-  { id: "1",  name: "Nova Pendant",     description: "Suspensie elegantă pentru dining." },
-  { id: "2",  name: "Halo Wall Sconce", description: "Aplica de perete cu lumină difuză." },
-  { id: "3",  name: "Arc Floor Lamp",   description: "Lampadar arcuit, lounge modern." },
-  { id: "4",  name: "Orbit Ceiling",    description: "Plafonieră subțire, lumină uniformă." },
-  { id: "5",  name: "Ray Track Light",  description: "Spoturi pe șină pentru accent." },
-  { id: "6",  name: "Glow Desk Lamp",   description: "Lampă de birou cu braț flexibil." },
-  { id: "7",  name: "Lumen Strip",      description: "Bandă LED arhitecturală." },
-  { id: "8",  name: "Sphere Table",     description: "Lampă ambientală cu sticlă opal." },
-  { id: "9",  name: "Beam Spot",        description: "Spot încastrat, fascicul precis." },
-  { id: "10", name: "Prism Chandelier", description: "Candelabru minimalist." },
-];
-
+const products = SHOP_PRODUCTS.map((p) => ({
+  id: p.id,
+  name: p.name,
+  description: p.description,
+  image: p.images?.[0] ?? WHITE_IMG, // ia prima imagine din catalog
+}));
 /* ---------------------------------------------------
    Shop (cu animatii on-viewport)
 --------------------------------------------------- */
@@ -255,17 +249,26 @@ function Card({
   const delay = 180 + index * 60; // 60ms între carduri
 
   return (
-    <article
-      className="group rounded-2xl border border-white/12 bg-white/6 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,.35)] overflow-hidden"
-      style={animStyle(railIn, "fade-up", 2800, delay)}
-    >
-      <figure className="relative aspect-[4/3] bg-white">
-        <img src={src} alt={product.name} loading="lazy" className="h-full w-full object-cover" />
-      </figure>
-      <div className="p-4">
-        <h3 className="font-semibold text-foreground">{product.name}</h3>
-        <p className="mt-1 text-sm text-muted line-clamp-2">{product.description}</p>
-      </div>
-    </article>
+   <Link
+  to={`/shop/${product.id}`}
+  className="block group rounded-2xl border border-white/12 bg-white/6 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,.35)] overflow-hidden transition hover:scale-[1.02]"
+  style={animStyle(railIn, "fade-up", 2800, delay)}
+>
+  <figure className="relative aspect-[4/3] bg-white flex items-center justify-center">
+    <img
+      src={src}
+      alt={product.name}
+      loading="lazy"
+      className="h-full w-full object-contain"
+    />
+  </figure>
+
+  <div className="p-4">
+    <h3 className="font-semibold text-foreground">{product.name}</h3>
+    <p className="mt-1 text-sm text-muted line-clamp-2">
+      {product.description}
+    </p>
+  </div>
+</Link>
   );
 }

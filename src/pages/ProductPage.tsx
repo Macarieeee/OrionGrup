@@ -223,19 +223,19 @@ export default function ProductPage() {
                                 onToggle={() => toggle("dimensions")}
                             >
                                 {product.dimensions?.images?.length ? (
-  <div className="flex flex-wrap justify-center gap-6">
+  <div className="flex justify-center">
     {product.dimensions.images.map((src, i) => (
       <button
         key={i}
         type="button"
         onClick={() => setDimPreview(src)}
-        className="rounded-xl border border-white/10 bg-white/[0.02] p-4 hover:border-white/25 transition duration-300 ease-in-out"
+        className="transition duration-300 ease-in-out hover:scale-105"
         aria-label="Deschide preview dimensiuni"
       >
         <img
           src={src}
           alt="Dimensiuni"
-          className="w-[110px] h-[110px] object-contain rounded-md"
+          className="w-[260px] md:w-[360px] object-contain"
         />
       </button>
     ))}
@@ -259,7 +259,7 @@ export default function ProductPage() {
                             </Accordion>
 
                             <Accordion
-                                title="BIM & CAD"
+                                title="Downloads"
                                 open={openSection === "bimcad"}
                                 onToggle={() => toggle("bimcad")}
                             >

@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { GlowSweep, Beam } from "./Hero";
-import Portfolio1 from "../assets/Portfolio1.webp";
-import Portfolio2 from "../assets/Portfolio2.webp";
-import Portfolio3 from "../assets/Portfolio3.webp";
+import Portfolio1 from "../assets/videoilluminazionepolittico_corta.gif";
+import Portfolio2 from "../assets/IasiOutdoor.jpeg";
+import Portfolio3 from "../assets/new-loft.jpg";
 type CardData = {
   id: string;
   title: string;
@@ -15,21 +15,21 @@ type CardData = {
 const cards: CardData[] = [
   {
     id: "1",
-    title: "Titlu Placeholder 1",
-    text: "Acesta este un paragraf descriptiv pentru primul placeholder.",
+    title: "Catedrala Mântuirii Neamului",
+    text: "Prin utilizarea policandelor, am creat un ambient luminos care pune în valoare fiecare detaliu arhitectural al Catedralei Mântuirii Neamului, transformând-o într-un reper vizual atât ziua, cât și noaptea.",
     image: Portfolio1, // pune imaginile tale în /public/images/
   },
   {
     id: "2",
-    title: "Titlu Placeholder 2",
-    text: "Acesta este un paragraf descriptiv pentru al doilea placeholder.",
+    title: "Monarch Mansion Galați",
+    text: "Proiectul a pus accent pe conturarea volumelor și evidențierea elementelor decorative printr-un sistem de iluminat arhitectural atent poziționat. Rezultatul este o fațadă care capătă profunzime și personalitate.",
     image: Portfolio2,
     reverse: true,
   },
   {
     id: "3",
-    title: "Titlu Placeholder 3",
-    text: "Acesta este un paragraf descriptiv pentru al treilea placeholder.",
+    title: "Loft Lounge",
+    text: "Iluminarea Loft Lounge a fost gândită pentru a susține identitatea exclusivistă a locației, printr-un joc subtil de lumini și umbre care amplifică textura materialelor și creează o atmosferă memorabilă.",
     image: Portfolio3,
   },
 ];
@@ -79,7 +79,7 @@ function AnimatedCard({
           className={`absolute z-10 ${reverse ? "text-right" : "text-left"} text-white`}
         >
           <h1 className="text-4xl font-bold mb-4">{title}</h1>
-          <p className="text-lg text-gray-300 max-w-md mx-auto">{text}</p>
+          <p className="text-lg text-gray-300 max-w-md">{text}</p>
         </motion.div>
 
         <motion.div
@@ -191,7 +191,7 @@ export default function MiddleSection() {
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 relative">
           Portofoliul Nostru
         </h1>
-        <p className="text-lg text-gray-300">
+        <p className="text-md text-gray-300">
           O scurtă previzualizare a efectului serviciilor și produselor noastre de înaltă calitate
         </p>
       </div>
