@@ -1,9 +1,13 @@
 import { Lightbulb } from "lucide-react";
 // import imaginile tale:
-import Img1 from "../../assets/P1.webp";
-import Img2 from "../../assets/P2.webp";
-import Img3 from "../../assets/P3.webp";
-import Img4 from "../../assets/P4.webp";
+import Img1 from "../../assets/BibliotecaCentrala1.webp";
+import Img2 from "../../assets/BibliotecaCentrala2.webp";
+import Img3 from "../../assets/BibliotecaCentrala3.jpeg";
+import Img4 from "../../assets/BibliotecaCentrala4.webp";
+import Img5 from "../../assets/BibliotecaCentrala5.jpeg";
+import Img6 from "../../assets/BibliotecaCentrala6.jpg";
+import Img7 from "../../assets/BibliotecaCentrala7.jpg";
+import Img8 from "../../assets/BibliotecaCentrala8.jpg";
 import BeforeAfter from "../../components/BeforeAfter";
 import BeforeImg from "../../assets/P1.webp";
 import AfterImg from "../../assets/P4.webp";
@@ -17,6 +21,10 @@ export default function Proiect1() {
     { id: "i2", src: Img2},
     { id: "i3", src: Img3},
     { id: "i4", src: Img4},
+    { id: "i5", src: Img5},
+    { id: "i6", src: Img6},
+    { id: "i7", src: Img7},
+    { id: "i8", src: Img8},
   ];
 
   return (
@@ -55,7 +63,7 @@ export default function Proiect1() {
           <div className="mt-10 flex-1">
             <div className="h-full overflow-hidden rounded-2xl border border-white/10">
               <div className="flex h-full">
-                {images.map((img) => (
+                {images.slice(0, 4).map((img) => (
                   <button
                     key={img.id}
                     type="button"
@@ -73,7 +81,7 @@ export default function Proiect1() {
                     />
 
                     {/* overlay */}
-                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-700" />
+                    {/* <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-700" /> */}
 
 
                     {/* divider */}
@@ -150,7 +158,7 @@ export default function Proiect1() {
         auto-cols-fr
       "
     >
-      {images.map((img) => (
+      {images.slice(4, 8).map((img) => (
         <div
           key={img.id}
           className="
