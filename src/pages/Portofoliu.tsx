@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import P1 from "../assets/P1.webp";
-import P2 from "../assets/P2.webp";
+import P2 from "../assets/IasiOutdoor.jpeg";
 import P3 from "../assets/P3.webp";
 import P4 from "../assets/P4.webp";
 import P5 from "../assets/P5.webp";
@@ -43,7 +43,7 @@ export default function App() {
         imageUrl:
           P2,
         numberLabel: "02",
-        slug: "/proiecte/orion-grup",
+        slug: "/proiect2",
       },
       {
         id: "p3",

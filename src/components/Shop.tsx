@@ -91,7 +91,7 @@ export default function Shop() {
 
   return (
     <section className="w-full bg-background text-foreground">
-      <div className="mx-auto max-w-7xl px-6 py-16">
+      <div className="mx-auto max-w-7xl px-6">
         {/* Header */}
         <header ref={headerRef} className="mb-8">
           <h2

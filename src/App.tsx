@@ -9,6 +9,7 @@ import Portofoliu from "./pages/Portofoliu";
 import DespreNoi from "./pages/DespreNoi";
 import Shop from "./pages/Shop";
 import Proiect1 from "./pages/Proiecte/Proiect1";
+import Proiect2 from "./pages/Proiecte/Proiect2";
 import ProductPage from "./pages/ProductPage";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/portofoliu" element={<Portofoliu />} />
           <Route path="/despre" element={<DespreNoi />} />
           <Route path="/proiect1" element={<Proiect1 />} />
+          <Route path="/proiect2" element={<Proiect2 />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/shop/:productId" element={<ProductPage />} />
         </Routes>
