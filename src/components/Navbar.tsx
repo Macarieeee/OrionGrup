@@ -35,9 +35,7 @@ export default function Navbar() {
             "relative flex items-center gap-6 rounded-2xl border backdrop-blur",
             "px-4 sm:px-6 py-2.5",
             "transition-all duration-1200",
-            scrolled
-              ? "bg-white/10 border-white/20 shadow-[0_8px_30px_rgba(0,0,0,.35)]"
-              : "bg-white/5  border-white/15 shadow-[0_10px_40px_rgba(0,0,0,.25)]",
+            "bg-[#1c1d1f] border-white/10 shadow-[0_10px_40px_rgba(0,0,0,.45)]"
           ].join(" ")}
           style={{ willChange: "transform", ["--nav-dur" as any]: "2.8s" }}
         >

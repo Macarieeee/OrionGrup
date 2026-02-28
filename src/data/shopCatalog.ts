@@ -10,6 +10,7 @@ export type Solution =
   | "Custom Systems"
   | "Lamps"
   | "Click It"
+  | "Nano"
   | "Outdoor";
 
 export type ShopCategory = {
@@ -126,7 +127,13 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
   name: "CLICK IT SPOT 7W",
   code: "CLICK IT S7",
   description: "Click It S7 spot is the smallest in size spot of Click It system.",
-  images: [import.meta.env.BASE_URL + "products/400f1_click_it_spot_7w.jpg"],
+  images: [import.meta.env.BASE_URL + "products/400f1_click_it_spot_7w.jpg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+  ],
   solutions: ["Click It"],
   dimensions: {
     images:  [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_131550.png"],},
@@ -161,7 +168,13 @@ Click It S21spot is the tunable white spot of Click It system.
 Casambi ready device.
 Constant lumen output when shifting CCT.
 UGR<20(44º) / UGR<13(35º) / UGR<15(21º)`,
-  images: [import.meta.env.BASE_URL + "products/399f2_click_it_spot_18w_-_tw_12w-17w.jpg"],
+  images: [import.meta.env.BASE_URL + "products/399f2_click_it_spot_18w_-_tw_12w-17w.jpg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+  ],
   solutions: ["Click It"],
   specs: [
   { label: "Model", value: "CLICK IT SPOT 17.6W (CLICK IT S18)" },
@@ -209,7 +222,13 @@ Click it System is offered in 42V PWM Dimmable, 48V DALI Dimmable or 48V Wireles
 Whether illuminating high-end residential spaces, inviting lobbies, or sophisticated commercial environments, Click It system delivers elegance, making it the perfect lighting solution for any premium space.
 
 Note: Track max amperage 10A.`,
-    images: [import.meta.env.BASE_URL + "products/393_click_it_track_sf.jpg"],
+    images: [import.meta.env.BASE_URL + "products/393_click_it_track_sf.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
     specs: [
     ],
@@ -247,7 +266,13 @@ Click it System is offered in 42V PWM Dimmable, 48V DALI Dimmable or 48V Wireles
 Whether illuminating high-end residential spaces, inviting lobbies, or sophisticated commercial environments, Click It system delivers elegance, making it the perfect lighting solution for any premium space.
 
 Note: Track max amperage 10A.`,
-    images: [import.meta.env.BASE_URL + "products/393_click_it_track_tr.jpg"],
+    images: [import.meta.env.BASE_URL + "products/393_click_it_track_tr.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
     specs: [
     ],
@@ -269,7 +294,13 @@ Note: Track max amperage 10A.`,
     code: "CLICK IT SYSTEM",
     subtitle: "Surface Power Connectors",
     description: ``,
-    images: [import.meta.env.BASE_URL + "products/394a_2.jpg"],
+    images: [import.meta.env.BASE_URL + "products/394a_2.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
     specs: [
     ],
@@ -291,12 +322,20 @@ Note: Track max amperage 10A.`,
     code: "CLICK IT SYSTEM",
     subtitle: "Surface Prefabricated Corners",
     description: ``,
-    images: [import.meta.env.BASE_URL + "products/394b_2.jpg"],
+    images: [import.meta.env.BASE_URL + "products/394b_2.jpg",
+  import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+],
     solutions: ["Click It"],
     specs: [
     ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/394b_CLICK_IT_Prefabricated_Corners.jpg"],
+    images: [
+  import.meta.env.BASE_URL + "products/394b_CLICK_IT_Prefabricated_Corners.jpg",
+],
   text: "Dimensiunile exacte diferă în funcție de variantă.",
 },
     documents: [
@@ -313,7 +352,13 @@ Note: Track max amperage 10A.`,
     code: "CLICK IT SYSTEM",
     subtitle: "Trimless Prefabricated Corners",
     description: ``,
-    images: [import.meta.env.BASE_URL + "products/395a_1.jpg"],
+    images: [import.meta.env.BASE_URL + "products/395a_1.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
     specs: [
     ],
@@ -335,7 +380,13 @@ Note: Track max amperage 10A.`,
     code: "CLICK IT SYSTEM",
     subtitle: "Accessories",
     description: ``,
-    images: [import.meta.env.BASE_URL + "products/423b.jpg"],
+    images: [import.meta.env.BASE_URL + "products/423b.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
     specs: [
     ],
@@ -371,7 +422,13 @@ Click It S21spot is the tunable white spot of Click It system.
 Casambi ready device.
 Constant lumen output when shifting CCT.
 UGR<20(44º) / UGR<13(35º) / UGR<15(21º)`,
-    images: [import.meta.env.BASE_URL + "products/398f2_click_it_spot_22w_-_tw_21w.jpg"],
+    images: [import.meta.env.BASE_URL + "products/398f2_click_it_spot_22w_-_tw_21w.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
     specs: [
   { label: "Model", value: "CLICK IT SPOT 22.3W (CLICK IT S22)" },
@@ -413,7 +470,13 @@ Available in black or white colour.
 UGR <19(50°) / UGR< 12(16°)
 L90/B10 50.000h
 3SDCM`,
-    images: [import.meta.env.BASE_URL + "products/401f1_click_it_zoom_spot_12w.jpg"],
+    images: [import.meta.env.BASE_URL + "products/401f1_click_it_zoom_spot_12w.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
     specs: [
   { label: "Model", value: "CLICK IT ZOOM SPOT 12W (CLICK IT ZS12)" },
@@ -450,7 +513,13 @@ It is rotatable 320 degrees.
 Available in black or white colour.
 L90/B10 50.000h
 3SDCM`,
-    images: [import.meta.env.BASE_URL + "products/404f2_click_it_frame_spot_13w.jpg"],
+    images: [import.meta.env.BASE_URL + "products/404f2_click_it_frame_spot_13w.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
     specs: [
   { label: "Model", value: "CLICK IT FRAME SPOT 12.8W (CLICK IT FR S13)" },
@@ -488,7 +557,13 @@ It is rotatable 320 degrees.
 Available in black or white colour.
 L190/B10 50.000h
 3SDCM`,
-    images: [import.meta.env.BASE_URL + "products/405f2_click_it_gobo_spot_13w.jpg"],
+    images: [import.meta.env.BASE_URL + "products/405f2_click_it_gobo_spot_13w.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
     specs: [
   { label: "Model", value: "CLICK IT GOBO SPOT 12.8W (CLICK IT GB S13)" },
@@ -540,7 +615,13 @@ Constant lumen output when shifting CCT.
 L70/B10 50.000h
 UGR<19(56º) / UGR<14(32º) / UGR<10(25º) / UGR<10(13º) / UGR<11(9-32º)
 `,
-    images: [import.meta.env.BASE_URL + "products/406f2_click_it_linear_spot_15w.jpg"],
+    images: [import.meta.env.BASE_URL + "products/406f2_click_it_linear_spot_15w.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
     specs: [
   { label: "Model", value: "CLICK IT GOBO SPOT 12.8W (CLICK IT GB S13)" },
@@ -579,7 +660,13 @@ Length of 205mm.
 L90/B10 50.000h
 3SDCM
 `,
-    images: [import.meta.env.BASE_URL + "products/407f2_click_it_linear_wash_14w.jpg"],
+    images: [import.meta.env.BASE_URL + "products/407f2_click_it_linear_wash_14w.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
     specs: [
   { label: "Model", value: "CLICK IT LINEAR WASH 14W (CLICK IT LW14)" },
@@ -618,7 +705,13 @@ Length of 1200mm.
 L90/B10 50.000h
 3SDCM
 `,
-    images: [import.meta.env.BASE_URL + "products/408f2_click_it_ambinet_35w.jpg"],
+    images: [import.meta.env.BASE_URL + "products/408f2_click_it_ambinet_35w.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
     specs: [
   { label: "Model", value: "CLICK IT AMBIENT 29.6W (CLICK IT A30)" },
@@ -664,7 +757,13 @@ Length of 800mm.
 L90/B10 50.000h
 3SDCM
 `,
-    images: [import.meta.env.BASE_URL + "products/409f2_click_it_ambinet_25w.jpg"],
+    images: [import.meta.env.BASE_URL + "products/409f2_click_it_ambinet_25w.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
     specs: [
   { label: "Model", value: "CLICK IT AMBIENT 24.8W (CLICK IT A25)" },
@@ -710,7 +809,13 @@ Length of 407mm.
 L90/B10 50.000h
 3SDCM
 `,
-    images: [import.meta.env.BASE_URL + "products/410f2_click_it_ambinet_12w.jpg"],
+    images: [import.meta.env.BASE_URL + "products/410f2_click_it_ambinet_12w.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
     specs: [
   { label: "Model", value: "CLICK IT AMBIENT 12.4W (CLICK IT A12)" },
@@ -756,7 +861,13 @@ Length of 205mm.
 L90/B10 50.000h
 3SDCM
 `,
-    images: [import.meta.env.BASE_URL + "products/411f2_click_it_ambinet_9w.jpg"],
+    images: [import.meta.env.BASE_URL + "products/411f2_click_it_ambinet_9w.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
     specs: [
   { label: "Model", value: "CLICK IT AMBIENT 9.2W" },
@@ -801,7 +912,13 @@ It is offered with a variety of accessories : honeycomb, line spread lens, softe
 L90/B10 50.000h.
 3SDCM
 `,
-    images: [import.meta.env.BASE_URL + "products/416f2_click_it_pendant_21w.jpg"],
+    images: [import.meta.env.BASE_URL + "products/416f2_click_it_pendant_21w.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
     specs: [
   { label: "Model", value: "CLICK IT PENDANT 20.6W" },
@@ -855,7 +972,13 @@ UGR<22(46°) / UGR<18(32°) / UGR<18(27°)
 L90/B10 50.000h
 3SDCM
 `,
-    images: [import.meta.env.BASE_URL + "products/417f2_click_it_pendant_10w.jpg"],
+    images: [import.meta.env.BASE_URL + "products/417f2_click_it_pendant_10w.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
 specs: [
   { label: "Model", value: "CLICK IT PENDANT 10W (CLICK IT PD10)" },
@@ -900,7 +1023,13 @@ Diameter of 318mm.
 L90/B10 50.000h
 3SDCM
 `,
-    images: [import.meta.env.BASE_URL + "products/420_click_it_pendant_v_12w.jpg"],
+    images: [import.meta.env.BASE_URL + "products/420_click_it_pendant_v_12w.jpg",
+      import.meta.env.BASE_URL + "products/clickit1.jpeg",
+  import.meta.env.BASE_URL + "products/clickit2.jpeg",
+  import.meta.env.BASE_URL + "products/clickit3.jpeg",
+  import.meta.env.BASE_URL + "products/clickit4.jpeg",
+  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
 specs: [
   { label: "Model", value: "CLICK IT PENDANT V (CLICK IT PD V)" },
@@ -915,6 +1044,271 @@ specs: [
 ],
     dimensions: {
     images:  [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_131128.png"],
+  text: "Dimensiunile exacte diferă în funcție de variantă.",
+},
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "nano-recessed-track",
+    brand: "Electron",
+    name: "NANO Recessed Track",
+    code: "NANO Recessed Track",
+    subtitle: "NANO TRACK",
+    description: ` 
+Nano is a new miniaturized system suitable for highly demanding spaces.
+The system is suitable for surface, pendant, recessed and trimless application.
+Flexibility and easiness in the repositioning of the luminaires.
+It is offered with a variety of accessories.
+Nano system includes: Nano spots, Nano linear spots and Nano linear ambient luminaires.
+Maximum load per system: 150W
+The system is offered in 48 DALI Dimmable or Wireless Dimmable.
+Curved tracks cannot have luminaires on.
+`,
+    images: [import.meta.env.BASE_URL + "products/426m_rc_nano_system_2_.jpg",
+    ],
+    solutions: ["Nano"],
+specs: [
+
+],
+    dimensions: {
+    images:  [import.meta.env.BASE_URL + "products/nan.041x-dimensions.jpg"],
+  text: "Dimensiunile exacte diferă în funcție de variantă.",
+},
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "nano-sruface-track",
+    brand: "Electron",
+    name: "NANO Surface Track",
+    code: "NANO Surface Track",
+    subtitle: "NANO TRACK",
+    description: ` 
+Nano is a new miniaturized system suitable for highly demanding spaces.
+The system is suitable for surface, pendant, recessed and trimless application.
+Flexibility and easiness in the repositioning of the luminaires.
+it is offered with a variety of accessories.
+Nano system Includes: Nano spots, Nano linear spots and Nano linear ambient luminaires.
+Maximum load per system: 150W
+The system is offered In 48 DALI Dimmable or Wireless Dimmable.
+Curved tracks cannot have luminaires on.
+`,
+    images: [import.meta.env.BASE_URL + "products/426m_sf_nano_system_2_.jpg",
+    ],
+    solutions: ["Nano"],
+specs: [
+
+],
+    dimensions: {
+    images:  [import.meta.env.BASE_URL + "products/426_nano_system.jpg"],
+  text: "Dimensiunile exacte diferă în funcție de variantă.",
+},
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "nano-spot-6w-4w",
+    brand: "Electron",
+    name: "NANO Spot 6W & 4W",
+    code: "NANO Spot 6W & 4W",
+    subtitle: "NANO SPOT",
+    description: ` 
+Nano SP are two miniaturized spots of Nano System.
+Available in 4 and 6Watt.
+Rotatable 320 degrees.
+Available in black or white colour.
+UGR<16(50º) / UGR<13(38º) / UGR<11(28º)
+L90/B10 50.000h
+3SDCM
+`,
+    images: [import.meta.env.BASE_URL + "products/430_nano_spot4w_spot6w_1.jpg",
+    ],
+    solutions: ["Nano"],
+specs: [
+  { label: "Model", value: "NANO SPOT (NANO SP)" },
+
+  // are 2 variante de putere în tabel
+  { label: "Watt", value: "3.8W / 5.5W" },
+
+  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+
+  // (opțional, dar e în tabel — valori separate pe fiecare watt)
+  {
+    label: "LED Source",
+    value:
+      "3.8W — CRI80: 460lm / 460lm / 500lm / 500lm | CRI90: 370lm / 400lm / 430lm / 460lm; " +
+      "5.5W — CRI80: 670lm / 670lm / 720lm / 720lm | CRI90: 540lm / 575lm / 625lm / 670lm",
+  },
+
+  { label: "Type", value: "Adjustable" },
+  { label: "CRI", value: "80 / 90" },
+  { label: "Beam Angle", value: "28° / 38° / 50°" },
+  { label: "Colour", value: "White / Black" },
+
+  // atenție: în poză e 48V PWM (nu 42V)
+  { label: "Dimming Option", value: "48V PWM Dimmable" },
+],
+    dimensions: {
+    images:  [import.meta.env.BASE_URL + "products/430sx_nano_spot4w_spot6w.jpg"],
+  text: "Dimensiunile exacte diferă în funcție de variantă.",
+},
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "nano-spot-7w",
+    brand: "Electron",
+    name: "NANO Spot Round 7W",
+    code: "NANO Spot Round 7W",
+    subtitle: "NANO SPOT",
+    description: ` 
+Nano SP RD is an elegant flat round luminaire of Nano System.
+It is a rotatable 320 degrees.
+Available in black or white colour.
+UGR < 18(60°) / UGR<17(48°) / UGR<19(35°) / UGR <18(20°) / UGR < 15(13°)
+L90/B10 50.000h
+3SDCM
+`,
+    images: [import.meta.env.BASE_URL + "products/431_nano_spotround_7w_1.jpg",
+    ],
+    solutions: ["Nano"],
+specs: [
+  { label: "Model", value: "NANO SPOT ROUND (NANO SP RD)" },
+  { label: "Watt", value: "6.7W" },
+  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+
+  // (opțional, dar e în tabel)
+  {
+    label: "LED Source",
+    value:
+      "CRI80: 820lm / 820lm / 885lm / 885lm | CRI90: 660lm / 705lm / 760lm / 820lm",
+  },
+
+  { label: "Type", value: "Adjustable" },
+  { label: "CRI", value: "80 / 90" },
+  { label: "Beam Angle", value: "13° / 20° / 35° / 48° / 60°" },
+  { label: "Colour", value: "White / Black" },
+  { label: "Dimming Option", value: "48V PWM Dimmable" },
+],
+    dimensions: {
+    images:  [import.meta.env.BASE_URL + "products/431sx_nano_spotround_7w.jpg"],
+  text: "Dimensiunile exacte diferă în funcție de variantă.",
+},
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "nano-ambient-13w-7w",
+    brand: "Electron",
+    name: "NANO Ambient 13W & 7W",
+    code: "NANO Ambient 13W & 7W",
+    subtitle: "NANO Ambient",
+    description: ` 
+Nano A consists of two linear ambient luminaire of Nano system.
+Available in black or white colour.
+With a length of 300 or 600mm.
+L90/B10 50.000h
+3SDCM
+`,
+    images: [import.meta.env.BASE_URL + "products/432_nano_ambient7w_ambient13w_1.jpg",
+    ],
+    solutions: ["Nano"],
+specs: [
+  { label: "Model", value: "NANO AMBIENT (NANO A)" },
+
+  // sunt 2 variante de putere în tabel
+  { label: "Watt", value: "6.7W / 13.4W" },
+
+  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+
+  // în poză apare doar CRI90 (nu și CRI80)
+  {
+    label: "LED Source",
+    value:
+      "6.7W — CRI90: 615lm / 620lm / 630lm / 630lm; " +
+      "13.4W — CRI90: 1030lm / 1040lm / 1060lm / 1060lm",
+  },
+
+  { label: "Type", value: "Fixed" },
+  { label: "CRI", value: "90" },
+  { label: "Beam Angle", value: "115°" },
+  { label: "Colour", value: "White / Black" },
+  { label: "Dimming Option", value: "48V PWM Dimmable" },
+],
+    dimensions: {
+    images:  [import.meta.env.BASE_URL + "products/432sx_nano_ambient7w_ambient13w.jpg"],
+  text: "Dimensiunile exacte diferă în funcție de variantă.",
+},
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "nano-linear-spot-10w-5w",
+    brand: "Electron",
+    name: "NANO Linear Spot 10W & 5W",
+    code: "NANO Linear Spot 10W & 5W",
+    subtitle: "NANO Linear Spot",
+    description: ` 
+NANO LS consists of two directional linear luminaires of Nano System.
+Available in black or white colour.
+Available in 33 degrees & 27 degrees for antiglare version.
+With a length of 300 or 600mm.
+UGR <10(33°)
+L90/B10 50.000h
+3SDCM
+`,
+    images: [import.meta.env.BASE_URL + "products/433_nano_linearspot5w_linearspot10w_1_1.jpg",
+    ],
+    solutions: ["Nano"],
+specs: [
+  { label: "Model", value: "NANO LINEAR SPOT (NANO LS)" },
+
+  // sunt 2 variante de putere în tabel
+  { label: "Watt", value: "4.8W / 9.6W" },
+
+  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+
+  // în poză apare doar CRI90
+  {
+    label: "LED Source",
+    value:
+      "4.8W — CRI90: 460lm / 460lm / 470lm / 480lm; " +
+      "9.6W — CRI90: 920lm / 920lm / 960lm / 970lm",
+  },
+
+  { label: "Type", value: "Fixed" },
+  { label: "CRI", value: "90" },
+  { label: "Beam Angle", value: "33°" },
+  { label: "Colour", value: "White / Black" },
+  { label: "Dimming Option", value: "48V PWM Dimmable" },
+],
+    dimensions: {
+    images:  [import.meta.env.BASE_URL + "products/433sx_nano_linearspot5w_linearspot10w_1.jpg"],
   text: "Dimensiunile exacte diferă în funcție de variantă.",
 },
     documents: [
