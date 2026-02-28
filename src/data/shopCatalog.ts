@@ -476,4 +476,452 @@ L90/B10 50.000h
       { label: "CAD (DWG)", type: "cad", url: "#" },
     ],
   },
+  {
+    id: "click-it-gobo-spot-13w",
+    brand: "Electron",
+    name: "Click It Gobo Spot 13W",
+    code: "Click It Gobo Spot 13W",
+    subtitle: "CLICK IT Spot",
+    description: `Click It Zoom Gobo is suitable for applications where a logo, a photo or any other custom projection is required.
+Gobo material: glass
+It is rotatable 320 degrees.
+Available in black or white colour.
+L190/B10 50.000h
+3SDCM`,
+    images: [import.meta.env.BASE_URL + "products/405f2_click_it_gobo_spot_13w.jpg"],
+    solutions: ["Click It"],
+    specs: [
+  { label: "Model", value: "CLICK IT GOBO SPOT 12.8W (CLICK IT GB S13)" },
+  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+
+  // (opțional, dar e în tabel)
+  { label: "LED Source", value: "CRI80: 1102lm / 1148lm / 1211lm / 1226lm | CRI90: 925lm / 965lm / 1015lm / 1030lm" },
+
+  { label: "Type", value: "Adjustable" },
+  { label: "CRI", value: "80 / 90" },
+  { label: "Beam Angle", value: "27° max" },
+  { label: "Colour", value: "White / Black" },
+  { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
+],
+    dimensions: {
+    images:  [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_125039.png"],
+  text: "Dimensiunile exacte diferă în funcție de variantă.",
+},
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+   {
+    id: "click-it-linear-spot-15w",
+    brand: "Electron",
+    name: "Click It Linear Spot 15W - Tunable White 15W",
+    code: "Click It Linear Spot 15W",
+    subtitle: "CLICK IT Spot",
+    description: `Click It LS15 is a directional linear luminaire of Click It System.
+Available in black or white colour.
+With a selection of beam angles to meet any lighting requirements.
+Length of 205mm.
+
+
+Monochromatic 15W
+
+UGR<19(56º) / UGR<14(32º) / UGR<10(25º) / UGR<10(13º) / UGR<10(9º) / UGR<11(9-32º)
+L90/B10 50.000h
+3SDCM
+ 
+
+Tunable White 15W
+
+Casambi ready device.
+Constant lumen output when shifting CCT.
+L70/B10 50.000h
+UGR<19(56º) / UGR<14(32º) / UGR<10(25º) / UGR<10(13º) / UGR<11(9-32º)
+`,
+    images: [import.meta.env.BASE_URL + "products/406f2_click_it_linear_spot_15w.jpg"],
+    solutions: ["Click It"],
+    specs: [
+  { label: "Model", value: "CLICK IT GOBO SPOT 12.8W (CLICK IT GB S13)" },
+  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+
+  // (opțional, dar e în tabel)
+  { label: "LED Source", value: "CRI80: 1102lm / 1148lm / 1211lm / 1226lm | CRI90: 925lm / 965lm / 1015lm / 1030lm" },
+
+  { label: "Type", value: "Adjustable" },
+  { label: "CRI", value: "80 / 90" },
+  { label: "Beam Angle", value: "27° max" },
+  { label: "Colour", value: "White / Black" },
+  { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
+],
+    dimensions: {
+    images:  [import.meta.env.BASE_URL + "products/406sx_click_it_linear_spot_15w.jpg"],
+  text: "Dimensiunile exacte diferă în funcție de variantă.",
+},
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "click-it-linear-wash-14w",
+    brand: "Electron",
+    name: "Click It Linear Wash 14W",
+    code: "Click It Linear Wash 14W",
+    subtitle: "CLICK IT Spot",
+    description: `Click It LW14 is a linear wash of Click It System.
+Available in black or white colour.
+With a selection of beam angleof 1048 ddegrees
+Length of 205mm.
+L90/B10 50.000h
+3SDCM
+`,
+    images: [import.meta.env.BASE_URL + "products/407f2_click_it_linear_wash_14w.jpg"],
+    solutions: ["Click It"],
+    specs: [
+  { label: "Model", value: "CLICK IT LINEAR WASH 14W (CLICK IT LW14)" },
+  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+
+  // (opțional, dar e în tabel)
+  { label: "LED Source", value: "CRI80: 1250lm / 1332lm / 1404lm / 1404lm | CRI90: 1026lm / 1098lm / 1250lm / 1250lm" },
+
+  { label: "Type", value: "Linear wash" },
+  { label: "CRI", value: "80 / 90" },
+  { label: "Beam Angle", value: "10° × 48°" },
+  { label: "Colour", value: "White / Black" },
+  { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
+],
+    dimensions: {
+    images:  [import.meta.env.BASE_URL + "products/click_it_linear_wash_14w_schema1.jpg"],
+  text: "Dimensiunile exacte diferă în funcție de variantă.",
+},
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "click-it-ambient-30w",
+    brand: "Electron",
+    name: "Click It Ambient 30W",
+    code: "Click It Ambient 30W",
+    subtitle: "CLICK IT Spot",
+    description: `Click It A30 spot is the largest sized available linear ambient luminaire of Click It system.
+Available in black or white colour.
+Beam angle of 115 degrees
+Length of 1200mm.
+L90/B10 50.000h
+3SDCM
+`,
+    images: [import.meta.env.BASE_URL + "products/408f2_click_it_ambinet_35w.jpg"],
+    solutions: ["Click It"],
+    specs: [
+  { label: "Model", value: "CLICK IT AMBIENT 29.6W (CLICK IT A30)" },
+  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+
+  // (opțional, dar e în tabel)
+  {
+    label: "LED Source",
+    value:
+      "CRI80: 5525lm / 5860lm / 6165lm / 6165lm | CRI90: 4144lm / 4395lm / 4624lm / 4624lm",
+  },
+
+  { label: "Type", value: "Fixed" },
+  { label: "CRI", value: "80 / 90" },
+  { label: "Beam Angle", value: "115°" },
+  { label: "Colour", value: "White / Black" },
+  {
+    label: "Dimming Option",
+    value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
+  },
+],
+    dimensions: {
+    images:  [import.meta.env.BASE_URL + "products/click_it_ambient_35w_photo2.jpg"],
+  text: "Dimensiunile exacte diferă în funcție de variantă.",
+},
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "click-it-ambient-25w",
+    brand: "Electron",
+    name: "Click It Ambient 25W",
+    code: "Click It Ambient 25W",
+    subtitle: "CLICK IT Spot",
+    description: `Click It A25 spot is the larger mid-sized available linear ambient luminaire of Click It system.
+Available in black or white colour.
+Beam angle of 115 degrees
+Length of 800mm.
+L90/B10 50.000h
+3SDCM
+`,
+    images: [import.meta.env.BASE_URL + "products/409f2_click_it_ambinet_25w.jpg"],
+    solutions: ["Click It"],
+    specs: [
+  { label: "Model", value: "CLICK IT AMBIENT 24.8W (CLICK IT A25)" },
+  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+
+  // (opțional, dar e în tabel)
+  {
+    label: "LED Source",
+    value:
+      "CRI80: 3960lm / 4200lm / 4440lm / 4440lm | CRI90: 2970lm / 3150lm / 3330lm / 3330lm",
+  },
+
+  { label: "Type", value: "Fixed" },
+  { label: "CRI", value: "80 / 90" },
+  { label: "Beam Angle", value: "115°" },
+  { label: "Colour", value: "White / Black" },
+  {
+    label: "Dimming Option",
+    value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
+  },
+],
+    dimensions: {
+    images:  [import.meta.env.BASE_URL + "products/click_it_ambient_25w_photo2.jpg"],
+  text: "Dimensiunile exacte diferă în funcție de variantă.",
+},
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "click-it-ambient-12w",
+    brand: "Electron",
+    name: "Click It Ambient 12W",
+    code: "Click It Ambient 12W",
+    subtitle: "CLICK IT Spot",
+    description: `Click It A12 spot is the smaller mid-sized available linear ambient luminaire of Click It system.
+Available in black or white colour.
+Beam angle of 115 degrees
+Length of 407mm.
+L90/B10 50.000h
+3SDCM
+`,
+    images: [import.meta.env.BASE_URL + "products/410f2_click_it_ambinet_12w.jpg"],
+    solutions: ["Click It"],
+    specs: [
+  { label: "Model", value: "CLICK IT AMBIENT 12.4W (CLICK IT A12)" },
+  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+
+  // (opțional, dar e în tabel)
+  {
+    label: "LED Source",
+    value:
+      "CRI80: 1980lm / 2100lm / 2220lm / 2220lm | CRI90: 1485lm / 1575lm / 1665lm / 1665lm",
+  },
+
+  { label: "Type", value: "Fixed" },
+  { label: "CRI", value: "80 / 90" },
+  { label: "Beam Angle", value: "115°" },
+  { label: "Colour", value: "White / Black" },
+  {
+    label: "Dimming Option",
+    value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
+  },
+],
+    dimensions: {
+    images:  [import.meta.env.BASE_URL + "products/click_it_ambient_12w_photo2.jpg"],
+  text: "Dimensiunile exacte diferă în funcție de variantă.",
+},
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "click-it-ambient-9w",
+    brand: "Electron",
+    name: "Click It Ambient 9W",
+    code: "Click It Ambient 9W",
+    subtitle: "CLICK IT Spot",
+    description: `Click It A9 spot is the smallest sized available linear ambient luminaire of Click It system.
+Available in black or white colour.
+Beam angle of 115 degrees
+Length of 205mm.
+L90/B10 50.000h
+3SDCM
+`,
+    images: [import.meta.env.BASE_URL + "products/411f2_click_it_ambinet_9w.jpg"],
+    solutions: ["Click It"],
+    specs: [
+  { label: "Model", value: "CLICK IT AMBIENT 9.2W" },
+  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+
+  // (opțional, dar e în tabel)
+  {
+    label: "LED Source",
+    value:
+      "CRI80: 990lm / 1050lm / 1110lm / 1110lm | CRI90: 740lm / 790lm / 830lm / 830lm",
+  },
+
+  { label: "Type", value: "Fixed" },
+  { label: "CRI", value: "80 / 90" },
+  { label: "Beam Angle", value: "115°" },
+  { label: "Colour", value: "White / Black" },
+  {
+    label: "Dimming Option",
+    value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
+  },
+],
+    dimensions: {
+    images:  [import.meta.env.BASE_URL + "products/click_it_ambient_9w_photo2.jpg"],
+  text: "Dimensiunile exacte diferă în funcție de variantă.",
+},
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "click-it-pendant-21w",
+    brand: "Electron",
+    name: "Click It Pendant 21W",
+    code: "Click It Pendant 21W",
+    subtitle: "CLICK IT Spot",
+    description: `Click It PD21 is a cylindrical decorative luminaire of Click it system.
+Available in black or white colour.
+It is offered with a variety of accessories : honeycomb, line spread lens, softening lens, snoot, or half snoot.
+L90/B10 50.000h.
+3SDCM
+`,
+    images: [import.meta.env.BASE_URL + "products/416f2_click_it_pendant_21w.jpg"],
+    solutions: ["Click It"],
+    specs: [
+  { label: "Model", value: "CLICK IT PENDANT 20.6W" },
+  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+
+  // (opțional, dar e în tabel)
+  {
+    label: "LED Source",
+    value:
+      "CRI80: 2147lm / 2309lm / 2379lm / 2309lm | CRI90: 1610lm / 1730lm / 1785lm / 1730lm",
+  },
+
+  { label: "Type", value: "Pendant" },
+  { label: "CRI", value: "80 / 90" },
+  { label: "Beam Angle", value: "18° / 37° / 42°" },
+  { label: "Colour", value: "White / Black" },
+  {
+    label: "Dimming Option",
+    value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
+  },
+  {
+    label: "Accessories",
+    value: "Standard / Honeycomb / Line spread lens / Softening lens",
+  },
+  {
+    label: "Extras",
+    value:
+      "No Extras / Snoot Black / Half Snoot Black / Frosted Cover / Snoot White / Half Snoot White",
+  },
+],
+    dimensions: {
+    images:  [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_130318.png"],
+  text: "Dimensiunile exacte diferă în funcție de variantă.",
+},
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "click-it-pendant-10w",
+    brand: "Electron",
+    name: "Click It Pendant 10W",
+    code: "Click It Pendant 10W",
+    subtitle: "CLICK IT Spot",
+    description: `Click It PD10 is a small sized cylindrical decorative luminaire of Click it system.
+Available in black or white colour.
+UGR<22(46°) / UGR<18(32°) / UGR<18(27°)
+L90/B10 50.000h
+3SDCM
+`,
+    images: [import.meta.env.BASE_URL + "products/417f2_click_it_pendant_10w.jpg"],
+    solutions: ["Click It"],
+specs: [
+  { label: "Model", value: "CLICK IT PENDANT 10W (CLICK IT PD10)" },
+  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+
+  // (opțional, dar e în tabel)
+  {
+    label: "LED Source",
+    value:
+      "CRI80: 767lm / 823lm / 888lm / 888lm | CRI90: 575lm / 615lm / 710lm / 710lm",
+  },
+
+  { label: "Type", value: "Pendant" },
+  { label: "CRI", value: "80 / 90" },
+  { label: "Beam Angle", value: "27° / 32° / 46°" },
+  { label: "Colour", value: "White / Black" },
+  {
+    label: "Dimming Option",
+    value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
+  },
+],
+    dimensions: {
+    images:  [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_130814.png"],
+  text: "Dimensiunile exacte diferă în funcție de variantă.",
+},
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "click-it-pendant-v-12w",
+    brand: "Electron",
+    name: "Click It Pendant V 12W Black",
+    code: "Click It Pendant V 12W Black",
+    subtitle: "CLICK IT Spot",
+    description: `Click It PD V is a decorative pendant V shaped luminaire of Click It System.
+Available in black, white or gold colour (Inner shade: white).
+Diameter of 318mm.
+L90/B10 50.000h
+3SDCM
+`,
+    images: [import.meta.env.BASE_URL + "products/420_click_it_pendant_v_12w.jpg"],
+    solutions: ["Click It"],
+specs: [
+  { label: "Model", value: "CLICK IT PENDANT V (CLICK IT PD V)" },
+  { label: "Watt", value: "12.3W" },
+  { label: "CCT", value: "2700K / 3000K / 4000K" }, // *available also in 5000K upon request
+  { label: "LED Source", value: "1365lm / 1515lm / 1635lm" },
+  { label: "Type", value: "Fixed" },
+  { label: "CRI", value: "90" },
+  { label: "Beam Angle", value: "85°" },
+  { label: "Colour", value: "Black / White / Gold" },
+  { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
+],
+    dimensions: {
+    images:  [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_131128.png"],
+  text: "Dimensiunile exacte diferă în funcție de variantă.",
+},
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
 ];
