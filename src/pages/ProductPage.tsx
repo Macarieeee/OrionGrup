@@ -21,9 +21,9 @@ export default function ProductPage() {
 
     const [activeImg, setActiveImg] = useState(0);
     const [dimPreview, setDimPreview] = useState<string | null>(null);
-    const [openSection, setOpenSection] = useState<
-        "specs" | "dimensions" | "catalog" | "bimcad" | null
-    >("specs");
+    const [openSections, setOpenSections] = useState<
+  Array<"specs" | "dimensions" | "catalog" | "bimcad">
+>(["specs"]); 
 
     const related = useMemo(() => {
         if (!product) return [];
@@ -53,9 +53,11 @@ export default function ProductPage() {
     const images = product.images ?? [];
     const heroImg = images[Math.min(activeImg, images.length - 1)];
 
-    const toggle = (k: typeof openSection) => {
-        setOpenSection((prev) => (prev === k ? null : k));
-    };
+    const toggle = (k: "specs" | "dimensions" | "catalog" | "bimcad") => {
+  setOpenSections((prev) =>
+    prev.includes(k) ? prev.filter((x) => x !== k) : [...prev, k]
+  );
+};
 
     return (
         <main className="min-h-screen pt-[var(--nav-h)] bg-[#0a0b0d] text-white">
@@ -63,7 +65,7 @@ export default function ProductPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10">
                     {/* LEFT: IMAGE + THUMBNAILS */}
                     <div>
-                        <div className="relative rounded-3xl border border-white/10 overflow-hidden bg-white/[0.02]">
+                        <div className="relative rounded-3xl overflow-hidden">
                             <div className="aspect-[4/3] md:aspect-[16/10]">
                                 <img
                                     src={heroImg}
@@ -161,7 +163,7 @@ export default function ProductPage() {
                             <div className="mt-3 text-white/70">{product.subtitle}</div>
                         ) : null}
 
-                        <p className="mt-6 text-white/70 leading-relaxed">
+                        <p className="mt-6 text-white/70 leading-relaxed whitespace-pre-line">
                             {product.description}
                         </p>
 
@@ -204,7 +206,7 @@ export default function ProductPage() {
                         <div className="mt-6 space-y-5">
                             <Accordion
                                 title="Specificații tehnice"
-                                open={openSection === "specs"}
+                                open={openSections.includes("specs")}
                                 onToggle={() => toggle("specs")}
                             >
                                 <div className="space-y-2 text-sm text-white/70">
@@ -219,7 +221,7 @@ export default function ProductPage() {
 
                             <Accordion
                                 title="Dimensiuni"
-                                open={openSection === "dimensions"}
+                                open={openSections.includes("dimensions")}
                                 onToggle={() => toggle("dimensions")}
                             >
                                 {product.dimensions?.images?.length ? (
@@ -250,7 +252,7 @@ export default function ProductPage() {
 
                             <Accordion
                                 title="Cataloage"
-                                open={openSection === "catalog"}
+                                open={openSections.includes("catalog")}
                                 onToggle={() => toggle("catalog")}
                             >
                                 <DocList
@@ -260,7 +262,7 @@ export default function ProductPage() {
 
                             <Accordion
                                 title="Downloads"
-                                open={openSection === "bimcad"}
+                                open={openSections.includes("bimcad")}
                                 onToggle={() => toggle("bimcad")}
                             >
                                 <DocList
