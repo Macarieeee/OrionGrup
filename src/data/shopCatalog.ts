@@ -11,6 +11,7 @@ export type Solution =
   | "Lamps"
   | "Click It"
   | "Nano"
+  | "Trimless Downlights"
   | "Outdoor";
 
 export type ShopCategory = {
@@ -43,10 +44,10 @@ export type ShopProduct = {
 
   // secțiuni
   specs: ProductSpec[];
-dimensions?: {
-  images?: string[];
-  text?: string;
-};
+  dimensions?: {
+    images?: string[];
+    text?: string;
+  };
 
   documents?: ProductDoc[];
 };
@@ -121,38 +122,39 @@ export const SHOP_CATEGORIES: ShopCategory[] = [
 ];
 
 export const SHOP_PRODUCTS: ShopProduct[] = [
-    {
-  id: "click-it-spot-7w",
-  brand: "Electron",
-  name: "CLICK IT SPOT 7W",
-  code: "CLICK IT S7",
-  description: "Click It S7 spot is the smallest in size spot of Click It system.",
-  images: [import.meta.env.BASE_URL + "products/400f1_click_it_spot_7w.jpg",
+  {
+    id: "click-it-spot-7w",
+    brand: "Electron",
+    name: "CLICK IT SPOT 7W",
+    code: "CLICK IT S7",
+    description: "Click It S7 spot is the smallest in size spot of Click It system.",
+    images: [import.meta.env.BASE_URL + "products/400f1_click_it_spot_7w.jpg",
     import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
-  ],
-  solutions: ["Click It"],
-  dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_131550.png"],},
-  specs: [
-  { label: "Model", value: "CLICK IT SPOT 7W" },
-  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
-  { label: "Type", value: "Adjustable" },
-  { label: "CRI", value: "80 / 90" },
-  { label: "Beam Angle", value: "27° / 32° / 46°" },
-  { label: "Colour", value: "White / Black" },
-  { label: "Dimming Option", value: "42V PWM / 48V DALI / 48V Wireless" },
-  { label: "Accessories", value: "Standard / Honeycomb / Line Spread Lens / Softening Lens" },
-],
-},
-{
-  id: "click-it-spot-18w",
-  brand: "Electron",
-  name: "CLICK IT Spot 18W - Tunable White 12W/17W",
-  code: "CLICK IT SPOT 18W",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
+    solutions: ["Click It"],
+    dimensions: {
+      images: [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_131550.png"],
+    },
+    specs: [
+      { label: "Model", value: "CLICK IT SPOT 7W" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+      { label: "Type", value: "Adjustable" },
+      { label: "CRI", value: "80 / 90" },
+      { label: "Beam Angle", value: "27° / 32° / 46°" },
+      { label: "Colour", value: "White / Black" },
+      { label: "Dimming Option", value: "42V PWM / 48V DALI / 48V Wireless" },
+      { label: "Accessories", value: "Standard / Honeycomb / Line Spread Lens / Softening Lens" },
+    ],
+  },
+  {
+    id: "click-it-spot-18w",
+    brand: "Electron",
+    name: "CLICK IT Spot 18W - Tunable White 12W/17W",
+    code: "CLICK IT SPOT 18W",
     description: `Rotatable 320 degrees.
 Available in black or white colour.
 It is offered with a variety of accessories : honeycomb, line spread lens, softening lens, snoot, or half snoot
@@ -168,36 +170,36 @@ Click It S21spot is the tunable white spot of Click It system.
 Casambi ready device.
 Constant lumen output when shifting CCT.
 UGR<20(44º) / UGR<13(35º) / UGR<15(21º)`,
-  images: [import.meta.env.BASE_URL + "products/399f2_click_it_spot_18w_-_tw_12w-17w.jpg",
+    images: [import.meta.env.BASE_URL + "products/399f2_click_it_spot_18w_-_tw_12w-17w.jpg",
     import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
-  ],
-  solutions: ["Click It"],
-  specs: [
-  { label: "Model", value: "CLICK IT SPOT 17.6W (CLICK IT S18)" },
-  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
+    solutions: ["Click It"],
+    specs: [
+      { label: "Model", value: "CLICK IT SPOT 17.6W (CLICK IT S18)" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
 
-  // (opțional, dar e în tabel)
-  { label: "LED Source", value: "CRI80: 1518lm / 1634lm / 1634lm / 1750lm | CRI90: 1140lm / 1225lm / 1225lm / 1310lm" },
+      // (opțional, dar e în tabel)
+      { label: "LED Source", value: "CRI80: 1518lm / 1634lm / 1634lm / 1750lm | CRI90: 1140lm / 1225lm / 1225lm / 1310lm" },
 
-  { label: "Type", value: "Adjustable" },
-  { label: "CRI", value: "80 / 90" },
-  { label: "Beam Angle", value: "21° / 35° / 44°" },
-  { label: "Colour", value: "White / Black" },
-  { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
-  { label: "Accessories", value: "Standard / Honeycomb / Line spread lens / Softening lens" },
+      { label: "Type", value: "Adjustable" },
+      { label: "CRI", value: "80 / 90" },
+      { label: "Beam Angle", value: "21° / 35° / 44°" },
+      { label: "Colour", value: "White / Black" },
+      { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
+      { label: "Accessories", value: "Standard / Honeycomb / Line spread lens / Softening lens" },
 
-  // (opțional, apare separat în dreapta ca “EXTRAS”)
-  { label: "Extras", value: "No Extras / Snoot Black / Half Snoot Black / Frosted Cover / Snoot White / Half Snoot White" },
-],
-dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/399sx_click_it_spot_18w_-_tw_12w-17w.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
-},
+      // (opțional, apare separat în dreapta ca “EXTRAS”)
+      { label: "Extras", value: "No Extras / Snoot Black / Half Snoot Black / Frosted Cover / Snoot White / Half Snoot White" },
+    ],
+    dimensions: {
+      images: [import.meta.env.BASE_URL + "products/399sx_click_it_spot_18w_-_tw_12w-17w.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
+  },
   {
     id: "click-it-surface-track",
     brand: "Electron",
@@ -223,19 +225,19 @@ Whether illuminating high-end residential spaces, inviting lobbies, or sophistic
 
 Note: Track max amperage 10A.`,
     images: [import.meta.env.BASE_URL + "products/393_click_it_track_sf.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
     specs: [
     ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/clk.013x-dimensions.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/clk.013x-dimensions.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -245,7 +247,7 @@ Note: Track max amperage 10A.`,
   },
 
   // Exemple extra (păstrează ce ai acum și le completezi treptat)
-    {
+  {
     id: "click-it-trimless-track",
     brand: "Electron",
     name: "Click It Trimless Track",
@@ -267,19 +269,19 @@ Whether illuminating high-end residential spaces, inviting lobbies, or sophistic
 
 Note: Track max amperage 10A.`,
     images: [import.meta.env.BASE_URL + "products/393_click_it_track_tr.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
     specs: [
     ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/clk.001x-dimensions.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/clk.001x-dimensions.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -295,19 +297,19 @@ Note: Track max amperage 10A.`,
     subtitle: "Surface Power Connectors",
     description: ``,
     images: [import.meta.env.BASE_URL + "products/394a_2.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
     specs: [
     ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/394a_CLICK_IT_Prefabricated_Corners.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/394a_CLICK_IT_Prefabricated_Corners.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -323,21 +325,21 @@ Note: Track max amperage 10A.`,
     subtitle: "Surface Prefabricated Corners",
     description: ``,
     images: [import.meta.env.BASE_URL + "products/394b_2.jpg",
-  import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
-],
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    ],
     solutions: ["Click It"],
     specs: [
     ],
     dimensions: {
-    images: [
-  import.meta.env.BASE_URL + "products/394b_CLICK_IT_Prefabricated_Corners.jpg",
-],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [
+        import.meta.env.BASE_URL + "products/394b_CLICK_IT_Prefabricated_Corners.jpg",
+      ],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -353,19 +355,19 @@ Note: Track max amperage 10A.`,
     subtitle: "Trimless Prefabricated Corners",
     description: ``,
     images: [import.meta.env.BASE_URL + "products/395a_1.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
     specs: [
     ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/395a_CLICK_IT_Prefabricated_Corners.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/395a_CLICK_IT_Prefabricated_Corners.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -381,19 +383,19 @@ Note: Track max amperage 10A.`,
     subtitle: "Accessories",
     description: ``,
     images: [import.meta.env.BASE_URL + "products/423b.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
     specs: [
     ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/396a_CLICK_IT_Accessories.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/396a_CLICK_IT_Accessories.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -423,34 +425,34 @@ Casambi ready device.
 Constant lumen output when shifting CCT.
 UGR<20(44º) / UGR<13(35º) / UGR<15(21º)`,
     images: [import.meta.env.BASE_URL + "products/398f2_click_it_spot_22w_-_tw_21w.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
     specs: [
-  { label: "Model", value: "CLICK IT SPOT 22.3W (CLICK IT S22)" },
-  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+      { label: "Model", value: "CLICK IT SPOT 22.3W (CLICK IT S22)" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
 
-  // (opțional, dar e în tabel)
-  { label: "LED Source", value: "CRI80: 2465lm / 2651lm / 2837lm / 2651lm | CRI90: 1850lm / 1901lm / 2125lm / 1985lm" },
+      // (opțional, dar e în tabel)
+      { label: "LED Source", value: "CRI80: 2465lm / 2651lm / 2837lm / 2651lm | CRI90: 1850lm / 1901lm / 2125lm / 1985lm" },
 
-  { label: "Type", value: "Adjustable" },
-  { label: "CRI", value: "80 / 90" },
-  { label: "Beam Angle", value: "22° / 35° / 42°" },
-  { label: "Colour", value: "White / Black" },
-  { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
-  { label: "Accessories", value: "Standard / Honeycomb / Line spread lens / Softening lens" },
+      { label: "Type", value: "Adjustable" },
+      { label: "CRI", value: "80 / 90" },
+      { label: "Beam Angle", value: "22° / 35° / 42°" },
+      { label: "Colour", value: "White / Black" },
+      { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
+      { label: "Accessories", value: "Standard / Honeycomb / Line spread lens / Softening lens" },
 
-  // (opțional, apare ca “EXTRAS”)
-  { label: "Extras", value: "No Extras / Snoot Black / Half Snoot Black / Frosted Cover / Snoot White / Half Snoot White" },
-],
+      // (opțional, apare ca “EXTRAS”)
+      { label: "Extras", value: "No Extras / Snoot Black / Half Snoot Black / Frosted Cover / Snoot White / Half Snoot White" },
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/398sx_click_it_spot_22w_-_tw_21w.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/398sx_click_it_spot_22w_-_tw_21w.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -471,30 +473,30 @@ UGR <19(50°) / UGR< 12(16°)
 L90/B10 50.000h
 3SDCM`,
     images: [import.meta.env.BASE_URL + "products/401f1_click_it_zoom_spot_12w.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
     specs: [
-  { label: "Model", value: "CLICK IT ZOOM SPOT 12W (CLICK IT ZS12)" },
-  { label: "CCT", value: "2700K / 3000K / 4000K" },
+      { label: "Model", value: "CLICK IT ZOOM SPOT 12W (CLICK IT ZS12)" },
+      { label: "CCT", value: "2700K / 3000K / 4000K" },
 
-  // (opțional, dar apare în tabel)
-  { label: "LED Source", value: "CRI80: 1194lm / 1257lm / 1307lm | CRI90: 992lm / 1055lm / 1106lm" },
+      // (opțional, dar apare în tabel)
+      { label: "LED Source", value: "CRI80: 1194lm / 1257lm / 1307lm | CRI90: 992lm / 1055lm / 1106lm" },
 
-  { label: "Type", value: "Adjustable" },
-  { label: "CRI", value: "80 / 90" },
-  { label: "Beam Angle", value: "Adjustable 16° (min) – 50° (max)" },
-  { label: "Colour", value: "White / Black" },
-  { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
-],
+      { label: "Type", value: "Adjustable" },
+      { label: "CRI", value: "80 / 90" },
+      { label: "Beam Angle", value: "Adjustable 16° (min) – 50° (max)" },
+      { label: "Colour", value: "White / Black" },
+      { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_131731.png"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_131731.png"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -514,30 +516,30 @@ Available in black or white colour.
 L90/B10 50.000h
 3SDCM`,
     images: [import.meta.env.BASE_URL + "products/404f2_click_it_frame_spot_13w.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
     specs: [
-  { label: "Model", value: "CLICK IT FRAME SPOT 12.8W (CLICK IT FR S13)" },
-  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+      { label: "Model", value: "CLICK IT FRAME SPOT 12.8W (CLICK IT FR S13)" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
 
-  // (opțional, dar e în tabel)
-  { label: "LED Source", value: "CRI80: 1102lm / 1148lm / 1211lm / 1226lm | CRI90: 925lm / 965lm / 1015lm / 1030lm" },
+      // (opțional, dar e în tabel)
+      { label: "LED Source", value: "CRI80: 1102lm / 1148lm / 1211lm / 1226lm | CRI90: 925lm / 965lm / 1015lm / 1030lm" },
 
-  { label: "Type", value: "Adjustable" },
-  { label: "CRI", value: "80 / 90" },
-  { label: "Beam Angle", value: "27° max" },
-  { label: "Colour", value: "White / Black" },
-  { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
-],
+      { label: "Type", value: "Adjustable" },
+      { label: "CRI", value: "80 / 90" },
+      { label: "Beam Angle", value: "27° max" },
+      { label: "Colour", value: "White / Black" },
+      { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_124846.png"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_124846.png"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -558,30 +560,30 @@ Available in black or white colour.
 L190/B10 50.000h
 3SDCM`,
     images: [import.meta.env.BASE_URL + "products/405f2_click_it_gobo_spot_13w.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
     specs: [
-  { label: "Model", value: "CLICK IT GOBO SPOT 12.8W (CLICK IT GB S13)" },
-  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+      { label: "Model", value: "CLICK IT GOBO SPOT 12.8W (CLICK IT GB S13)" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
 
-  // (opțional, dar e în tabel)
-  { label: "LED Source", value: "CRI80: 1102lm / 1148lm / 1211lm / 1226lm | CRI90: 925lm / 965lm / 1015lm / 1030lm" },
+      // (opțional, dar e în tabel)
+      { label: "LED Source", value: "CRI80: 1102lm / 1148lm / 1211lm / 1226lm | CRI90: 925lm / 965lm / 1015lm / 1030lm" },
 
-  { label: "Type", value: "Adjustable" },
-  { label: "CRI", value: "80 / 90" },
-  { label: "Beam Angle", value: "27° max" },
-  { label: "Colour", value: "White / Black" },
-  { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
-],
+      { label: "Type", value: "Adjustable" },
+      { label: "CRI", value: "80 / 90" },
+      { label: "Beam Angle", value: "27° max" },
+      { label: "Colour", value: "White / Black" },
+      { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_125039.png"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_125039.png"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -589,7 +591,7 @@ L190/B10 50.000h
       { label: "CAD (DWG)", type: "cad", url: "#" },
     ],
   },
-   {
+  {
     id: "click-it-linear-spot-15w",
     brand: "Electron",
     name: "Click It Linear Spot 15W - Tunable White 15W",
@@ -616,30 +618,30 @@ L70/B10 50.000h
 UGR<19(56º) / UGR<14(32º) / UGR<10(25º) / UGR<10(13º) / UGR<11(9-32º)
 `,
     images: [import.meta.env.BASE_URL + "products/406f2_click_it_linear_spot_15w.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
     specs: [
-  { label: "Model", value: "CLICK IT GOBO SPOT 12.8W (CLICK IT GB S13)" },
-  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+      { label: "Model", value: "CLICK IT GOBO SPOT 12.8W (CLICK IT GB S13)" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
 
-  // (opțional, dar e în tabel)
-  { label: "LED Source", value: "CRI80: 1102lm / 1148lm / 1211lm / 1226lm | CRI90: 925lm / 965lm / 1015lm / 1030lm" },
+      // (opțional, dar e în tabel)
+      { label: "LED Source", value: "CRI80: 1102lm / 1148lm / 1211lm / 1226lm | CRI90: 925lm / 965lm / 1015lm / 1030lm" },
 
-  { label: "Type", value: "Adjustable" },
-  { label: "CRI", value: "80 / 90" },
-  { label: "Beam Angle", value: "27° max" },
-  { label: "Colour", value: "White / Black" },
-  { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
-],
+      { label: "Type", value: "Adjustable" },
+      { label: "CRI", value: "80 / 90" },
+      { label: "Beam Angle", value: "27° max" },
+      { label: "Colour", value: "White / Black" },
+      { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/406sx_click_it_linear_spot_15w.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/406sx_click_it_linear_spot_15w.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -661,30 +663,30 @@ L90/B10 50.000h
 3SDCM
 `,
     images: [import.meta.env.BASE_URL + "products/407f2_click_it_linear_wash_14w.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
     specs: [
-  { label: "Model", value: "CLICK IT LINEAR WASH 14W (CLICK IT LW14)" },
-  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+      { label: "Model", value: "CLICK IT LINEAR WASH 14W (CLICK IT LW14)" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
 
-  // (opțional, dar e în tabel)
-  { label: "LED Source", value: "CRI80: 1250lm / 1332lm / 1404lm / 1404lm | CRI90: 1026lm / 1098lm / 1250lm / 1250lm" },
+      // (opțional, dar e în tabel)
+      { label: "LED Source", value: "CRI80: 1250lm / 1332lm / 1404lm / 1404lm | CRI90: 1026lm / 1098lm / 1250lm / 1250lm" },
 
-  { label: "Type", value: "Linear wash" },
-  { label: "CRI", value: "80 / 90" },
-  { label: "Beam Angle", value: "10° × 48°" },
-  { label: "Colour", value: "White / Black" },
-  { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
-],
+      { label: "Type", value: "Linear wash" },
+      { label: "CRI", value: "80 / 90" },
+      { label: "Beam Angle", value: "10° × 48°" },
+      { label: "Colour", value: "White / Black" },
+      { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/click_it_linear_wash_14w_schema1.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/click_it_linear_wash_14w_schema1.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -706,37 +708,37 @@ L90/B10 50.000h
 3SDCM
 `,
     images: [import.meta.env.BASE_URL + "products/408f2_click_it_ambinet_35w.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
     specs: [
-  { label: "Model", value: "CLICK IT AMBIENT 29.6W (CLICK IT A30)" },
-  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+      { label: "Model", value: "CLICK IT AMBIENT 29.6W (CLICK IT A30)" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
 
-  // (opțional, dar e în tabel)
-  {
-    label: "LED Source",
-    value:
-      "CRI80: 5525lm / 5860lm / 6165lm / 6165lm | CRI90: 4144lm / 4395lm / 4624lm / 4624lm",
-  },
+      // (opțional, dar e în tabel)
+      {
+        label: "LED Source",
+        value:
+          "CRI80: 5525lm / 5860lm / 6165lm / 6165lm | CRI90: 4144lm / 4395lm / 4624lm / 4624lm",
+      },
 
-  { label: "Type", value: "Fixed" },
-  { label: "CRI", value: "80 / 90" },
-  { label: "Beam Angle", value: "115°" },
-  { label: "Colour", value: "White / Black" },
-  {
-    label: "Dimming Option",
-    value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
-  },
-],
+      { label: "Type", value: "Fixed" },
+      { label: "CRI", value: "80 / 90" },
+      { label: "Beam Angle", value: "115°" },
+      { label: "Colour", value: "White / Black" },
+      {
+        label: "Dimming Option",
+        value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
+      },
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/click_it_ambient_35w_photo2.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/click_it_ambient_35w_photo2.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -758,37 +760,37 @@ L90/B10 50.000h
 3SDCM
 `,
     images: [import.meta.env.BASE_URL + "products/409f2_click_it_ambinet_25w.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
     specs: [
-  { label: "Model", value: "CLICK IT AMBIENT 24.8W (CLICK IT A25)" },
-  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+      { label: "Model", value: "CLICK IT AMBIENT 24.8W (CLICK IT A25)" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
 
-  // (opțional, dar e în tabel)
-  {
-    label: "LED Source",
-    value:
-      "CRI80: 3960lm / 4200lm / 4440lm / 4440lm | CRI90: 2970lm / 3150lm / 3330lm / 3330lm",
-  },
+      // (opțional, dar e în tabel)
+      {
+        label: "LED Source",
+        value:
+          "CRI80: 3960lm / 4200lm / 4440lm / 4440lm | CRI90: 2970lm / 3150lm / 3330lm / 3330lm",
+      },
 
-  { label: "Type", value: "Fixed" },
-  { label: "CRI", value: "80 / 90" },
-  { label: "Beam Angle", value: "115°" },
-  { label: "Colour", value: "White / Black" },
-  {
-    label: "Dimming Option",
-    value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
-  },
-],
+      { label: "Type", value: "Fixed" },
+      { label: "CRI", value: "80 / 90" },
+      { label: "Beam Angle", value: "115°" },
+      { label: "Colour", value: "White / Black" },
+      {
+        label: "Dimming Option",
+        value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
+      },
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/click_it_ambient_25w_photo2.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/click_it_ambient_25w_photo2.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -810,37 +812,37 @@ L90/B10 50.000h
 3SDCM
 `,
     images: [import.meta.env.BASE_URL + "products/410f2_click_it_ambinet_12w.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
     specs: [
-  { label: "Model", value: "CLICK IT AMBIENT 12.4W (CLICK IT A12)" },
-  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+      { label: "Model", value: "CLICK IT AMBIENT 12.4W (CLICK IT A12)" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
 
-  // (opțional, dar e în tabel)
-  {
-    label: "LED Source",
-    value:
-      "CRI80: 1980lm / 2100lm / 2220lm / 2220lm | CRI90: 1485lm / 1575lm / 1665lm / 1665lm",
-  },
+      // (opțional, dar e în tabel)
+      {
+        label: "LED Source",
+        value:
+          "CRI80: 1980lm / 2100lm / 2220lm / 2220lm | CRI90: 1485lm / 1575lm / 1665lm / 1665lm",
+      },
 
-  { label: "Type", value: "Fixed" },
-  { label: "CRI", value: "80 / 90" },
-  { label: "Beam Angle", value: "115°" },
-  { label: "Colour", value: "White / Black" },
-  {
-    label: "Dimming Option",
-    value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
-  },
-],
+      { label: "Type", value: "Fixed" },
+      { label: "CRI", value: "80 / 90" },
+      { label: "Beam Angle", value: "115°" },
+      { label: "Colour", value: "White / Black" },
+      {
+        label: "Dimming Option",
+        value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
+      },
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/click_it_ambient_12w_photo2.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/click_it_ambient_12w_photo2.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -862,37 +864,37 @@ L90/B10 50.000h
 3SDCM
 `,
     images: [import.meta.env.BASE_URL + "products/411f2_click_it_ambinet_9w.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
     specs: [
-  { label: "Model", value: "CLICK IT AMBIENT 9.2W" },
-  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+      { label: "Model", value: "CLICK IT AMBIENT 9.2W" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
 
-  // (opțional, dar e în tabel)
-  {
-    label: "LED Source",
-    value:
-      "CRI80: 990lm / 1050lm / 1110lm / 1110lm | CRI90: 740lm / 790lm / 830lm / 830lm",
-  },
+      // (opțional, dar e în tabel)
+      {
+        label: "LED Source",
+        value:
+          "CRI80: 990lm / 1050lm / 1110lm / 1110lm | CRI90: 740lm / 790lm / 830lm / 830lm",
+      },
 
-  { label: "Type", value: "Fixed" },
-  { label: "CRI", value: "80 / 90" },
-  { label: "Beam Angle", value: "115°" },
-  { label: "Colour", value: "White / Black" },
-  {
-    label: "Dimming Option",
-    value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
-  },
-],
+      { label: "Type", value: "Fixed" },
+      { label: "CRI", value: "80 / 90" },
+      { label: "Beam Angle", value: "115°" },
+      { label: "Colour", value: "White / Black" },
+      {
+        label: "Dimming Option",
+        value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
+      },
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/click_it_ambient_9w_photo2.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/click_it_ambient_9w_photo2.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -913,46 +915,46 @@ L90/B10 50.000h.
 3SDCM
 `,
     images: [import.meta.env.BASE_URL + "products/416f2_click_it_pendant_21w.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
     specs: [
-  { label: "Model", value: "CLICK IT PENDANT 20.6W" },
-  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+      { label: "Model", value: "CLICK IT PENDANT 20.6W" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
 
-  // (opțional, dar e în tabel)
-  {
-    label: "LED Source",
-    value:
-      "CRI80: 2147lm / 2309lm / 2379lm / 2309lm | CRI90: 1610lm / 1730lm / 1785lm / 1730lm",
-  },
+      // (opțional, dar e în tabel)
+      {
+        label: "LED Source",
+        value:
+          "CRI80: 2147lm / 2309lm / 2379lm / 2309lm | CRI90: 1610lm / 1730lm / 1785lm / 1730lm",
+      },
 
-  { label: "Type", value: "Pendant" },
-  { label: "CRI", value: "80 / 90" },
-  { label: "Beam Angle", value: "18° / 37° / 42°" },
-  { label: "Colour", value: "White / Black" },
-  {
-    label: "Dimming Option",
-    value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
-  },
-  {
-    label: "Accessories",
-    value: "Standard / Honeycomb / Line spread lens / Softening lens",
-  },
-  {
-    label: "Extras",
-    value:
-      "No Extras / Snoot Black / Half Snoot Black / Frosted Cover / Snoot White / Half Snoot White",
-  },
-],
+      { label: "Type", value: "Pendant" },
+      { label: "CRI", value: "80 / 90" },
+      { label: "Beam Angle", value: "18° / 37° / 42°" },
+      { label: "Colour", value: "White / Black" },
+      {
+        label: "Dimming Option",
+        value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
+      },
+      {
+        label: "Accessories",
+        value: "Standard / Honeycomb / Line spread lens / Softening lens",
+      },
+      {
+        label: "Extras",
+        value:
+          "No Extras / Snoot Black / Half Snoot Black / Frosted Cover / Snoot White / Half Snoot White",
+      },
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_130318.png"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_130318.png"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -973,37 +975,37 @@ L90/B10 50.000h
 3SDCM
 `,
     images: [import.meta.env.BASE_URL + "products/417f2_click_it_pendant_10w.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
-specs: [
-  { label: "Model", value: "CLICK IT PENDANT 10W (CLICK IT PD10)" },
-  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+    specs: [
+      { label: "Model", value: "CLICK IT PENDANT 10W (CLICK IT PD10)" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
 
-  // (opțional, dar e în tabel)
-  {
-    label: "LED Source",
-    value:
-      "CRI80: 767lm / 823lm / 888lm / 888lm | CRI90: 575lm / 615lm / 710lm / 710lm",
-  },
+      // (opțional, dar e în tabel)
+      {
+        label: "LED Source",
+        value:
+          "CRI80: 767lm / 823lm / 888lm / 888lm | CRI90: 575lm / 615lm / 710lm / 710lm",
+      },
 
-  { label: "Type", value: "Pendant" },
-  { label: "CRI", value: "80 / 90" },
-  { label: "Beam Angle", value: "27° / 32° / 46°" },
-  { label: "Colour", value: "White / Black" },
-  {
-    label: "Dimming Option",
-    value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
-  },
-],
+      { label: "Type", value: "Pendant" },
+      { label: "CRI", value: "80 / 90" },
+      { label: "Beam Angle", value: "27° / 32° / 46°" },
+      { label: "Colour", value: "White / Black" },
+      {
+        label: "Dimming Option",
+        value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable",
+      },
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_130814.png"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_130814.png"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -1024,28 +1026,28 @@ L90/B10 50.000h
 3SDCM
 `,
     images: [import.meta.env.BASE_URL + "products/420_click_it_pendant_v_12w.jpg",
-      import.meta.env.BASE_URL + "products/clickit1.jpeg",
-  import.meta.env.BASE_URL + "products/clickit2.jpeg",
-  import.meta.env.BASE_URL + "products/clickit3.jpeg",
-  import.meta.env.BASE_URL + "products/clickit4.jpeg",
-  import.meta.env.BASE_URL + "products/clickit5.jpeg",
+    import.meta.env.BASE_URL + "products/clickit1.jpeg",
+    import.meta.env.BASE_URL + "products/clickit2.jpeg",
+    import.meta.env.BASE_URL + "products/clickit3.jpeg",
+    import.meta.env.BASE_URL + "products/clickit4.jpeg",
+    import.meta.env.BASE_URL + "products/clickit5.jpeg",
     ],
     solutions: ["Click It"],
-specs: [
-  { label: "Model", value: "CLICK IT PENDANT V (CLICK IT PD V)" },
-  { label: "Watt", value: "12.3W" },
-  { label: "CCT", value: "2700K / 3000K / 4000K" }, // *available also in 5000K upon request
-  { label: "LED Source", value: "1365lm / 1515lm / 1635lm" },
-  { label: "Type", value: "Fixed" },
-  { label: "CRI", value: "90" },
-  { label: "Beam Angle", value: "85°" },
-  { label: "Colour", value: "Black / White / Gold" },
-  { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
-],
+    specs: [
+      { label: "Model", value: "CLICK IT PENDANT V (CLICK IT PD V)" },
+      { label: "Watt", value: "12.3W" },
+      { label: "CCT", value: "2700K / 3000K / 4000K" }, // *available also in 5000K upon request
+      { label: "LED Source", value: "1365lm / 1515lm / 1635lm" },
+      { label: "Type", value: "Fixed" },
+      { label: "CRI", value: "90" },
+      { label: "Beam Angle", value: "85°" },
+      { label: "Colour", value: "Black / White / Gold" },
+      { label: "Dimming Option", value: "42V PWM Dimmable / 48V DALI Dimmable / 48V Wireless Dimmable" },
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_131128.png"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/screenshot_2025-10-23_131128.png"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -1072,13 +1074,13 @@ Curved tracks cannot have luminaires on.
     images: [import.meta.env.BASE_URL + "products/426m_rc_nano_system_2_.jpg",
     ],
     solutions: ["Nano"],
-specs: [
+    specs: [
 
-],
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/nan.041x-dimensions.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/nan.041x-dimensions.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -1105,13 +1107,13 @@ Curved tracks cannot have luminaires on.
     images: [import.meta.env.BASE_URL + "products/426m_sf_nano_system_2_.jpg",
     ],
     solutions: ["Nano"],
-specs: [
+    specs: [
 
-],
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/426_nano_system.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/426_nano_system.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -1137,34 +1139,34 @@ L90/B10 50.000h
     images: [import.meta.env.BASE_URL + "products/430_nano_spot4w_spot6w_1.jpg",
     ],
     solutions: ["Nano"],
-specs: [
-  { label: "Model", value: "NANO SPOT (NANO SP)" },
+    specs: [
+      { label: "Model", value: "NANO SPOT (NANO SP)" },
 
-  // are 2 variante de putere în tabel
-  { label: "Watt", value: "3.8W / 5.5W" },
+      // are 2 variante de putere în tabel
+      { label: "Watt", value: "3.8W / 5.5W" },
 
-  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
 
-  // (opțional, dar e în tabel — valori separate pe fiecare watt)
-  {
-    label: "LED Source",
-    value:
-      "3.8W — CRI80: 460lm / 460lm / 500lm / 500lm | CRI90: 370lm / 400lm / 430lm / 460lm; " +
-      "5.5W — CRI80: 670lm / 670lm / 720lm / 720lm | CRI90: 540lm / 575lm / 625lm / 670lm",
-  },
+      // (opțional, dar e în tabel — valori separate pe fiecare watt)
+      {
+        label: "LED Source",
+        value:
+          "3.8W — CRI80: 460lm / 460lm / 500lm / 500lm | CRI90: 370lm / 400lm / 430lm / 460lm; " +
+          "5.5W — CRI80: 670lm / 670lm / 720lm / 720lm | CRI90: 540lm / 575lm / 625lm / 670lm",
+      },
 
-  { label: "Type", value: "Adjustable" },
-  { label: "CRI", value: "80 / 90" },
-  { label: "Beam Angle", value: "28° / 38° / 50°" },
-  { label: "Colour", value: "White / Black" },
+      { label: "Type", value: "Adjustable" },
+      { label: "CRI", value: "80 / 90" },
+      { label: "Beam Angle", value: "28° / 38° / 50°" },
+      { label: "Colour", value: "White / Black" },
 
-  // atenție: în poză e 48V PWM (nu 42V)
-  { label: "Dimming Option", value: "48V PWM Dimmable" },
-],
+      // atenție: în poză e 48V PWM (nu 42V)
+      { label: "Dimming Option", value: "48V PWM Dimmable" },
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/430sx_nano_spot4w_spot6w.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/430sx_nano_spot4w_spot6w.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -1189,28 +1191,28 @@ L90/B10 50.000h
     images: [import.meta.env.BASE_URL + "products/431_nano_spotround_7w_1.jpg",
     ],
     solutions: ["Nano"],
-specs: [
-  { label: "Model", value: "NANO SPOT ROUND (NANO SP RD)" },
-  { label: "Watt", value: "6.7W" },
-  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+    specs: [
+      { label: "Model", value: "NANO SPOT ROUND (NANO SP RD)" },
+      { label: "Watt", value: "6.7W" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
 
-  // (opțional, dar e în tabel)
-  {
-    label: "LED Source",
-    value:
-      "CRI80: 820lm / 820lm / 885lm / 885lm | CRI90: 660lm / 705lm / 760lm / 820lm",
-  },
+      // (opțional, dar e în tabel)
+      {
+        label: "LED Source",
+        value:
+          "CRI80: 820lm / 820lm / 885lm / 885lm | CRI90: 660lm / 705lm / 760lm / 820lm",
+      },
 
-  { label: "Type", value: "Adjustable" },
-  { label: "CRI", value: "80 / 90" },
-  { label: "Beam Angle", value: "13° / 20° / 35° / 48° / 60°" },
-  { label: "Colour", value: "White / Black" },
-  { label: "Dimming Option", value: "48V PWM Dimmable" },
-],
+      { label: "Type", value: "Adjustable" },
+      { label: "CRI", value: "80 / 90" },
+      { label: "Beam Angle", value: "13° / 20° / 35° / 48° / 60°" },
+      { label: "Colour", value: "White / Black" },
+      { label: "Dimming Option", value: "48V PWM Dimmable" },
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/431sx_nano_spotround_7w.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/431sx_nano_spotround_7w.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -1234,32 +1236,32 @@ L90/B10 50.000h
     images: [import.meta.env.BASE_URL + "products/432_nano_ambient7w_ambient13w_1.jpg",
     ],
     solutions: ["Nano"],
-specs: [
-  { label: "Model", value: "NANO AMBIENT (NANO A)" },
+    specs: [
+      { label: "Model", value: "NANO AMBIENT (NANO A)" },
 
-  // sunt 2 variante de putere în tabel
-  { label: "Watt", value: "6.7W / 13.4W" },
+      // sunt 2 variante de putere în tabel
+      { label: "Watt", value: "6.7W / 13.4W" },
 
-  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
 
-  // în poză apare doar CRI90 (nu și CRI80)
-  {
-    label: "LED Source",
-    value:
-      "6.7W — CRI90: 615lm / 620lm / 630lm / 630lm; " +
-      "13.4W — CRI90: 1030lm / 1040lm / 1060lm / 1060lm",
-  },
+      // în poză apare doar CRI90 (nu și CRI80)
+      {
+        label: "LED Source",
+        value:
+          "6.7W — CRI90: 615lm / 620lm / 630lm / 630lm; " +
+          "13.4W — CRI90: 1030lm / 1040lm / 1060lm / 1060lm",
+      },
 
-  { label: "Type", value: "Fixed" },
-  { label: "CRI", value: "90" },
-  { label: "Beam Angle", value: "115°" },
-  { label: "Colour", value: "White / Black" },
-  { label: "Dimming Option", value: "48V PWM Dimmable" },
-],
+      { label: "Type", value: "Fixed" },
+      { label: "CRI", value: "90" },
+      { label: "Beam Angle", value: "115°" },
+      { label: "Colour", value: "White / Black" },
+      { label: "Dimming Option", value: "48V PWM Dimmable" },
+    ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/432sx_nano_ambient7w_ambient13w.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/432sx_nano_ambient7w_ambient13w.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
@@ -1285,32 +1287,795 @@ L90/B10 50.000h
     images: [import.meta.env.BASE_URL + "products/433_nano_linearspot5w_linearspot10w_1_1.jpg",
     ],
     solutions: ["Nano"],
+    specs: [
+      { label: "Model", value: "NANO LINEAR SPOT (NANO LS)" },
+
+      // sunt 2 variante de putere în tabel
+      { label: "Watt", value: "4.8W / 9.6W" },
+
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+
+      // în poză apare doar CRI90
+      {
+        label: "LED Source",
+        value:
+          "4.8W — CRI90: 460lm / 460lm / 470lm / 480lm; " +
+          "9.6W — CRI90: 920lm / 920lm / 960lm / 970lm",
+      },
+
+      { label: "Type", value: "Fixed" },
+      { label: "CRI", value: "90" },
+      { label: "Beam Angle", value: "33°" },
+      { label: "Colour", value: "White / Black" },
+      { label: "Dimming Option", value: "48V PWM Dimmable" },
+    ],
+    dimensions: {
+      images: [import.meta.env.BASE_URL + "products/433sx_nano_linearspot5w_linearspot10w_1.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "reform-30-tr",
+    brand: "Electron",
+    name: "Reform 30 TR",
+    code: "Reform 30 TR",
+    subtitle: "",
+    description: ` 
+Reform 30 is a complete series of miniaturized downlights available recessed, trimless or surface.
+It is available in round form.
+Power consumption: 3 watt and 6 watt.
+Beam angle varies from 12 to 50 degrees.
+Accessories available: honeycomb.
+Luminaire material: aluminium construction/ PC parts.
+It is offered in white and/or black colour as standard but RAL colours also are available on request.
+Driver, Emergency kit, battery replacement accessibility of emergency kit should be considered as the kit does not pass through the Trimless luminaire cutout.
+3 SDCM
+L90/B10 50000h
+Low UGR ensuring visual comfort (UGR Constant current 350mA @3W / 700mA @ 6.3W.
+`,
+    images: [import.meta.env.BASE_URL + "products/reform30tr_site_m_copy.jpg",
+    ],
+    solutions: ["Trimless Downlights"],
+    specs: [
+      { label: "Model", value: "REFORM 30 Trimless (REFORM 30 TR)" },
+
+      // în tabel apar 4 variante de putere (în funcție de optică)
+      { label: "LED Power", value: "3W / 5.8W / 3W / 6.3W" },
+
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+
+      // am păstrat valorile exact cum sunt în tabel, pe fiecare configurație
+      {
+        label: "LED Source",
+        value:
+          "12° — 3W: CRI80 310/310/330/360lm | CRI90 250/265/290/310lm; " +
+          "12° — 5.8W: CRI80 615/615/665/715lm | CRI90 500/530/575/615lm; " +
+          "28°/36°/50° — 3W: CRI80 396/396/428/428lm | CRI90 320/342/369/396lm; " +
+          "28°/36°/50° — 6.3W: CRI80 669/669/722/722lm | CRI90 540/577/623/669lm",
+      },
+
+      { label: "Type", value: "Adjustable" },
+
+      { label: "CRI", value: "80 / 90" },
+
+      { label: "Beam Angle", value: "12° / 28° / 36° / 50°" },
+
+      {
+        label: "Luminaire Colour",
+        value: "Base: White / Black • Spot: White / Black • Inner Ring: White / Black",
+      },
+
+      {
+        label: "Dimming Option",
+        value:
+          "Without Driver / Non Dimmable / Analogue (1–10V) / DMX / DALI / Push Button / Phase Cut / Wireless",
+      },
+
+      { label: "Accessories", value: "Standard / Honeycomb / Softening lens" },
+
+      { label: "Extras", value: "No Extras / Emergency" },
+    ],
+    dimensions: {
+      images: [import.meta.env.BASE_URL + "products/660sx_reform_30_tr.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "reform-30-in-out-tr",
+    brand: "Electron",
+    name: "Reform 30 In-out TR",
+    code: "Reform 30 In-out TR",
+    subtitle: "",
+    description: ` 
+Reform 30 is a complete series of miniaturized downlights available recessed, trimless or surface.
+It is available in round form.
+Power consumption: 3 watt and 6 watt.
+Beam angle varies from 12 to 50 degrees.
+Accessories available: honeycomb.
+Luminaire material: aluminium construction/ PC parts.
+It is offered in white and/or black colour as standard but RAL colours also are available on request.
+Driver, Emergency kit, battery replacement accessibility of emergency kit should be considered as the kit does not pass through the Trimless luminaire cutout.
+3 SDCM
+L90/B10 50000h
+Low UGR ensuring visual comfort .(UGR<14 /black inner ring)
+Constant current 350mA @3W / 700mA @ 6.3W.
+`,
+    images: [import.meta.env.BASE_URL + "products/reform30tr_inout_site_m_copy.jpg",
+    ],
+    solutions: ["Trimless Downlights"],
+    specs: [
+      { label: "Model", value: "REFORM 30 IN-OUT Trimless (REFORM 30 IO TR)" },
+
+      // apar 4 variante de putere în tabel (în funcție de optică)
+      { label: "LED Power", value: "3W / 5.8W / 3W / 6.3W" },
+
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+
+      {
+        label: "LED Source",
+        value:
+          "12° — 3W: CRI80 310/310/330/360lm | CRI90 250/265/290/310lm; " +
+          "12° — 5.8W: CRI80 615/615/665/715lm | CRI90 500/530/575/615lm; " +
+          "28°/36°/50° — 3W: CRI80 396/396/428/428lm | CRI90 320/342/369/396lm; " +
+          "28°/36°/50° — 6.3W: CRI80 669/669/722/722lm | CRI90 540/577/623/669lm",
+      },
+
+      { label: "Type", value: "Adjustable" },
+      { label: "CRI", value: "80 / 90" },
+      { label: "Beam Angle", value: "12° / 28° / 36° / 50°" },
+
+      {
+        label: "Luminaire Colour",
+        value: "Base: White / Black • Spot: White / Black • Inner Ring: White / Black",
+      },
+
+      // în poză apare doar “Without Driver”
+      { label: "Dimming Option", value: "Without Driver" },
+
+      { label: "Accessories", value: "Standard / Honeycomb / Softening lens" },
+      { label: "Extras", value: "No Extras / Emergency" },
+    ],
+    dimensions: {
+      images: [import.meta.env.BASE_URL + "products/reform_30_in_out_tr_schema1.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "reform-52-tr",
+    brand: "Electron",
+    name: "Reform 52 TR",
+    code: "Reform 52 TR",
+    subtitle: "",
+    description: ` 
+Reform 52 is a complete series of downlights available recessed, trimless or surface.
+It is available in round form.
+Power consumption : 12watt and 8.2watt.
+Beam angle varies from 6 to 44 degrees.
+Accessories available: honeycomb, line spread lens or softening lens.
+Luminaire material: aluminium construction/ PC parts.
+It is offered in white and/or black colour as standard but RAL colours also are available on request.
+3 SDCM
+L90/B10 50000h
+Low UGR ensuring visual comfort (UGR<12 /black inner ring).
+`,
+    images: [import.meta.env.BASE_URL + "products/reform52tr_site_m_copy.jpg",
+    ],
+    solutions: ["Trimless Downlights"],
+    specs: [
+      { label: "Model", value: "REFORM 52 Trimless (REFORM 52 TR)" },
+
+      // în tabel sunt 2 variante de putere
+      { label: "LED Power", value: "8.2W / 12W" },
+
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+
+      {
+        label: "LED Source",
+        value:
+          "8.2W — CRI80: 779lm / 779lm / 841lm / 903lm | CRI90: 628lm / 673lm / 726lm / 779lm; " +
+          "12W — CRI80: 1590lm / 1710lm / 1830lm / 1710lm | CRI90: 1380lm / 1485lm / 1590lm / 1590lm",
+      },
+
+      { label: "Type", value: "Adjustable" },
+      { label: "CRI", value: "80 / 90" },
+
+      // unghiuri diferite pe fiecare putere
+      { label: "Beam Angle", value: "8.2W: 6° | 12W: 21° / 33° / 44°" },
+
+      {
+        label: "Luminaire Colour",
+        value: "Base: White / Black • Spot: White / Black • Inner Ring: White / Black",
+      },
+
+      {
+        label: "Dimming Option",
+        value:
+          "Without Driver / Non Dimmable / Analogue (1–10V) / DMX / DALI / Push Button / Phase Cut / Wireless",
+      },
+
+      {
+        label: "Accessories",
+        value: "Standard / Honeycomb / Line spread lens / Softening lens",
+      },
+
+      { label: "Extras", value: "No Extras / Emergency" },
+    ],
+    dimensions: {
+      images: [import.meta.env.BASE_URL + "products/reform52tr_site_m_copy.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "reform-52-in-out-tr",
+    brand: "Electron",
+    name: "Reform 52 In-out TR",
+    code: "Reform 52 In-out TR",
+    subtitle: "",
+    description: ` 
+Reform 52 is a complete series of downlights available recessed, trimless or surface.
+It is available in round form.
+Power consumption : 12watt and 8.2watt.
+Beam angle varies from 6 to 44 degrees.
+Accessories available: honeycomb, line spread lens or softening lens.
+Luminaire material: aluminium construction/ PC parts.
+It is offered in white and/or black colour as standard but RAL colours also are available on request.
+3 SDCM
+L90/B10 50000h
+Low UGR ensuring visual comfort (UGR<12 /black inner ring).
+`,
+    images: [import.meta.env.BASE_URL + "products/reform52tr_inout_site_m_copy.jpg",
+    ],
+    solutions: ["Trimless Downlights"],
+    specs: [
+      { label: "Model", value: "REFORM 52 IN-OUT Trimless (REFORM 52 IO TR)" },
+
+      // 2 variante de putere
+      { label: "LED Power", value: "8.2W / 12W" },
+
+      // în notă: 3500K & 6500K disponibile la cerere
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K (3500K & 6500K on request)" },
+
+      {
+        label: "LED Source",
+        value:
+          "8.2W — CRI80: 779lm / 779lm / 841lm / 903lm | CRI90: 628lm / 673lm / 726lm / 779lm; " +
+          "12W — CRI80: 1590lm / 1710lm / 1830lm / 1710lm | CRI90: 1380lm / 1485lm / 1590lm / 1590lm",
+      },
+
+      { label: "Type", value: "Adjustable" },
+      { label: "CRI", value: "80 / 90" },
+
+      // unghiuri diferite pe fiecare putere
+      { label: "Beam Angle", value: "8.2W: 6° | 12W: 21° / 33° / 44°" },
+
+      {
+        label: "Luminaire Colour",
+        value: "Base: White / Black • Spot: White / Black • Inner Ring: White / Black",
+      },
+
+      // în tabel aici apare doar “Without Driver”
+      { label: "Dimming Option", value: "Without Driver" },
+
+      { label: "Accessories", value: "Standard / Honeycomb / Line spread lens / Softening lens" },
+      { label: "Extras", value: "No Extras / Emergency" },
+    ],
+    dimensions: {
+      images: [import.meta.env.BASE_URL + "products/reform_52_in_out_tr_schema1.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "whisper-tr",
+    brand: "Electron",
+    name: "Whisper TR",
+    code: "Whisper TR",
+    subtitle: "",
+    description: ` 
+Whisper is a high aesthetically downlight.
+It is offered either recessed or trimless.
+It is available either round or square.
+WHISPER DEEP version is also available for GU10 LED lamps.
+Luminaire outer trim material: aluminium.
+3 SDCM
+L90/B10 50000h
+Low UGR ensuring visual comfort (UGR<15).
+Selection of IP protection: either IP20 or IP54 (face only).
+`,
+    images: [import.meta.env.BASE_URL + "products/WHISPER_TR.jpg",
+    ],
+    solutions: ["Trimless Downlights"],
+    specs: [
+      { label: "Model", value: "REFORM 52 IN-OUT Trimless (REFORM 52 IO TR)" },
+
+      // 2 variante de putere
+      { label: "LED Power", value: "8.2W / 12W" },
+
+      // în notă: 3500K & 6500K disponibile la cerere
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K (3500K & 6500K on request)" },
+
+      {
+        label: "LED Source",
+        value:
+          "8.2W — CRI80: 779lm / 779lm / 841lm / 903lm | CRI90: 628lm / 673lm / 726lm / 779lm; " +
+          "12W — CRI80: 1590lm / 1710lm / 1830lm / 1710lm | CRI90: 1380lm / 1485lm / 1590lm / 1590lm",
+      },
+
+      { label: "Type", value: "Adjustable" },
+      { label: "CRI", value: "80 / 90" },
+
+      // unghiuri diferite pe fiecare putere
+      { label: "Beam Angle", value: "8.2W: 6° | 12W: 21° / 33° / 44°" },
+
+      {
+        label: "Luminaire Colour",
+        value: "Base: White / Black • Spot: White / Black • Inner Ring: White / Black",
+      },
+
+      // în tabel aici apare doar “Without Driver”
+      { label: "Dimming Option", value: "Without Driver" },
+
+      { label: "Accessories", value: "Standard / Honeycomb / Line spread lens / Softening lens" },
+      { label: "Extras", value: "No Extras / Emergency" },
+    ],
+    dimensions: {
+      images: [import.meta.env.BASE_URL + "products/whisper_tr_schema1.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "crush-tr-round",
+    brand: "Electron",
+    name: "Crush TR Round",
+    code: "Crush TR Round",
+    subtitle: "",
+    description: ` 
+Crush is a downlight available either recessed or trimless.
+It is available in square form.
+Power consumption: varies from 6 to 18 watt.
+Beam angle: varies from 9 to 50 degrees.
+CRUSH is also available for GU10 LED lamps.
+Accessories available: honeycomb, linear spread lens, softening lens.
+Luminaire outer trim material: aluminium.
+Available in black or white as standard but custom colours also available upon request.
+3 SDCM
+L90/B10 50000h
+Low UGR ensuring visual comfort (UGR<15).
+Selection of IP protection: either IP20 or IP54 (face only).
+`,
+    images: [import.meta.env.BASE_URL + "products/crush_tr_rd.jpg",
+    ],
+    solutions: ["Trimless Downlights"],
+    specs: [
+      { label: "Model", value: "CRUSH TR (CRUSH TR) — Low Depth 7W (LD7)" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+      { label: "LED Source", value: "CRI80: 930 / 960 / 1020 / 1020 lm | CRI90: 762 / 792 / 840 / 840 lm" },
+      { label: "Beam Angle", value: "30°" },
+      { label: "Luminaire Colour", value: "Outer: White / Black • Inner Ring: White / Black" },
+      {
+        label: "Dimming Option",
+        value: "Without Driver / Non Dimmable / Analogue (1–10V) / DMX / DALI / Push Button / Phase Cut / Wireless",
+      },
+      { label: "Cover", value: "Standard / Honeycomb / Linear spread / Softening lens" },
+      { label: "IP Rate", value: "IP20 / IP54" },
+      { label: "Extras", value: "No Extras / Emergency Kit" },
+    ],
+    dimensions: {
+      images: [import.meta.env.BASE_URL + "products/683.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "crush-tr-square",
+    brand: "Electron",
+    name: "Crush TR Square",
+    code: "Crush TR Square",
+    subtitle: "",
+    description: ` 
+Crush is a downlight available either recessed or trimless.
+It is available in square form.
+Power consumption: varies from 6 to 18 watt.
+Beam angle: varies from 9 to 50 degrees.
+CRUSH is also available for GU10 LED lamps.
+Accessories available: honeycomb, linear spread lens, softening lens.
+Luminaire outer trim material: aluminium.
+Available in black or white as standard but custom colours also available upon request.
+3 SDCM
+L90/B10 50000h
+Low UGR ensuring visual comfort (UGR<15).
+Selection of IP protection: either IP20 or IP54 (face only).
+`,
+    images: [import.meta.env.BASE_URL + "products/CRUSH_TR.jpg",
+    ],
+    solutions: ["Trimless Downlights"],
+    specs: [
+      { label: "Model", value: "CRUSH TR (CRUSH TR) — Low Depth 7W (LD7)" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+      { label: "LED Source", value: "CRI80: 930 / 960 / 1020 / 1020 lm | CRI90: 762 / 792 / 840 / 840 lm" },
+      { label: "Beam Angle", value: "30°" },
+      { label: "Luminaire Colour", value: "Outer: White / Black • Inner Ring: White / Black" },
+      {
+        label: "Dimming Option",
+        value: "Without Driver / Non Dimmable / Analogue (1–10V) / DMX / DALI / Push Button / Phase Cut / Wireless",
+      },
+      { label: "Cover", value: "Standard / Honeycomb / Linear spread / Softening lens" },
+      { label: "IP Rate", value: "IP20 / IP54" },
+      { label: "Extras", value: "No Extras / Emergency Kit" },
+    ],
+    dimensions: {
+      images: [import.meta.env.BASE_URL + "products/crush_tr_dimensions.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "crush-tr-double",
+    brand: "Electron",
+    name: "Crush TR Double",
+    code: "Crush TR Double",
+    subtitle: "",
+    description: ` 
+Crush is a downlight available either recessed or trimless.
+It is available in square form.
+Power consumption: varies from 6 to 18 watt.
+Beam angle: varies from 9 to 50 degrees.
+CRUSH is also available for GU10 LED lamps.
+Accessories available: honeycomb, linear spread lens, softening lens.
+Luminaire outer trim material: aluminium.
+Available in black or white as standard but custom colours also available upon request.
+3 SDCM
+L90/B10 50000h
+Low UGR ensuring visual comfort (UGR<15).
+Selection of IP protection: either IP20 or IP54 (face only).
+`,
+    images: [import.meta.env.BASE_URL + "products/CRUSH_TR_DOUBLE.jpg",
+    ],
+    solutions: ["Trimless Downlights"],
+    specs: [
+      { label: "Model", value: "CRUSH TR (CRUSH TR) — Low Depth 7W (LD7)" },
+      { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+      { label: "LED Source", value: "CRI80: 930 / 960 / 1020 / 1020 lm | CRI90: 762 / 792 / 840 / 840 lm" },
+      { label: "Beam Angle", value: "30°" },
+      { label: "Luminaire Colour", value: "Outer: White / Black • Inner Ring: White / Black" },
+      {
+        label: "Dimming Option",
+        value: "Without Driver / Non Dimmable / Analogue (1–10V) / DMX / DALI / Push Button / Phase Cut / Wireless",
+      },
+      { label: "Cover", value: "Standard / Honeycomb / Linear spread / Softening lens" },
+      { label: "IP Rate", value: "IP20 / IP54" },
+      { label: "Extras", value: "No Extras / Emergency Kit" },
+    ],
+    dimensions: {
+      images: [import.meta.env.BASE_URL + "products/crush_tr_double_dimensions.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "polar-tr-7.5w",
+    brand: "Electron",
+    name: "Polar TR 7.5W",
+    code: "Polar TR 7.5W",
+    subtitle: "",
+    description: ` 
+Polar is a miniaturized downlight available either trimless or recessed.
+It is ideal in spaces with low depth ceiling due to its special design.
+It has a low UGR ensuring visual comfort (UGR<16).
+It is available in round (7.5W, 12W, 18W) or square (7.5W).
+Body material: aluminium.
+Trimless outer base: PC.
+3 SDCM
+L90/B10 50.000h
+Selection of IP protection: either IP40 or IP44.
+`,
+    images: [import.meta.env.BASE_URL + "products/684_8.2w_polar_tr_1.jpg",
+    ],
+    solutions: ["Trimless Downlights"],
 specs: [
-  { label: "Model", value: "NANO LINEAR SPOT (NANO LS)" },
+  { label: "Model", value: "POLAR Trimless (POLAR TR)" },
 
-  // sunt 2 variante de putere în tabel
-  { label: "Watt", value: "4.8W / 9.6W" },
+  // apar 3 variante de putere
+  { label: "LED Power", value: "7.5W / 12W / 18W" },
 
-  { label: "CCT", value: "2700K / 3000K / 4000K / 5000K" },
+  // pentru 7.5W există 2 forme + IP diferit
+  { label: "Type", value: "Round / Square" },
+  { label: "IP Protection", value: "Round: IP40 • Square: IP44" },
 
-  // în poză apare doar CRI90
+  { label: "CCT", value: "7.5W: 2700K / 3000K / 3500K / 4000K / 5000K • 12W/18W: 2700K / 3000K / 4000K / 5000K" },
+
   {
     label: "LED Source",
     value:
-      "4.8W — CRI90: 460lm / 460lm / 470lm / 480lm; " +
-      "9.6W — CRI90: 920lm / 920lm / 960lm / 970lm",
+      "7.5W — CRI80: 792/792/855/855/918lm | CRI90: 639/684/684/738/792lm; " +
+      "12W — CRI80: 1590/1710/1830/1710lm | CRI90: 1380/1485/1590/1590lm; " +
+      "18W — CRI80: 2065/2225/2380/2225lm | CRI90: 1795/1930/2065/2065lm",
+  },
+
+  // în tabel: 7.5W are 12/16/20/30/44, iar 12W are 18/30/50 (18W pare să continue aceeași optică)
+  { label: "Beam Angle", value: "7.5W: 12° / 16° / 20° / 30° / 44° • 12W/18W: 18° / 30° / 50°" },
+
+  // tipul optic e Fixed
+  { label: "Optic", value: "Fixed" },
+
+  { label: "Colour", value: "White / Black" },
+
+  {
+    label: "Dimming Option",
+    value:
+      "7.5W: Without Driver / Non Dimmable / Phase Cut / 24V PWM Dimmable / 48V PWM Dimmable • " +
+      "12W/18W: Without Driver / Non Dimmable / Push Button / 48V PWM Dimmable",
+  },
+
+  // în dreapta la 12W apar explicit extras
+  { label: "Extras", value: "Standard / Honeycomb" },
+],
+    dimensions: {
+      images: [import.meta.env.BASE_URL + "products/685sx.jpg"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "polar-tr-12w",
+    brand: "Electron",
+    name: "Polar TR 12W",
+    code: "Polar TR 12W",
+    subtitle: "",
+    description: ` 
+Polar is a miniaturized downlight available either trimless or recessed.
+It is ideal in spaces with low depth ceiling due to its special design.
+It has a low UGR ensuring visual comfort (UGR<16).
+It is available in round (7.5W, 12W, 18W) or square (7.5W).
+Body material: aluminium.
+Trimless outer base: PC.
+3 SDCM
+L90/B10 50.000h
+Selection of IP protection: either IP40 or IP44.
+`,
+    images: [import.meta.env.BASE_URL + "products/684_12w_polar_tr.jpg",
+    ],
+    solutions: ["Trimless Downlights"],
+specs: [
+  { label: "Model", value: "POLAR Trimless (POLAR TR)" },
+
+  // apar 3 variante de putere
+  { label: "LED Power", value: "7.5W / 12W / 18W" },
+
+  // pentru 7.5W există 2 forme + IP diferit
+  { label: "Type", value: "Round / Square" },
+  { label: "IP Protection", value: "Round: IP40 • Square: IP44" },
+
+  { label: "CCT", value: "7.5W: 2700K / 3000K / 3500K / 4000K / 5000K • 12W/18W: 2700K / 3000K / 4000K / 5000K" },
+
+  {
+    label: "LED Source",
+    value:
+      "7.5W — CRI80: 792/792/855/855/918lm | CRI90: 639/684/684/738/792lm; " +
+      "12W — CRI80: 1590/1710/1830/1710lm | CRI90: 1380/1485/1590/1590lm; " +
+      "18W — CRI80: 2065/2225/2380/2225lm | CRI90: 1795/1930/2065/2065lm",
+  },
+
+  // în tabel: 7.5W are 12/16/20/30/44, iar 12W are 18/30/50 (18W pare să continue aceeași optică)
+  { label: "Beam Angle", value: "7.5W: 12° / 16° / 20° / 30° / 44° • 12W/18W: 18° / 30° / 50°" },
+
+  // tipul optic e Fixed
+  { label: "Optic", value: "Fixed" },
+
+  { label: "Colour", value: "White / Black" },
+
+  {
+    label: "Dimming Option",
+    value:
+      "7.5W: Without Driver / Non Dimmable / Phase Cut / 24V PWM Dimmable / 48V PWM Dimmable • " +
+      "12W/18W: Without Driver / Non Dimmable / Push Button / 48V PWM Dimmable",
+  },
+
+  // în dreapta la 12W apar explicit extras
+  { label: "Extras", value: "Standard / Honeycomb" },
+],
+    dimensions: {
+      images: [import.meta.env.BASE_URL + "products/685sx12_2.png"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "polar-tr-18w",
+    brand: "Electron",
+    name: "Polar TR 18W",
+    code: "Polar TR 18W",
+    subtitle: "",
+    description: ` 
+Polar is a miniaturized downlight available either trimless or recessed.
+It is ideal in spaces with low depth ceiling due to its special design.
+It has a low UGR ensuring visual comfort (UGR<16).
+It is available in round (7.5W, 12W, 18W) or square (7.5W).
+Body material: aluminium.
+Trimless outer base: PC.
+3 SDCM
+L90/B10 50.000h
+Selection of IP protection: either IP40 or IP44.
+`,
+    images: [import.meta.env.BASE_URL + "products/684_18w_polar_tr.jpg",
+    ],
+    solutions: ["Trimless Downlights"],
+specs: [
+  { label: "Model", value: "POLAR Trimless (POLAR TR)" },
+
+  // apar 3 variante de putere
+  { label: "LED Power", value: "7.5W / 12W / 18W" },
+
+  // pentru 7.5W există 2 forme + IP diferit
+  { label: "Type", value: "Round / Square" },
+  { label: "IP Protection", value: "Round: IP40 • Square: IP44" },
+
+  { label: "CCT", value: "7.5W: 2700K / 3000K / 3500K / 4000K / 5000K • 12W/18W: 2700K / 3000K / 4000K / 5000K" },
+
+  {
+    label: "LED Source",
+    value:
+      "7.5W — CRI80: 792/792/855/855/918lm | CRI90: 639/684/684/738/792lm; " +
+      "12W — CRI80: 1590/1710/1830/1710lm | CRI90: 1380/1485/1590/1590lm; " +
+      "18W — CRI80: 2065/2225/2380/2225lm | CRI90: 1795/1930/2065/2065lm",
+  },
+
+  // în tabel: 7.5W are 12/16/20/30/44, iar 12W are 18/30/50 (18W pare să continue aceeași optică)
+  { label: "Beam Angle", value: "7.5W: 12° / 16° / 20° / 30° / 44° • 12W/18W: 18° / 30° / 50°" },
+
+  // tipul optic e Fixed
+  { label: "Optic", value: "Fixed" },
+
+  { label: "Colour", value: "White / Black" },
+
+  {
+    label: "Dimming Option",
+    value:
+      "7.5W: Without Driver / Non Dimmable / Phase Cut / 24V PWM Dimmable / 48V PWM Dimmable • " +
+      "12W/18W: Without Driver / Non Dimmable / Push Button / 48V PWM Dimmable",
+  },
+
+  // în dreapta la 12W apar explicit extras
+  { label: "Extras", value: "Standard / Honeycomb" },
+],
+    dimensions: {
+      images: [import.meta.env.BASE_URL + "products/685sx18_1.png"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
+    documents: [
+      { label: "Catalog (PDF)", type: "catalog", url: "#" },
+      { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
+      { label: "BIM (ZIP)", type: "bim", url: "#" },
+      { label: "CAD (DWG)", type: "cad", url: "#" },
+    ],
+  },
+  {
+    id: "limit-4.7w-tr",
+    brand: "Electron",
+    name: "Limit 4.7W TR",
+    code: "IP67-IP66",
+    subtitle: "",
+    description: ` 
+LIMIT 67/66 is an elegant waterproof 'rimless or recessed downlight available in 3 different sizes.
+Most models may also be 9/12mm lowered from the ceiling offering a special note to any space.
+The series offers low UGR ensuring visual comfort.
+Available in either black or white colour.
+It offers a selection of dimming options.
+3 SDCM
+L90/B10 50.000h 
+IP Protection: IP67/IP66
+`,
+    images: [import.meta.env.BASE_URL + "products/688f.jpg",
+    ],
+    solutions: ["Trimless Downlights"],
+specs: [
+  { label: "Model", value: "LIMIT TR (LIMIT TR)" },
+
+  // toate variantele din tabel
+  { label: "LED Power", value: "4.7W / 6.4W / 8.8W / 12.8W / 17W" },
+
+  // CCT (4.7W are până la 4000K în tabel, restul au până la 5000K)
+  { label: "CCT", value: "4.7W: 2700K / 3000K / 4000K • 6.4W/8.8W/12.8W/17W: 2700K / 3000K / 4000K / 5000K" },
+
+  {
+    label: "LED Source",
+    value:
+      "4.7W — CRI80: 480/510/525lm | CRI90: 395/415/435lm; " +
+      "6.4W — CRI80: 793/843/867/878lm | CRI90: 655/684/724/759lm; " +
+      "8.8W — CRI80: 1204/1279/1316/1331lm | CRI90: 993/1038/1098/1151lm; " +
+      "12.8W — CRI80: 1678/1783/1835/1857lm | CRI90: 1384/1447/1531/1605lm; " +
+      "17W — CRI80: 2525/2680/2760/2790lm | CRI90: 2080/2180/2300/2415lm",
   },
 
   { label: "Type", value: "Fixed" },
-  { label: "CRI", value: "90" },
-  { label: "Beam Angle", value: "33°" },
+  { label: "CRI", value: "80 / 90" },
+
+  // unghiuri diferite în funcție de putere
+  {
+    label: "Beam Angle",
+    value:
+      "4.7W: 18° / 24° / 30° / 38° • " +
+      "6.4W: 24° / 36° / 48° • " +
+      "8.8W: 17° / 24° / 36° / 60°",
+  },
+
   { label: "Colour", value: "White / Black" },
-  { label: "Dimming Option", value: "48V PWM Dimmable" },
+
+  // 4.7W are doar Without Driver (cu notă **)
+  {
+    label: "Dimming Option",
+    value:
+      "4.7W: Without Driver • " +
+      "6.4W/8.8W/12.8W/17W: Without Driver / Non Dimmable / Analogue (1–10V) / DMX / DALI / Push Button / Phase Cut / Wireless",
+  },
+
+  // în coloana de Accessories din dreapta sus (pentru 4.7W) apar acestea
+  { label: "Accessories", value: "No Extras / Emergency / Honeycomb" },
 ],
     dimensions: {
-    images:  [import.meta.env.BASE_URL + "products/433sx_nano_linearspot5w_linearspot10w_1.jpg"],
-  text: "Dimensiunile exacte diferă în funcție de variantă.",
-},
+      images: [import.meta.env.BASE_URL + "products/690sx.png"],
+      text: "Dimensiunile exacte diferă în funcție de variantă.",
+    },
     documents: [
       { label: "Catalog (PDF)", type: "catalog", url: "#" },
       { label: "Fișă tehnică (PDF)", type: "datasheet", url: "#" },
