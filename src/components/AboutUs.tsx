@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { GlowSweep, Beam } from "./Hero"; // importă componentele din Hero
-import AboutImage from "../assets/About.webp";
+import AboutImage from "../assets/About.jpeg";
 export default function AboutUs() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
