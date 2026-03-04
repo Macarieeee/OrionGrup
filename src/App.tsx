@@ -11,7 +11,9 @@ import Shop from "./pages/Shop";
 import Proiect1 from "./pages/Proiecte/Proiect1";
 import Proiect2 from "./pages/Proiecte/Proiect2";
 import ProductPage from "./pages/ProductPage";
-import ScrollToTop from "./components/ScrollToTop";
+import ScrollRestoration from "./components/ScrollRestoration";
+import Admin from "./pages/admin/Admin";
+import AdminResetPassword from "./pages/admin/AdminResetPassword";
 
 export default function App() {
   return (
@@ -20,8 +22,10 @@ export default function App() {
 
       {/* padding-top pentru navbar fixed */}
       <main className="w-full overflow-x-hidden" style={{ minHeight: "100svh" }}>
-        <ScrollToTop />
+        <ScrollRestoration />
         <Routes>
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/reset" element={<AdminResetPassword />} />
           <Route path="/" element={<Index />} />
           <Route path="/portofoliu" element={<Portofoliu />} />
           <Route path="/despre" element={<DespreNoi />} />

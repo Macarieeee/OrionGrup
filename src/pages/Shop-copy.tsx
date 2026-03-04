@@ -1,8 +1,20 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePreloadImages } from "../hooks/usePreloadImages";
-import { supabase } from "../lib/supabaseClient";
-import type { Solution } from "../data/shopCatalog";
+
+import {
+  SHOP_CATEGORIES,
+  SHOP_PRODUCTS,
+  ALL_SOLUTIONS,
+  type Solution,
+} from "../data/shopCatalog";
+
+/**
+ * Notă:
+ * - păstrez layout-ul 1:1 cu Shop.tsx-ul tău vechi
+ * - doar sursa datelor e mutată în /data
+ * - cardurile sunt clickable (navigate -> /shop/:productId)
+ */
 
 type CategoryTile = {
   id: string;
@@ -14,116 +26,45 @@ type ProductCardVM = {
   id: string; // folosit în URL
   brand: string;
   name: string;
-  subtitle?: string | null;
+  subtitle?: string;
   imageUrl: string;
   solutions: Solution[];
 };
 
 export default function Shop() {
-    const openProduct = (id: string) => {
-  sessionStorage.setItem("shop_scroll_y", String(window.scrollY));
-  navigate(`/shop/${id}`);
-};
   const navigate = useNavigate();
 
-  const [tiles, setTiles] = useState<CategoryTile[]>([]);
-  const [products, setProducts] = useState<ProductCardVM[]>([]);
-  const [allSolutions, setAllSolutions] = useState<Solution[]>([]);
-  const [loadingData, setLoadingData] = useState(true);
-  const [loadError, setLoadError] = useState<string | null>(null);
+  // --- top tiles (grid ca în poza 1) - acum din data
+  const tiles: CategoryTile[] = useMemo(() => {
+    // SHOP_CATEGORIES are exact fields: id, label, imageUrl
+    return SHOP_CATEGORIES.map((t) => ({
+      id: t.id,
+      label: t.label,
+      imageUrl: t.imageUrl,
+    }));
+  }, []);
 
-  // ✅ Fetch from Supabase (categories + products)
-  useEffect(() => {
-    let alive = true;
-
-    (async () => {
-      setLoadingData(true);
-      setLoadError(null);
-
-      const [{ data: catData, error: catErr }, { data: prodData, error: prodErr }] =
-        await Promise.all([
-          supabase
-            .from("shop_categories")
-            .select("id,label,image_url")
-            .order("label", { ascending: true }),
-          supabase
-            .from("shop_products")
-            .select("id,brand,name,subtitle,images,solutions")
-            .order("name", { ascending: true }),
-        ]);
-
-      if (!alive) return;
-
-      if (catErr) {
-        setLoadError(catErr.message);
-        setLoadingData(false);
-        return;
-      }
-
-      if (prodErr) {
-        setLoadError(prodErr.message);
-        setLoadingData(false);
-        return;
-      }
-
-      const nextTiles: CategoryTile[] = (catData ?? []).map((c: any) => ({
-        id: c.id,
-        label: c.label,
-        imageUrl: c.image_url,
-      }));
-
-      const nextProducts: ProductCardVM[] = (prodData ?? []).map((p: any) => ({
-        id: p.id,
-        brand: p.brand,
-        name: p.name,
-        subtitle: p.subtitle ?? null,
-        imageUrl: p.images?.[0] ?? "",
-        solutions: p.solutions ?? [],
-      }));
-
-      const nextAllSolutions = Array.from(
-        new Set([
-          ...nextTiles.map((t) => t.label),
-          ...nextProducts.flatMap((p) => p.solutions ?? []),
-        ])
-      ).sort((a, b) => a.localeCompare(b));
-
-      setTiles(nextTiles);
-      setProducts(nextProducts);
-      setAllSolutions(nextAllSolutions);
-      setLoadingData(false);
-    })();
-
-    return () => {
-      alive = false;
-    };
+  // --- products (mock ca în poza 2) - acum din data
+  const products: ProductCardVM[] = useMemo(() => {
+    return SHOP_PRODUCTS.map((p) => ({
+      id: p.id,
+      brand: p.brand,
+      name: p.name,
+      subtitle: p.subtitle,
+      imageUrl: p.images?.[0] ?? "",
+      solutions: p.solutions,
+    }));
   }, []);
 
   // ✅ preload all images (tiles + products) BEFORE rendering page
   const allImageUrls = useMemo(() => {
-    const tileUrls = tiles.map((t) => t.imageUrl).filter(Boolean);
+    const tileUrls = tiles.map((t) => t.imageUrl);
     const productUrls = products.map((p) => p.imageUrl).filter(Boolean);
     return [...tileUrls, ...productUrls];
   }, [tiles, products]);
 
   const { ready } = usePreloadImages(allImageUrls, { timeoutMs: 9000 });
-useEffect(() => {
-  // restaurăm doar când chiar avem conținut randat
-  if (loadingData) return;
-  if (!ready) return;
 
-  const raw = sessionStorage.getItem("shop_scroll_y");
-  if (!raw) return;
-
-  const y = Number(raw);
-  if (!Number.isFinite(y)) return;
-
-  // ștergem ca să nu “forțeze” scroll de fiecare dată
-  sessionStorage.removeItem("shop_scroll_y");
-
-  // rAF ca să fie sigur după paint
-  requestAnimationFrame(() => window.scrollTo(0, y));
-}, [loadingData, ready]);
   // selected filter (Solutions)
   const [selectedSolutions, setSelectedSolutions] = useState<Solution[]>([]);
   const [layout, setLayout] = useState<"grid" | "list">("grid");
@@ -131,7 +72,7 @@ useEffect(() => {
   const filteredProducts = useMemo(() => {
     if (selectedSolutions.length === 0) return products;
     return products.filter((p) =>
-      selectedSolutions.some((s) => (p.solutions ?? []).includes(s))
+      selectedSolutions.some((s) => p.solutions.includes(s))
     );
   }, [products, selectedSolutions]);
 
@@ -146,14 +87,13 @@ useEffect(() => {
   const watchingLabel =
     selectedSolutions.length === 0 ? "All products" : selectedSolutions.join(", ");
 
-  // ✅ block render until data is loaded AND images are loaded (or timeout)
-  if (loadingData || !ready) {
+  // ✅ block render until images are loaded (or timeout)
+  if (!ready) {
     return (
       <main className="min-h-screen pt-[var(--nav-h)] grid place-items-center">
         <div className="flex flex-col items-center gap-3 text-white/80">
           <div className="h-10 w-10 rounded-full border border-white/20 border-t-white/80 animate-spin" />
           <div className="text-sm tracking-wide">Loading shop…</div>
-          {loadError ? <div className="mt-2 text-sm text-red-400">{loadError}</div> : null}
         </div>
       </main>
     );
@@ -251,7 +191,6 @@ useEffect(() => {
                     onClick={clearAll}
                     className="text-white/60 hover:text-white transition text-sm"
                     title="Clear all"
-                    type="button"
                   >
                     ✕
                   </button>
@@ -275,7 +214,7 @@ useEffect(() => {
             <div className="mt-8 text-lg font-semibold">Solutions</div>
 
             <div className="mt-4 space-y-3">
-              {allSolutions.map((s) => {
+              {ALL_SOLUTIONS.map((s) => {
                 const checked = selectedSolutions.includes(s);
                 return (
                   <label
@@ -370,7 +309,7 @@ useEffect(() => {
                     <ProductCard
                       key={p.id}
                       p={p}
-                      onOpen={() => openProduct(p.id)}
+                      onOpen={() => navigate(`/shop/${p.id}`)}
                     />
                   ))}
                 </div>
@@ -380,7 +319,7 @@ useEffect(() => {
                     <ProductRow
                       key={p.id}
                       p={p}
-                      onOpen={() => openProduct(p.id)}
+                      onOpen={() => navigate(`/shop/${p.id}`)}
                     />
                   ))}
                 </div>
@@ -395,9 +334,19 @@ useEffect(() => {
 
 /* -------------------- Small UI components -------------------- */
 
-function ProductCard({ p, onOpen }: { p: ProductCardVM; onOpen: () => void }) {
+function ProductCard({
+  p,
+  onOpen,
+}: {
+  p: ProductCardVM;
+  onOpen: () => void;
+}) {
   return (
-    <button type="button" onClick={onOpen} className="group text-left">
+    <button
+      type="button"
+      onClick={onOpen}
+      className="group text-left"
+    >
       <div className="relative aspect-square overflow-hidden rounded-3xl border border-white/10">
         {p.imageUrl ? (
           <img
@@ -418,7 +367,7 @@ function ProductCard({ p, onOpen }: { p: ProductCardVM; onOpen: () => void }) {
           title="Save"
           type="button"
           onClick={(e) => {
-            e.stopPropagation();
+            e.stopPropagation(); // IMPORTANT: să nu navigheze când apeși inimioara
           }}
         >
           <HeartIcon />
@@ -434,7 +383,13 @@ function ProductCard({ p, onOpen }: { p: ProductCardVM; onOpen: () => void }) {
   );
 }
 
-function ProductRow({ p, onOpen }: { p: ProductCardVM; onOpen: () => void }) {
+function ProductRow({
+  p,
+  onOpen,
+}: {
+  p: ProductCardVM;
+  onOpen: () => void;
+}) {
   return (
     <button
       type="button"
@@ -443,7 +398,11 @@ function ProductRow({ p, onOpen }: { p: ProductCardVM; onOpen: () => void }) {
     >
       <div className="relative h-20 w-20 overflow-hidden rounded-xl border border-white/10">
         {p.imageUrl ? (
-          <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover" />
+          <img
+            src={p.imageUrl}
+            alt={p.name}
+            className="h-full w-full object-cover"
+          />
         ) : (
           <div className="h-full w-full grid place-items-center text-white/40">
             No image
@@ -465,7 +424,7 @@ function ProductRow({ p, onOpen }: { p: ProductCardVM; onOpen: () => void }) {
         title="Save"
         type="button"
         onClick={(e) => {
-          e.stopPropagation();
+          e.stopPropagation(); // IMPORTANT: să nu navigheze când apeși inimioara
         }}
       >
         <HeartIcon />
