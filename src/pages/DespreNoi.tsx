@@ -1,8 +1,11 @@
-import Img1 from "../assets/P3.webp";
-import Img2 from "../assets/P2.webp";
-import Img3 from "../assets/P1.webp";
-import Img4 from "../assets/P4.webp";
-import Img5 from "../assets/P7.webp";
+import Img1 from "../assets/About2.jpeg";
+import Img2 from "../assets/About3.jpeg";
+import Img3 from "../assets/About4.jpeg";
+import Img4 from "../assets/About5.jpeg";
+import Img5 from "../assets/About.jpeg";
+import Img6 from "../assets/About6.jpeg";
+import Img7 from "../assets/about7.jpeg"
+import video from "../assets/AboutVideo.mp4"
 import { Lightbulb } from "lucide-react";
 
 export default function DespreNoi() {
@@ -92,12 +95,7 @@ export default function DespreNoi() {
             </h1>
 
             <p className="mt-8 text-white/70 text-lg leading-relaxed max-w-xl">
-              Discuții preliminare foarte detaliate despre proiectul de arhitectură
-              sau amenajare interioară, cu beneficiarul și arhitectul sau designerul
-              de interior, acolo unde e cazul. Această etapă poate dura zile sau chiar
-              săptămâni întregi, deoarece sunt sute de detalii de discutat: câtă lumină
-              este necesară pentru fiecare zonă în parte? Ce tip de soluții de iluminat
-              se potrivesc cel mai bine? Unde punem transformatorul? Și multe altele.
+              După înțelegerea în profunzime a temei și a cerințelor proiectului, realizăm o selecție riguroasă a soluțiilor de iluminat, propunând exclusiv acele opțiuni care răspund cu adevărat conceptului, exigențelor estetice și bugetului disponibil. Nu mizăm pe liste ample de produse lăsate ulterior spre filtrare, ci pe recomandări curate, argumentate și atent calibrate, menite să aducă valoare reală proiectului. În această etapă, prioritatea noastră nu este volumul, ci contribuția autentică la reușita întregii lucrări, prin soluții premium, relevante și impecabil integrate.
             </p>
           </div>
 
@@ -137,7 +135,7 @@ export default function DespreNoi() {
     <div className="flex justify-start">
       <div className="w-full max-w-[520px] h-[520px] rounded-3xl overflow-hidden">
         <img
-          src={Img4}
+          src={Img6}
           alt=""
           className="w-full h-full object-cover"
         />
@@ -151,11 +149,7 @@ export default function DespreNoi() {
       </h2>
 
       <p className="mt-8 text-white/70 text-lg leading-relaxed max-w-xl">
-        În această etapă definim conceptul de iluminat și atmosfera dorită, ținând
-        cont de funcționalitate, arhitectură și identitatea spațiului. Alegem
-        corpurile de iluminat, temperaturile de culoare și scenariile de lumină
-        potrivite fiecărei zone, astfel încât rezultatul final să fie coerent,
-        eficient și estetic.
+        Etapa preliminară presupune o serie de consultări aprofundate privind proiectul de arhitectură sau de amenajare interioară, desfășurate alături de beneficiar și, acolo unde este necesar, împreună cu arhitectul sau designerul de interior. Este un proces complex, care se poate întinde pe parcursul mai multor zile sau chiar săptămâni, tocmai datorită atenției acordate fiecărui detaliu: de la stabilirea atmosferei luminoase ideale pentru fiecare spațiu, până la selecția soluțiilor de iluminat, integrarea elementelor tehnice și armonizarea perfectă a funcționalității cu estetica proiectului.
       </p>
     </div>
 
@@ -173,11 +167,7 @@ export default function DespreNoi() {
       </h2>
 
       <p className="mt-8 text-white/70 text-lg leading-relaxed max-w-xl">
-        După stabilirea conceptului, urmează etapa de implementare, în care soluțiile
-        de iluminat sunt puse în practică cu atenție la detalii și respectarea
-        specificațiilor tehnice. Coordonăm echipele implicate și ne asigurăm că fiecare
-        element este montat corect, astfel încât rezultatul final să respecte
-        întocmai viziunea inițială.
+        Relația cu noi continuă dincolo de momentul achiziției, printr-un proces de asistență post-vânzare atent susținut și prin implicare activă în etapa de implementare și montaj. Ne asigurăm că fiecare soluție este pusă în operă corect, în acord cu standardele tehnice și estetice ale proiectului, deoarece execuția influențează decisiv rezultatul final. Având în vedere gradul ridicat de complexitate al soluțiilor de ultimă generație din portofoliul nostru, expertiza și prezența noastră în această etapă devin esențiale pentru o integrare impecabilă și pentru obținerea efectului dorit.
       </p>
     </div>
 
@@ -185,7 +175,7 @@ export default function DespreNoi() {
     <div className="flex justify-end">
       <div className="w-full max-w-[520px] h-[520px] rounded-3xl overflow-hidden">
         <img
-          src={Img5}
+          src={Img7}
           alt=""
           className="w-full h-full object-cover"
         />

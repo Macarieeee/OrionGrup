@@ -53,7 +53,7 @@ export default function App() {
         imageUrl:
           P3,
         numberLabel: "03",
-        slug: "/proiecte/orion-grup",
+        slug: "/proiect3",
       },
       {
         id: "p4",
@@ -63,7 +63,7 @@ export default function App() {
         imageUrl:
           P4,
         numberLabel: "04",
-        slug: "/proiecte/orion-grup",
+        slug: "/proiect4",
       },
       {
         id: "p5",
@@ -73,7 +73,7 @@ export default function App() {
         imageUrl:
           P5,
         numberLabel: "05",
-        slug: "/proiecte/orion-grup",
+        slug: "/proiect5",
       },
       {
         id: "p6",
@@ -83,7 +83,7 @@ export default function App() {
         imageUrl:
           P6,
         numberLabel: "06",
-        slug: "/proiecte/orion-grup",
+        slug: "/proiect6",
       },
       {
         id: "p7",
@@ -93,7 +93,7 @@ export default function App() {
         imageUrl:
           P7,
         numberLabel: "07",
-        slug: "/proiecte/orion-grup",
+        slug: "/proiect7",
       },
       {
         id: "p8",
@@ -103,7 +103,7 @@ export default function App() {
         imageUrl:
           P8,
         numberLabel: "08",
-        slug: "/proiecte/orion-grup",
+        slug: "/proiect8",
       },
     ],
     []

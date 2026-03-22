@@ -1,4 +1,4 @@
-import { Lightbulb } from "lucide-react";
+import { House } from "lucide-react";
 // import imaginile tale:
 import Img1 from "../../assets/IasiOutdoor1.jpeg";
 import Img2 from "../../assets/IasiOutdoor2.jpeg";
@@ -37,8 +37,8 @@ export default function Proiect1() {
           {/* HEADER (centru) */}
           <div className="flex flex-col items-center text-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/70">
-              <Lightbulb className="h-5 w-5 text-primary-500" strokeWidth={2} />
-              Outdoor Lighting
+              <House className="h-5 w-5 text-primary-500" strokeWidth={2} />
+              Iluminat fațade
             </div>
 
             <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-white">
@@ -106,8 +106,7 @@ export default function Proiect1() {
 <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center max-w-5xl text-left">
   {/* TEXT – stânga */}
   <p className="text-white/70 text-base leading-relaxed">
-    Descrierea proiectului 1. Acesta este un exemplu de proiect realizat de compania
-    noastră, evidențiind soluțiile noastre de iluminat excepționale și designul inovator.
+    Acest proiect evidențiază puterea iluminatului de a transforma complet percepția unui spațiu exterior, punând în valoare arhitectura, traseele de acces și elementele naturale din jur. Printr-o intervenție atent gândită, vechiul ambient este redefinit într-o compoziție luminoasă echilibrată, caldă și rafinată. Noul sistem de iluminat adaugă profunzime, siguranță și personalitate, creând o atmosferă primitoare și sofisticată, în care estetica și funcționalitatea se completează armonios.
   </p>
 
   {/* BEFORE / AFTER – dreapta */}
@@ -129,7 +128,7 @@ export default function Proiect1() {
           style={{ height: `calc(100vh - ${0}px)`, paddingTop: NAVBAR_H }}
         >
           {/* HEADER (centru) */}
-          <div className="flex flex-col items-center text-center">
+          {/* <div className="flex flex-col items-center text-center">
             <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-white">
               De pe santier la realitate
             </h1>
@@ -138,7 +137,7 @@ export default function Proiect1() {
               Descrierea proiectului 1. Acesta este un exemplu de proiect realizat de compania
               noastră, evidențiind soluțiile noastre de iluminat excepționale și designul inovator.
             </p>
-          </div>
+          </div> */}
 
 {/* SPAȚIUL RĂMAS: GRID 2 RÂNDURI FIXE */}
 <div className="mt-10 flex-1">

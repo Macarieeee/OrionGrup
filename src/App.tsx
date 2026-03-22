@@ -10,6 +10,7 @@ import DespreNoi from "./pages/DespreNoi";
 import Shop from "./pages/Shop";
 import Proiect1 from "./pages/Proiecte/Proiect1";
 import Proiect2 from "./pages/Proiecte/Proiect2";
+import Proiect3 from "./pages/Proiecte/Proiect3";
 import ProductPage from "./pages/ProductPage";
 import ScrollRestoration from "./components/ScrollRestoration";
 import Admin from "./pages/admin/Admin";
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/despre" element={<DespreNoi />} />
           <Route path="/proiect1" element={<Proiect1 />} />
           <Route path="/proiect2" element={<Proiect2 />} />
+          <Route path="/proiect3" element={<Proiect3 />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/shop/:productId" element={<ProductPage />} />
         </Routes>

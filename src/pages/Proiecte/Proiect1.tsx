@@ -1,9 +1,9 @@
-import { Lightbulb } from "lucide-react";
+import { Landmark } from "lucide-react";
 // import imaginile tale:
 import Img1 from "../../assets/BibliotecaCentrala1.webp";
 import Img2 from "../../assets/BibliotecaCentrala2.webp";
-import Img3 from "../../assets/BibliotecaCentrala3.jpeg";
-import Img4 from "../../assets/BibliotecaCentrala4.webp";
+import Img4 from "../../assets/BibliotecaCentrala3.jpeg";
+import Img3 from "../../assets/BibliotecaCentrala4.webp";
 import Img5 from "../../assets/BibliotecaCentrala5.jpeg";
 import Img6 from "../../assets/BibliotecaCentrala6.jpg";
 import Img7 from "../../assets/BibliotecaCentrala7.jpg";
@@ -45,17 +45,16 @@ export default function Proiect1() {
           {/* HEADER (centru) */}
           <div className="flex flex-col items-center text-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/70">
-              <Lightbulb className="h-5 w-5 text-primary-500" strokeWidth={2} />
+              <Landmark className="h-5 w-5 text-primary-500" strokeWidth={2} />
               Indoor Lighting
             </div>
 
             <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-white">
-              Titlu Proiect 1
+              Biblioteza Centrală Universitară
             </h1>
 
             <p className="mt-4 max-w-2xl text-white/70">
-              Descrierea proiectului 1. Acesta este un exemplu de proiect realizat de compania
-              noastră, evidențiind soluțiile noastre de iluminat excepționale și designul inovator.
+              Un proiect de iluminat interior conceput pentru a sublinia noblețea arhitecturii clasice, prin corpuri decorative ce amplifică eleganța spațiului, rafinamentul detaliilor și atmosfera exclusivistă, într-un echilibru perfect între lumină, stil și armonie.
             </p>
           </div>
 
