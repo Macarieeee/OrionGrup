@@ -4,6 +4,8 @@ import { GlowSweep, Beam } from "./Hero";
 import Portfolio1 from "../assets/videoilluminazionepolittico_corta.gif";
 import Portfolio2 from "../assets/IasiOutdoor.jpeg";
 import Portfolio3 from "../assets/new-loft.jpg";
+import Portfolio4 from "../assets/OfficeProject.jpeg";
+import Portfolio5 from "../assets/PenthousePrimaverii.jpeg";
 type CardData = {
   id: string;
   title: string;
@@ -34,16 +36,16 @@ const cards: CardData[] = [
   },
   {
     id: "4",
-    title: "Monarch Mansion Galați",
-    text: "Proiectul a pus accent pe conturarea volumelor și evidențierea elementelor decorative printr-un sistem de iluminat arhitectural atent poziționat. Rezultatul este o fațadă care capătă profunzime și personalitate.",
-    image: Portfolio2,
+    title: "Twin Towers City Gate",
+    text: "Acest proiect evidențiază integrarea unui sistem de iluminat arhitectural modern într-un spațiu de office/recepție, bazat pe linii LED geometrice care accentuează structura și creează un efect vizual sofisticat.",
+    image: Portfolio4,
     reverse: true,
   },
   {
     id: "5",
-    title: "Loft Lounge",
-    text: "Iluminarea Loft Lounge a fost gândită pentru a susține identitatea exclusivistă a locației, printr-un joc subtil de lumini și umbre care amplifică textura materialelor și creează o atmosferă memorabilă.",
-    image: Portfolio3,
+    title: "Penthouse Primaverii",
+    text: "Living de penthouse cu iluminat pe șină și spoturi discrete, care scot frumos în evidență peretele din piatră și zona TV. Lumina caldă creează o atmosferă plăcută și elegantă, perfectă pentru un spațiu modern și relaxant.",
+    image: Portfolio5,
   },
 ];
 
