@@ -48,13 +48,13 @@ export default function Hero() {
 
         <div className="flex flex-col lg:flex-row items-start gap-3 sm:gap-4">
           <button className="rounded-xl bg-primary text-ink px-6 py-3 font-semibold shadow-lg hover:bg-primary/90 active:translate-y-px transition text-xs">
-            Start your project
+            Începe-ți proiectul
           </button>
           <button className="rounded-xl bg-secondary text-ink px-6 py-3 font-semibold shadow inline-flex items-center gap-2 hover:bg-secondary/90 active:translate-y-px transition text-xs">
             <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
               <path d="M8 5v14l11-7z" />
             </svg>
-            Watch demo
+            Camera 3D
           </button>
         </div>
       </div>
@@ -65,27 +65,27 @@ export default function Hero() {
   <div className="flex flex-col md:hidden h-full">
     {/* TEXT (50vh) */}
     <div className="flex flex-col justify-center items-center h-[50vh] px-6 text-center gap-4">
-      <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/70">
+      {/* <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/70">
         <Lightbulb className="h-5 w-5 text-primary-500" strokeWidth={2} /> Professional Lightning
-      </div>
+      </div> */}
 
       <h1 className="text-3xl font-extrabold tracking-tight">
-        Exceptional <br /> Lighting Solutions
+        Iluminat Arhitectural.<br />Din 1996.
       </h1>
 
       <p className="text-white/70 text-sm max-w-md">
-        Transform your space with our premium lighting solutions that combine elegant design with superior functionality for every environment.
+        Prin experiență, profesionalism și o înțelegere profundă a modului în care lumina influențează percepția unui spațiu, Orion Grup creează interioare și proiecte arhitecturale în care estetica și funcționalitatea coexistă natural. Într-o piață în care diferența o fac detaliile, compania își definește poziționarea prin soluții premium, execuție atentă și un portofoliu care exprimă eleganță, claritate vizuală și impact durabil.
       </p>
 
       <div className="flex gap-3 mt-2">
         <button className="rounded-xl bg-primary text-ink px-4 py-2 font-semibold shadow-lg hover:bg-primary/90 active:translate-y-px transition text-sm">
-          Start your project
+          Începe-ți proiectul
         </button>
         <button className="rounded-xl bg-secondary text-ink px-4 py-2 font-semibold shadow inline-flex items-center gap-2 hover:bg-secondary/90 active:translate-y-px transition text-sm">
           <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
             <path d="M8 5v14l11-7z" />
           </svg>
-          Watch demo
+          Camera 3D
         </button>
       </div>
     </div>

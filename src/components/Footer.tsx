@@ -6,10 +6,10 @@ export default function Footer() {
       {/* === CTA Section === */}
       <div className="text-center px-6 py-16 max-w-3xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-          What are you waiting for?
+          Hai să începem proiectul tău
         </h2>
         <p className="text-lg text-gray-400 mb-8">
-          Start simplifying your tasks today and sign up now!
+          Suntem aici să îți oferim informațiile și suportul de care ai nevoie.
         </p>
 
 
@@ -17,8 +17,8 @@ export default function Footer() {
 <div className="mx-auto w-full max-w-lg rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-lg p-8">
   <div className="flex flex-col items-center text-center">
     {/* Logo / Icon */}
-    <div className="h-16 w-16 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-2xl font-bold text-white mb-4">
-      O.
+    <div className="h-24 w-24 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-2xl font-bold text-white mb-4">
+      ORION.
     </div>
 
     <h3 className="text-2xl font-semibold text-white mb-2">
@@ -147,7 +147,7 @@ export default function Footer() {
       {/* === Bottom bar === */}
       <div className="border-t border-white/10 py-6 text-center text-sm text-gray-500 flex flex-col md:flex-row items-center justify-between px-6 max-w-7xl mx-auto">
         <p>
-          CREATED BY Macarie Mihai-Alexandru
+          Design and Build by Macarie Mihai-Alexandru
         </p>
         <p>
           COPYRIGHT BY ORION GRUP

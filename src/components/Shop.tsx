@@ -98,13 +98,13 @@ export default function Shop() {
             className="text-3xl md:text-4xl font-bold"
             style={animStyle(headerIn, "fade-up", 2800, 40)}
           >
-            Our Shop
+            Shop
           </h2>
           <p
             className="mt-3 max-w-2xl text-subtle"
             style={animStyle(headerIn, "fade-up", 2800, 120)}
           >
-            Hand-picked lighting that blends elegant design with everyday functionality.
+            Soluții de iluminat selectate cu atenție, ce îmbină estetica rafinată cu funcționalitatea cotidiană.
           </p>
         </header>
 
