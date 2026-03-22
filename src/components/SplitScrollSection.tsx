@@ -33,14 +33,14 @@ const cards: CardData[] = [
     image: Portfolio3,
   },
   {
-    id: "3",
+    id: "4",
     title: "Monarch Mansion Galați",
     text: "Proiectul a pus accent pe conturarea volumelor și evidențierea elementelor decorative printr-un sistem de iluminat arhitectural atent poziționat. Rezultatul este o fațadă care capătă profunzime și personalitate.",
     image: Portfolio2,
     reverse: true,
   },
   {
-    id: "4",
+    id: "5",
     title: "Loft Lounge",
     text: "Iluminarea Loft Lounge a fost gândită pentru a susține identitatea exclusivistă a locației, printr-un joc subtil de lumini și umbre care amplifică textura materialelor și creează o atmosferă memorabilă.",
     image: Portfolio3,
