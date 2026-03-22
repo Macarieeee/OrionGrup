@@ -34,16 +34,16 @@ export default function Hero() {
         className="animate-[slide-in-left_2s_cubic-bezier(0.16,1,0.3,1)_both] space-y-6 max-w-lg"
         style={{ animationDelay: "150ms" }}
       >
-        <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/70">
+        {/* <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/70">
           <Lightbulb className="h-5 w-5 text-primary-500" strokeWidth={2} /> Professional Lightning
-        </div>
+        </div> */}
 
         <h1 className="text-4xl font-extrabold tracking-tight w-[28vw]">
-          Exceptional <br /> Lighting Solutions
+          Iluminat Arhitectural.<br />Din 1996.
         </h1>
 
         <p className="text-white/70 w-[28vw] text-md">
-          Transform your space with our premium lighting solutions that combine elegant design with superior functionality for every environment.
+          Prin experiență, profesionalism și o înțelegere profundă a modului în care lumina influențează percepția unui spațiu, Orion Grup creează interioare și proiecte arhitecturale în care estetica și funcționalitatea coexistă natural. Într-o piață în care diferența o fac detaliile, compania își definește poziționarea prin soluții premium, execuție atentă și un portofoliu care exprimă eleganță, claritate vizuală și impact durabil.
         </p>
 
         <div className="flex flex-col lg:flex-row items-start gap-3 sm:gap-4">

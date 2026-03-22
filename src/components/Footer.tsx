@@ -12,38 +12,90 @@ export default function Footer() {
           Start simplifying your tasks today and sign up now!
         </p>
 
-        {/* Card newsletter */}
-        <div className="mx-auto w-full max-w-lg rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-lg p-8">
-          <div className="flex flex-col items-center text-center">
-            {/* Logo / Icon */}
-            <div className="h-16 w-16 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-2xl font-bold text-white mb-4">
-              O.
-            </div>
 
-            <h3 className="text-2xl font-semibold text-white mb-2">
-              Get early access
-            </h3>
-            <p className="text-gray-400 text-sm mb-6">
-              Aliquam et tellus urna. Phasellus eget adipiscing elit. Mauris id nunc
-              odio. Aliquam et tellus urna. Phasellus eget.
-            </p>
+{/* Card contact form */}
+<div className="mx-auto w-full max-w-lg rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-lg p-8">
+  <div className="flex flex-col items-center text-center">
+    {/* Logo / Icon */}
+    <div className="h-16 w-16 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-2xl font-bold text-white mb-4">
+      O.
+    </div>
 
-            {/* Input + Button */}
-            <form className="flex w-full max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter email here"
-                className="flex-1 px-4 py-3 rounded-l-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
-              <button
-                type="submit"
-                className="px-6 py-3 rounded-r-xl bg-indigo-600 text-white font-medium hover:bg-indigo-500 transition"
-              >
-                Enter
-              </button>
-            </form>
-          </div>
-        </div>
+    <h3 className="text-2xl font-semibold text-white mb-2">
+      Trimite o cerere
+    </h3>
+    <p className="text-gray-400 text-sm mb-6">
+      Completează formularul, iar noi revenim către tine cât mai repede cu toate detaliile necesare.
+    </p>
+
+    <form className="w-full max-w-md mx-auto space-y-4">
+      <input
+        type="text"
+        name="name"
+        placeholder="Nume *"
+        required
+        className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+
+      <input
+        type="email"
+        name="email"
+        placeholder="Email *"
+        required
+        className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+
+      <input
+        type="tel"
+        name="phone"
+        placeholder="Telefon *"
+        required
+        className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+
+      <input
+        type="text"
+        name="cui"
+        placeholder="CUI (opțional)"
+        className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+
+      <textarea
+        name="message"
+        placeholder="Mesaj *"
+        required
+        rows={5}
+        className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+      />
+
+      {/* Upload fișier */}
+      <div className="w-full text-left">
+        <label className="block text-sm text-gray-300 mb-2">
+          Încarcă fișier (opțional)
+        </label>
+        <input
+          type="file"
+          name="attachment"
+          className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-gray-300 file:mr-4 file:rounded-lg file:border-0 file:bg-indigo-600 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+      </div>
+
+      {/* Hidden field pentru produsele din coș */}
+      <input
+        type="hidden"
+        name="cartProducts"
+        value=""
+      />
+
+      <button
+        type="submit"
+        className="w-full px-6 py-3 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-500 transition duration-300 ease-in-out"
+      >
+        Trimite mesajul
+      </button>
+    </form>
+  </div>
+</div>
       </div>
 
       {/* === Footer main === */}
