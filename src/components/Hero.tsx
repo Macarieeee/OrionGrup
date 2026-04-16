@@ -64,7 +64,7 @@ export default function Hero() {
   {/* ===== MOBILE (text 50vh + video card 50vh) ===== */}
   <div className="flex flex-col md:hidden h-full">
     {/* TEXT (50vh) */}
-    <div className="flex flex-col justify-center items-center h-[50vh] px-6 text-center gap-4">
+    <div className="flex flex-col justify-center items-center h-[50vh] px-6 text-center gap-4 pt-12">
       {/* <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/70">
         <Lightbulb className="h-5 w-5 text-primary-500" strokeWidth={2} /> Professional Lightning
       </div> */}

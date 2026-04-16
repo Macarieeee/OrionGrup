@@ -99,9 +99,17 @@ export default function Navbar() {
   Portofoliu
 </Link>
 
-                <a onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-white/10" href="/despre">
+<Link
+  to="/despre"
+  onClick={() => setOpen(false)}
+  className="rounded-lg px-3 py-2 hover:bg-white/10"
+>
+  Despre Noi
+</Link>
+
+                {/* <a onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-white/10" href="/despre">
                   About Us
-                </a>
+                </a> */}
               </div>
             </div>
           )}
