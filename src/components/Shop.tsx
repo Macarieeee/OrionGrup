@@ -2,7 +2,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { SHOP_PRODUCTS } from "../data/shopCatalog";
+import { supabase } from "../lib/supabaseClient";
+
 /* ---------------------------------------------------
    Util: hook simplu pentru "in viewport"
 --------------------------------------------------- */
@@ -55,7 +56,7 @@ function animStyle(
 }
 
 /* ---------------------------------------------------
-   Tip produs + demo data
+   Tip produs
 --------------------------------------------------- */
 type Product = {
   id: string;
@@ -68,26 +69,62 @@ type Product = {
 const WHITE_IMG =
   'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="white"/></svg>';
 
-const products = SHOP_PRODUCTS.map((p) => ({
-  id: p.id,
-  name: p.name,
-  description: p.description,
-  image: p.images?.[0] ?? WHITE_IMG, // ia prima imagine din catalog
-}));
 /* ---------------------------------------------------
-   Shop (cu animatii on-viewport)
+   Shop (homepage section)
 --------------------------------------------------- */
 export default function Shop() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loadingData, setLoadingData] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+
   // trigger pentru header
   const { ref: headerRef, inView: headerIn } = useInView<HTMLDivElement>();
-  // trigger pentru carusel (toate cardurile se animă după el, cu stagger)
+
+  // trigger pentru carusel
   const { ref: railRef, inView: railIn } = useInView<HTMLDivElement>({
     threshold: 0.2,
   });
+
   // trigger pentru CTA
   const { ref: ctaRef, inView: ctaIn } = useInView<HTMLDivElement>({
     threshold: 0.3,
   });
+
+  useEffect(() => {
+    let alive = true;
+
+    (async () => {
+      setLoadingData(true);
+      setLoadError(null);
+
+      const { data, error } = await supabase
+        .from("shop_products")
+        .select("id,name,subtitle,images")
+        .order("name", { ascending: true });
+
+      if (!alive) return;
+
+      if (error) {
+        setLoadError(error.message);
+        setLoadingData(false);
+        return;
+      }
+
+      const mappedProducts: Product[] = (data ?? []).map((p: any) => ({
+        id: p.id,
+        name: p.name,
+        description: p.subtitle || "",
+        image: p.images?.[0] ?? WHITE_IMG,
+      }));
+
+      setProducts(mappedProducts);
+      setLoadingData(false);
+    })();
+
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   return (
     <section className="w-full bg-background text-foreground">
@@ -104,24 +141,35 @@ export default function Shop() {
             className="mt-3 max-w-2xl text-subtle"
             style={animStyle(headerIn, "fade-up", 2800, 120)}
           >
-            Soluții de iluminat selectate cu atenție, ce îmbină estetica rafinată cu funcționalitatea cotidiană.
+            Soluții de iluminat selectate cu atenție, ce îmbină estetica rafinată
+            cu funcționalitatea cotidiană.
           </p>
         </header>
 
-        {/* Carusel */}
+        {/* Carousel / states */}
         <div ref={railRef} style={animStyle(railIn, "slide-in-right", 2800, 160)}>
-          <ProductCarousel items={products} railIn={railIn} />
+          {loadingData ? (
+            <div className="py-10 text-sm text-muted">Se încarcă produsele...</div>
+          ) : loadError ? (
+            <div className="py-10 text-sm text-red-400">
+              Nu am putut încărca produsele: {loadError}
+            </div>
+          ) : products.length === 0 ? (
+            <div className="py-10 text-sm text-muted">Nu există produse momentan.</div>
+          ) : (
+            <ProductCarousel items={products} railIn={railIn} />
+          )}
         </div>
 
         {/* CTA */}
         <div ref={ctaRef} className="mt-10 flex justify-center">
-          <a
-            href="/shop"
+          <Link
+            to="/shop"
             className="rounded-xl bg-secondary text-ink px-5 py-3 font-semibold border border-white/10 transition hover:bg-secondary/90"
             style={animStyle(ctaIn, "pop", 2800, 240)}
           >
             Vezi întreaga listă
-          </a>
+          </Link>
         </div>
       </div>
     </section>
@@ -129,7 +177,7 @@ export default function Shop() {
 }
 
 /* ---------------------------------------------------
-   Carousel cu săgeți ÎN AFARA cardurilor + stagger
+   Carousel cu săgeți
 --------------------------------------------------- */
 function ProductCarousel({
   items,
@@ -170,51 +218,58 @@ function ProductCarousel({
   };
 
   return (
-    <div className="relative overflow-visible ">
-      {/* fade edges sub săgeți */}
+    <div className="relative overflow-visible">
       <div className="pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-background to-transparent z-0" />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-background to-transparent z-0" />
 
-      {/* Săgeți în afară + fade-up când intră caruselul */}
       <button
-  aria-label="Scroll left"
-  onClick={() => scrollByPage(-1)}
-  disabled={atStart}
-  className={[
-    "grid absolute top-1/2 left-0 -translate-y-1/2",
-    // pe mobil: doar jumătate afară; pe desktop: complet afară
-    "-translate-x-1/2 md:-translate-x-full",
-    "h-10 w-10 place-items-center rounded-full z-20",
-    "border border-white/15 bg-white/10 text-white/80 backdrop-blur transition",
-    atStart ? "opacity-40 pointer-events-none" : "hover:bg-white/15",
-  ].join(" ")}
-  style={animStyle(railIn, "fade-up", 2800, 220)}
->
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-    <path d="M15 6l-6 6 6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-</button>
+        aria-label="Scroll left"
+        onClick={() => scrollByPage(-1)}
+        disabled={atStart}
+        className={[
+          "grid absolute top-1/2 left-0 -translate-y-1/2",
+          "-translate-x-1/2 md:-translate-x-full",
+          "h-10 w-10 place-items-center rounded-full z-20",
+          "border border-white/15 bg-white/10 text-white/80 backdrop-blur transition",
+          atStart ? "opacity-40 pointer-events-none" : "hover:bg-white/15",
+        ].join(" ")}
+        style={animStyle(railIn, "fade-up", 2800, 220)}
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <path
+            d="M15 6l-6 6 6 6"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
 
-{/* Dreapta */}
-<button
-  aria-label="Scroll right"
-  onClick={() => scrollByPage(1)}
-  disabled={atEnd}
-  className={[
-    "grid absolute top-1/2 right-0 -translate-y-1/2",
-    "translate-x-1/2 md:translate-x-full", // mobil: jumătate afară, desktop: complet
-    "h-10 w-10 place-items-center rounded-full z-20",
-    "border border-white/15 bg-white/10 text-white/80 backdrop-blur transition",
-    atEnd ? "opacity-40 pointer-events-none" : "hover:bg-white/15",
-  ].join(" ")}
-  style={animStyle(railIn, "fade-up", 2800, 260)}
->
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-    <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-</button>
+      <button
+        aria-label="Scroll right"
+        onClick={() => scrollByPage(1)}
+        disabled={atEnd}
+        className={[
+          "grid absolute top-1/2 right-0 -translate-y-1/2",
+          "translate-x-1/2 md:translate-x-full",
+          "h-10 w-10 place-items-center rounded-full z-20",
+          "border border-white/15 bg-white/10 text-white/80 backdrop-blur transition",
+          atEnd ? "opacity-40 pointer-events-none" : "hover:bg-white/15",
+        ].join(" ")}
+        style={animStyle(railIn, "fade-up", 2800, 260)}
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <path
+            d="M9 6l6 6-6 6"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
 
-      {/* PISTA */}
       <ul
         ref={scroller}
         role="list"
@@ -234,7 +289,7 @@ function ProductCarousel({
 }
 
 /* ---------------------------------------------------
-   Card glass + stagger (pornește când railIn = true)
+   Card
 --------------------------------------------------- */
 function Card({
   product,
@@ -246,29 +301,29 @@ function Card({
   railIn: boolean;
 }) {
   const src = product.image || WHITE_IMG;
-  const delay = 180 + index * 60; // 60ms între carduri
+  const delay = 180 + index * 60;
 
   return (
-   <Link
-  to={`/shop/${product.id}`}
-  className="block group rounded-2xl border border-white/12 bg-white/6 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,.35)] overflow-hidden transition hover:scale-[1.02]"
-  style={animStyle(railIn, "fade-up", 2800, delay)}
->
-  <figure className="relative aspect-[4/3] bg-white flex items-center justify-center">
-    <img
-      src={src}
-      alt={product.name}
-      loading="lazy"
-      className="h-full w-full object-contain"
-    />
-  </figure>
+    <Link
+      to={`/shop/${product.id}`}
+      className="block group rounded-2xl border border-white/12 bg-white/6 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,.35)] overflow-hidden transition hover:scale-[1.02]"
+      style={animStyle(railIn, "fade-up", 2800, delay)}
+    >
+      <figure className="relative aspect-[4/3] bg-white flex items-center justify-center">
+        <img
+          src={src}
+          alt={product.name}
+          loading="lazy"
+          className="h-full w-full object-contain"
+        />
+      </figure>
 
-  <div className="p-4">
-    <h3 className="font-semibold text-foreground">{product.name}</h3>
-    <p className="mt-1 text-sm text-muted line-clamp-2">
-      {product.description}
-    </p>
-  </div>
-</Link>
+      <div className="p-4">
+        <h3 className="font-semibold text-foreground">{product.name}</h3>
+        <p className="mt-1 text-sm text-muted line-clamp-2">
+          {product.description}
+        </p>
+      </div>
+    </Link>
   );
 }
