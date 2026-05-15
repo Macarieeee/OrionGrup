@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Lightbulb } from "lucide-react";
 export { GlowSweep, Beam, GlowSpot };
 import HeroVideo from "../assets/HeroVideo.mp4";
 

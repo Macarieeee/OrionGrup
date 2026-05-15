@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-
+import SignIn from "./pages/SignIn";
 import Index from "./pages/Index";
 import Portofoliu from "./pages/Portofoliu";
 import DespreNoi from "./pages/DespreNoi";
@@ -15,7 +15,8 @@ import ProductPage from "./pages/ProductPage";
 import ScrollRestoration from "./components/ScrollRestoration";
 import Admin from "./pages/admin/Admin";
 import AdminResetPassword from "./pages/admin/AdminResetPassword";
-
+import Cataloage from "./pages/Cataloage";
+import ProtectedRoute from "./components/ProtectedRoute";
 export default function App() {
   return (
     <>
@@ -25,6 +26,7 @@ export default function App() {
       <main className="w-full overflow-x-hidden" style={{ minHeight: "100svh" }}>
         <ScrollRestoration />
         <Routes>
+          <Route path="/sign-in" element={<SignIn />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/reset" element={<AdminResetPassword />} />
           <Route path="/" element={<Index />} />
@@ -35,6 +37,14 @@ export default function App() {
           <Route path="/proiect3" element={<Proiect3 />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/shop/:productId" element={<ProductPage />} />
+          <Route
+  path="/cataloage"
+  element={
+    <ProtectedRoute>
+      <Cataloage />
+    </ProtectedRoute>
+  }
+/>
         </Routes>
       </main>
 

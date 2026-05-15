@@ -47,20 +47,23 @@ export default function Navbar() {
 
           {/* DESKTOP NAV */}
           <nav className="relative z-10 ml-2 hidden md:flex items-center gap-6 text-sm text-white/70">
-  <Link className="hover:text-white transition" to="/">Home</Link>
-  <Link className="hover:text-white transition" to="/shop">Shop</Link>
-  <Link className="hover:text-white transition" to="/portofoliu">Portofoliu</Link>
-  <Link className="hover:text-white transition" to="/despre">Despre Noi</Link>
-</nav>
+            <Link className="hover:text-white transition" to="/">Home</Link>
+            <Link className="hover:text-white transition" to="/shop">Shop</Link>
+            <Link className="hover:text-white transition" to="/portofoliu">Portofoliu</Link>
+            <Link className="hover:text-white transition" to="/despre">Despre Noi</Link>
+            <Link className="hover:text-white transition" to="/cataloage">
+  Cataloage
+</Link>
+          </nav>
 
           {/* ACTIONS + MOBILE TOGGLER */}
           <div className="relative z-10 ml-auto flex items-center gap-3">
-            <a
-              href="/signin"
+            <Link
+              to="/sign-in"
               className="rounded-full bg-white/90 text-black px-4 py-2 text-sm font-semibold hover:bg-white transition border border-white/80"
             >
               Sign In
-            </a>
+            </Link>
 
             <button
               onClick={() => setOpen((v) => !v)}
@@ -81,32 +84,40 @@ export default function Navbar() {
               className="absolute left-3 right-3 top-[calc(100%+10px)] rounded-2xl border border-white/15 bg-black/70 backdrop-blur p-3 md:hidden"
             >
               <div className="flex flex-col text-white/85 text-sm">
-                <a onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-white/10" href="/">Home</a>
+                <Link onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-white/10" to="/">
+                  Home
+                </Link>
                 <Link
-  to="/shop"
-  onClick={() => setOpen(false)}
-  className="rounded-lg px-3 py-2 hover:bg-white/10"
->
-  Shop
-</Link>
+                  to="/shop"
+                  onClick={() => setOpen(false)}
+                  className="rounded-lg px-3 py-2 hover:bg-white/10"
+                >
+                  Shop
+                </Link>
 
                 {/* Submeniul Portfolio in mobil */}
+                <Link
+                  to="/portofoliu"
+                  onClick={() => setOpen(false)}
+                  className="rounded-lg px-3 py-2 hover:bg-white/10"
+                >
+                  Portofoliu
+                </Link>
+
+                <Link
+                  to="/despre"
+                  onClick={() => setOpen(false)}
+                  className="rounded-lg px-3 py-2 hover:bg-white/10"
+                >
+                  Despre Noi
+                </Link>
 <Link
-  to="/portofoliu"
+  to="/cataloage"
   onClick={() => setOpen(false)}
   className="rounded-lg px-3 py-2 hover:bg-white/10"
 >
-  Portofoliu
+  Cataloage
 </Link>
-
-<Link
-  to="/despre"
-  onClick={() => setOpen(false)}
-  className="rounded-lg px-3 py-2 hover:bg-white/10"
->
-  Despre Noi
-</Link>
-
                 {/* <a onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-white/10" href="/despre">
                   About Us
                 </a> */}

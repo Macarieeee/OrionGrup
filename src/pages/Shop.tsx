@@ -403,7 +403,7 @@ function ProductCard({ p, onOpen }: { p: ProductCardVM; onOpen: () => void }) {
           <img
             src={p.imageUrl}
             alt={`${p.brand} ${p.name}`}
-            className="h-full w-full object-cover opacity-95 group-hover:opacity-100 transition duration-300"
+            className="h-full w-full object-contain opacity-95 group-hover:opacity-100 transition duration-300 bg-white"
             loading="lazy"
           />
         ) : (
