@@ -6,7 +6,7 @@ import P4 from "../assets/TheNorthFace5.jpeg";
 import P5 from "../assets/ApartamentRezidential5.jpeg";
 import P6 from "../assets/BirouUnirii4.jpeg";
 import P7 from "../assets/CityGate1.jpeg";
-import P8 from "../assets/Portfolio2.webp";
+import P8 from "../assets/KAO1.jpeg";
 import { useNavigate } from "react-router-dom";
 
 type Project = {
