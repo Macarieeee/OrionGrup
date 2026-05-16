@@ -18,6 +18,8 @@ type ProductRowDb = {
   dimensions_images: string[] | null;
   dimensions_text: string | null;
   documents: DocRow[] | null;
+  display_order: number | null;
+  created_at?: string | null;
 };
 
 type CategoryRow = { id: string; label: string; image_url?: string | null };
@@ -37,6 +39,7 @@ const emptyForm: ProductRowDb = {
   dimensions_images: [],
   dimensions_text: "",
   documents: [],
+  display_order: null,
 };
 
 function slugify(input: string) {
@@ -76,8 +79,8 @@ async function uploadMany(files: File[], folder: string) {
   for (const file of files) {
     const ext = file.name.split(".").pop() || "jpg";
     const path = folder
-  ? `${folder}/${crypto.randomUUID()}.${ext}`
-  : `${crypto.randomUUID()}.${ext}`;
+      ? `${folder}/${crypto.randomUUID()}.${ext}`
+      : `${crypto.randomUUID()}.${ext}`;
 
     const { error: upErr } = await supabase.storage.from(BUCKET).upload(path, file, {
       upsert: true,
@@ -116,9 +119,10 @@ export default function ProductsAdmin() {
       supabase
         .from("shop_products")
         .select(
-          "id,brand,name,code,subtitle,description,images,solutions,specs,dimensions_images,dimensions_text,documents"
+          "id,brand,name,code,subtitle,description,images,solutions,specs,dimensions_images,dimensions_text,documents,display_order,created_at"
         )
-        .order("name", { ascending: true }),
+        .order("display_order", { ascending: true, nullsFirst: false })
+        .order("created_at", { ascending: true }),
       supabase.from("shop_categories").select("id,label,image_url").order("label", { ascending: true }),
     ]);
 
@@ -168,6 +172,8 @@ export default function ProductsAdmin() {
       dimensions_images: safeArr(p.dimensions_images),
       dimensions_text: p.dimensions_text ?? "",
       documents: Array.isArray(p.documents) ? p.documents : [],
+      display_order: p.display_order ?? null,
+      created_at: p.created_at ?? null,
     });
 
     setGalleryFiles([]);
@@ -224,9 +230,10 @@ export default function ProductsAdmin() {
         dimensions_text: form.dimensions_text?.trim() ? form.dimensions_text.trim() : null,
         documents: Array.isArray(form.documents)
           ? form.documents
-              .map((d) => ({ ...d, label: d.label?.trim(), url: d.url?.trim() }))
-              .filter((d) => d.label && d.url)
+            .map((d) => ({ ...d, label: d.label?.trim(), url: d.url?.trim() }))
+            .filter((d) => d.label && d.url)
           : [],
+        display_order: form.display_order,
       };
 
       if (!payload.id || !payload.brand || !payload.name) {
@@ -266,24 +273,24 @@ export default function ProductsAdmin() {
   const removeDocRow = (i: number) =>
     setForm((p) => ({ ...p, documents: (p.documents ?? []).filter((_, idx) => idx !== i) }));
 
-const toggleSolution = (categoryId: string) => {
-  const cat = categories.find((c) => c.id === categoryId);
-  const label = (cat?.label ?? "").trim();
-  if (!label) return;
+  const toggleSolution = (categoryId: string) => {
+    const cat = categories.find((c) => c.id === categoryId);
+    const label = (cat?.label ?? "").trim();
+    if (!label) return;
 
-  setForm((p) => {
-    const cur = safeArr(p.solutions);
+    setForm((p) => {
+      const cur = safeArr(p.solutions);
 
-    // ștergem atât label-ul cât și uuid-ul (dacă există), ca să nu rămână dubluri amestecate
-    const cleaned = cur.filter((x) => x !== label && x !== categoryId);
+      // ștergem atât label-ul cât și uuid-ul (dacă există), ca să nu rămână dubluri amestecate
+      const cleaned = cur.filter((x) => x !== label && x !== categoryId);
 
-    // dacă era activ (prin label sau prin id), îl scoatem; altfel îl adăugăm ca LABEL
-    const wasActive = cur.includes(label) || cur.includes(categoryId);
-    return wasActive
-      ? { ...p, solutions: cleaned }
-      : { ...p, solutions: [...cleaned, label] };
-  });
-};
+      // dacă era activ (prin label sau prin id), îl scoatem; altfel îl adăugăm ca LABEL
+      const wasActive = cur.includes(label) || cur.includes(categoryId);
+      return wasActive
+        ? { ...p, solutions: cleaned }
+        : { ...p, solutions: [...cleaned, label] };
+    });
+  };
 
   const addManualImage = (kind: "images" | "dimensions_images") => {
     const url = (kind === "images" ? manualImgUrl : manualDimUrl).trim();
@@ -370,10 +377,16 @@ const toggleSolution = (categoryId: string) => {
           />
 
           <input
+            type="number"
             className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
-            placeholder="Code"
-            value={form.code}
-            onChange={(e) => setForm((p) => ({ ...p, code: e.target.value }))}
+            placeholder="Ordine afișare — ex: 1, 2, 3. Lasă gol pentru ordinea adăugării"
+            value={form.display_order ?? ""}
+            onChange={(e) =>
+              setForm((p) => ({
+                ...p,
+                display_order: e.target.value === "" ? null : Number(e.target.value),
+              }))
+            }
           />
 
           <input
@@ -401,9 +414,8 @@ const toggleSolution = (categoryId: string) => {
                     key={c.id}
                     type="button"
                     onClick={() => toggleSolution(c.id)}
-                    className={`rounded-full px-3 py-1 text-xs transition duration-300 ease-in-out ${
-                      active ? "bg-white text-black" : "bg-white/10 hover:bg-white/15 text-white"
-                    }`}
+                    className={`rounded-full px-3 py-1 text-xs transition duration-300 ease-in-out ${active ? "bg-white text-black" : "bg-white/10 hover:bg-white/15 text-white"
+                      }`}
                   >
                     {c.label}
                   </button>
@@ -717,6 +729,9 @@ const toggleSolution = (categoryId: string) => {
                   <div className="text-white font-semibold truncate">{p.name}</div>
                   <div className="text-white/60 text-xs truncate">
                     {p.brand} • {p.id}
+                  </div>
+                  <div className="text-white/50 text-xs">
+                    Ordine: {p.display_order ?? "nesetată"}
                   </div>
                   {safeArr(p.solutions).length ? (
                     <div className="mt-1 text-white/60 text-xs truncate">

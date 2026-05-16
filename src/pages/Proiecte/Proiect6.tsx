@@ -1,13 +1,13 @@
 import { Landmark } from "lucide-react";
 // import imaginile tale:
-import Img1 from "../../assets/MuzeuIzvorulRece1.jpeg";
-import Img2 from "../../assets/MuzeuIzvorulRece10.jpeg";
-import Img4 from "../../assets/MuzeuIzvorulRece11.jpeg";
-import Img3 from "../../assets/MuzeuIzvorulRece2.jpeg";
-import Img5 from "../../assets/MuzeuIzvorulRece3.jpeg";
-import Img6 from "../../assets/MuzeuIzvorulRece6.jpeg";
-import Img7 from "../../assets/MuzeuIzvorulRece4.jpeg";
-import Img8 from "../../assets/MuzeuIzvorulRece6.jpeg";
+import Img1 from "../../assets/BirouUnirii1.jpeg";
+import Img2 from "../../assets/BirouUnirii2.jpeg";
+import Img4 from "../../assets/BirouUnirii3.jpeg";
+import Img3 from "../../assets/BirouUnirii4.jpeg";
+import Img5 from "../../assets/BirouUnirii5.jpeg";
+import Img6 from "../../assets/BirouUnirii6.jpeg";
+import Img7 from "../../assets/BirouUnirii7.jpeg";
+import Img8 from "../../assets/BirouUnirii8.jpeg";
 import BeforeAfter from "../../components/BeforeAfter";
 import BeforeImg from "../../assets/P1.webp";
 import AfterImg from "../../assets/P4.webp";
@@ -15,7 +15,7 @@ import AfterImg from "../../assets/P4.webp";
 
 const NAVBAR_H = 96; // ajustează: 80 / 88 / 96 în funcție de navbar-ul tău
 
-export default function MuzeulIzvorulRece() {
+export default function BirouUnirii() {
   const images = [
     { id: "i1", src: Img1},
     { id: "i2", src: Img2},
@@ -46,15 +46,15 @@ export default function MuzeulIzvorulRece() {
           <div className="flex flex-col items-center text-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/70">
               <Landmark className="h-5 w-5 text-primary-500" strokeWidth={2} />
-              Indoor Lighting
+              Office Lighting
             </div>
 
             <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-white">
-              Muzeul Izvorul Rece
+              Birou Piața Unirii
             </h1>
 
             <p className="mt-4 max-w-2xl text-white/70">
-              Un proiect de iluminat interior realizat într-un spațiu expozițional cu personalitate, unde lumina are rolul de a pune în valoare lucrările, volumele încăperilor și atmosfera calmă a muzeului. Soluția propusă urmărește un echilibru între accent, profunzime și confort vizual, astfel încât fiecare zonă să fie percepută natural, fără a încărca arhitectura existentă.
+              Un proiect de iluminat pentru un spațiu de birouri modern, aflat în zona Piața Unirii, unde lumina a fost integrată direct în arhitectura tavanului. Soluția propusă pune accent pe linii clare, lumină direcțională și un aspect tehnic, perfect adaptat unui interior contemporan aflat în proces de amenajare.
             </p>
           </div>
 
@@ -112,7 +112,7 @@ export default function MuzeulIzvorulRece() {
 <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center max-w-5xl text-left">
   {/* TEXT – stânga */}
   <p className="text-white/70 text-base leading-relaxed">
-    Pentru Muzeul Izvorul Rece, intervenția de iluminat a fost gândită ca o completare discretă a spațiului, nu ca un element dominant. Lumina direcționată evidențiază lucrările expuse, conturează traseul vizitatorului și păstrează caracterul elegant al încăperilor, oferind în același timp claritate, profunzime și o experiență vizuală coerentă.
+    În acest proiect, iluminatul a fost gândit ca parte din arhitectura spațiului, nu doar ca element funcțional. Tavanul aparent din beton, volumele albe și zonele vitrate au fost completate prin șine negre liniare, care creează contrast și ritm vizual. Corpurile de iluminat oferă flexibilitate, direcționare precisă și o imagine curată, potrivită pentru un birou modern, aerisit și eficient.
   </p>
 
   {/* BEFORE / AFTER – dreapta */}
@@ -140,7 +140,7 @@ export default function MuzeulIzvorulRece() {
             </h1>
 
             <p className="mt-4 max-w-2xl text-white/70">
-              Implementarea a urmărit integrarea atentă a sistemelor de iluminat în arhitectura existentă, cu accent pe zonele de expunere, pereții galeriei și obiectele centrale din spațiu. Rezultatul este un ambient echilibrat, în care fiecare lucrare primește vizibilitatea potrivită, iar muzeul își păstrează atmosfera rafinată și liniștită.
+              Montajul a fost realizat într-o etapă de lucru în care spațiul își contura deja identitatea finală. Șinele de iluminat au fost poziționate astfel încât să urmărească geometria tavanului și să susțină zonele principale de lucru, circulație și accent. Rezultatul este o soluție tehnică, discretă și coerentă, care transformă plafonul într-un element vizual important al amenajării.
             </p>
           </div>
 

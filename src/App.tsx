@@ -11,6 +11,10 @@ import Shop from "./pages/Shop";
 import Proiect1 from "./pages/Proiecte/Proiect1";
 import Proiect2 from "./pages/Proiecte/Proiect2";
 import Proiect3 from "./pages/Proiecte/Proiect3";
+import Proiect4 from "./pages/Proiecte/Proiect4";
+import Proiect5 from "./pages/Proiecte/Proiect5";
+import Proiect6 from "./pages/Proiecte/Proiect6";
+import Proiect7 from "./pages/Proiecte/Proiect7";
 import ProductPage from "./pages/ProductPage";
 import ScrollRestoration from "./components/ScrollRestoration";
 import Admin from "./pages/admin/Admin";
@@ -35,6 +39,10 @@ export default function App() {
           <Route path="/proiect1" element={<Proiect1 />} />
           <Route path="/proiect2" element={<Proiect2 />} />
           <Route path="/proiect3" element={<Proiect3 />} />
+          <Route path="/proiect4" element={<Proiect4 />} />
+          <Route path="/proiect5" element={<Proiect5 />} />
+          <Route path="/proiect6" element={<Proiect6 />} />
+          <Route path="/proiect7" element={<Proiect7 />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/shop/:productId" element={<ProductPage />} />
           <Route

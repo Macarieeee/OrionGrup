@@ -17,13 +17,15 @@ type ProductCardVM = {
   subtitle?: string | null;
   imageUrl: string;
   solutions: Solution[];
+  display_order?: number | null;
+  created_at?: string | null;
 };
 
 export default function Shop() {
-    const openProduct = (id: string) => {
-  sessionStorage.setItem("shop_scroll_y", String(window.scrollY));
-  navigate(`/shop/${id}`);
-};
+  const openProduct = (id: string) => {
+    sessionStorage.setItem("shop_scroll_y", String(window.scrollY));
+    navigate(`/shop/${id}`);
+  };
   const navigate = useNavigate();
 
   const [tiles, setTiles] = useState<CategoryTile[]>([]);
@@ -48,8 +50,9 @@ export default function Shop() {
             .order("label", { ascending: true }),
           supabase
             .from("shop_products")
-            .select("id,brand,name,subtitle,images,solutions")
-            .order("name", { ascending: true }),
+            .select("id,brand,name,subtitle,images,solutions,display_order,created_at")
+            .order("display_order", { ascending: true, nullsFirst: false })
+            .order("created_at", { ascending: true }),
         ]);
 
       if (!alive) return;
@@ -79,6 +82,8 @@ export default function Shop() {
         subtitle: p.subtitle ?? null,
         imageUrl: p.images?.[0] ?? "",
         solutions: p.solutions ?? [],
+        display_order: p.display_order ?? null,
+        created_at: p.created_at ?? null,
       }));
 
       const nextAllSolutions = Array.from(
@@ -107,23 +112,23 @@ export default function Shop() {
   }, [tiles, products]);
 
   const { ready } = usePreloadImages(allImageUrls, { timeoutMs: 9000 });
-useEffect(() => {
-  // restaurăm doar când chiar avem conținut randat
-  if (loadingData) return;
-  if (!ready) return;
+  useEffect(() => {
+    // restaurăm doar când chiar avem conținut randat
+    if (loadingData) return;
+    if (!ready) return;
 
-  const raw = sessionStorage.getItem("shop_scroll_y");
-  if (!raw) return;
+    const raw = sessionStorage.getItem("shop_scroll_y");
+    if (!raw) return;
 
-  const y = Number(raw);
-  if (!Number.isFinite(y)) return;
+    const y = Number(raw);
+    if (!Number.isFinite(y)) return;
 
-  // ștergem ca să nu “forțeze” scroll de fiecare dată
-  sessionStorage.removeItem("shop_scroll_y");
+    // ștergem ca să nu “forțeze” scroll de fiecare dată
+    sessionStorage.removeItem("shop_scroll_y");
 
-  // rAF ca să fie sigur după paint
-  requestAnimationFrame(() => window.scrollTo(0, y));
-}, [loadingData, ready]);
+    // rAF ca să fie sigur după paint
+    requestAnimationFrame(() => window.scrollTo(0, y));
+  }, [loadingData, ready]);
   // selected filter (Solutions)
   const [selectedSolutions, setSelectedSolutions] = useState<Solution[]>([]);
   const [layout, setLayout] = useState<"grid" | "list">("grid");
