@@ -22,6 +22,7 @@ import Admin from "./pages/admin/Admin";
 import AdminResetPassword from "./pages/admin/AdminResetPassword";
 import Cataloage from "./pages/Cataloage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import WorkInProgressPage from "./pages/WorkInProgressPage";
 export default function App() {
   return (
     <>
@@ -55,6 +56,8 @@ export default function App() {
     </ProtectedRoute>
   }
 />
+
+          <Route path="/work-in-progress" element={<WorkInProgressPage />} />
         </Routes>
       </main>
 

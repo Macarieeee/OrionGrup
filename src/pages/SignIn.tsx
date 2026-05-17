@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
-
+import logIn1 from "../assets/LogIn1.png";
+import logIn2 from "../assets/LogIn2.png";
+import logIn3 from "../assets/LogIn3.jpeg";
+import logIn4 from "../assets/Login4.jpeg";
+import logIn5 from "../assets/Login5.jpeg";
+import logIn6 from "../assets/Login6.jpeg";
 export default function SignIn() {
   const navigate = useNavigate();
 const location = useLocation();
@@ -87,37 +92,84 @@ setMessage("Contul a fost creat cu succes. Te poți autentifica acum.");
         <div className="grid min-h-[calc(100vh-var(--nav-h)-160px)] grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* LEFT */}
           <div className="max-w-xl">
-            <span className="inline-flex items-center rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-white/60">
-              Cont Orion Grup
-            </span>
+  <span className="inline-flex items-center rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-white/60">
+    Cont Orion Grup
+  </span>
 
-            <h1 className="mt-8 text-5xl lg:text-6xl font-semibold tracking-tight">
-              Acces rapid la soluțiile Orion Grup
-            </h1>
+  <h1 className="mt-8 text-5xl lg:text-6xl font-semibold tracking-tight">
+    Acces privat la resursele Orion Grup
+  </h1>
 
-            <p className="mt-6 text-white/65 text-lg leading-relaxed">
-              Creează un cont pentru a primi actualizări, cataloage, noutăți și
-              recomandări potrivite pentru proiectele tale de iluminat și
-              instalații electrice.
-            </p>
+  <p className="mt-4 text-white/55 text-base leading-relaxed">
+    Intră într-o zonă dedicată clienților Orion Grup, unde ai acces la cataloage,
+    informații actualizate despre produse și materiale utile pentru proiecte de
+    iluminat și instalații electrice.
+  </p>
 
-            <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-                <p className="text-2xl font-semibold">1996</p>
-                <p className="mt-2 text-sm text-white/55">anul fondării</p>
-              </div>
+  <p className="mt-4 text-white/55 text-base leading-relaxed">
+    Cataloagele sunt disponibile doar utilizatorilor autentificați, pentru ca tu
+    să ai mereu la îndemână documentația potrivită atunci când alegi sau recomanzi
+    soluții Orion Grup.
+  </p>
 
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-                <p className="text-2xl font-semibold">Premium</p>
-                <p className="mt-2 text-sm text-white/55">soluții dedicate</p>
-              </div>
+  <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div className="group relative h-70 overflow-hidden border border-white/10 bg-white/[0.03]">
+      <img
+        src={logIn1}
+        alt="Cataloage Orion Grup"
+        className="h-full w-full object-cover opacity-75 transition duration-500 group-hover:scale-105 group-hover:opacity-90"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+    </div>
 
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-                <p className="text-2xl font-semibold">B2B / B2C</p>
-                <p className="mt-2 text-sm text-white/55">clienți variați</p>
-              </div>
-            </div>
-          </div>
+    <div className="group relative h-70 overflow-hidden border border-white/10 bg-white/[0.03]">
+      <img
+        src={logIn2}
+        alt="Produse de iluminat Orion Grup"
+        className="h-full w-full object-cover opacity-75 transition duration-500 group-hover:scale-105 group-hover:opacity-90"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+    </div>
+
+    <div className="group relative h-70 overflow-hidden border border-white/10 bg-white/[0.03]">
+      <img
+        src={logIn3}
+        alt="Acces privat Orion Grup"
+        className="h-full w-full object-cover opacity-75 transition duration-500 group-hover:scale-105 group-hover:opacity-90"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+    </div>
+  </div>
+
+  <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div className="group relative h-70 overflow-hidden border border-white/10 bg-white/[0.03]">
+      <img
+        src={logIn4}
+        alt="Cataloage Orion Grup"
+        className="h-full w-full object-cover opacity-75 transition duration-500 group-hover:scale-105 group-hover:opacity-90"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+    </div>
+
+    <div className="group relative h-70 overflow-hidden border border-white/10 bg-white/[0.03]">
+      <img
+        src={logIn5}
+        alt="Produse de iluminat Orion Grup"
+        className="h-full w-full object-cover opacity-75 transition duration-500 group-hover:scale-105 group-hover:opacity-90"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+    </div>
+
+    <div className="group relative h-70 overflow-hidden border border-white/10 bg-white/[0.03]">
+      <img
+        src={logIn6}
+        alt="Acces privat Orion Grup"
+        className="h-full w-full object-cover opacity-75 transition duration-500 group-hover:scale-105 group-hover:opacity-90"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+    </div>
+  </div>
+</div>
 
           {/* RIGHT FORM */}
           <div className="w-full max-w-xl lg:ml-auto">

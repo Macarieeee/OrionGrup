@@ -155,7 +155,7 @@ export default function ProductPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen pt-[var(--nav-h)] bg-[#ffffff] text-black grid place-items-center px-6">
+      <main className="min-h-screen pt-[var(--nav-h)] bg-[#fafafa] text-black grid place-items-center px-6">
         <div className="text-sm text-black/70">Produsul se încarcă…</div>
       </main>
     );
@@ -163,7 +163,7 @@ export default function ProductPage() {
 
   if (err || !product) {
     return (
-      <main className="min-h-screen pt-[var(--nav-h)] bg-[#ffffff] text-black grid place-items-center px-6">
+      <main className="min-h-screen pt-[var(--nav-h)] bg-[#fafafa] text-black grid place-items-center px-6">
         <div className="text-center">
           <div className="text-xl font-semibold">
             {err ?? "Produsul nu a fost găsit"}
@@ -180,7 +180,7 @@ export default function ProductPage() {
   }
 
   return (
-    <main className="min-h-screen pt-[var(--nav-h)] bg-[#ffffff] text-black">
+    <main className="min-h-screen pt-[var(--nav-h)] bg-[#fafafa] text-black">
       <section className="px-6 lg:px-10 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10">
           {/* LEFT: IMAGE + THUMBNAILS */}

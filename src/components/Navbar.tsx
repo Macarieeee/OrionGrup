@@ -51,9 +51,8 @@ export default function Navbar() {
             <Link className="hover:text-white transition" to="/shop">Shop</Link>
             <Link className="hover:text-white transition" to="/portofoliu">Portofoliu</Link>
             <Link className="hover:text-white transition" to="/despre">Despre Noi</Link>
-            <Link className="hover:text-white transition" to="/cataloage">
-  Cataloage
-</Link>
+            <Link className="hover:text-white transition" to="/cataloage">Cataloage</Link>
+            <Link className="hover:text-white transition" to="/work-in-progress">Work in Progress</Link>
           </nav>
 
           {/* ACTIONS + MOBILE TOGGLER */}
@@ -111,13 +110,20 @@ export default function Navbar() {
                 >
                   Despre Noi
                 </Link>
-<Link
-  to="/cataloage"
-  onClick={() => setOpen(false)}
-  className="rounded-lg px-3 py-2 hover:bg-white/10"
->
-  Cataloage
-</Link>
+                <Link
+                  to="/cataloage"
+                  onClick={() => setOpen(false)}
+                  className="rounded-lg px-3 py-2 hover:bg-white/10"
+                >
+                  Cataloage
+                </Link>
+                <Link
+                  to="/work-in-progress"
+                  onClick={() => setOpen(false)}
+                  className="rounded-lg px-3 py-2 hover:bg-white/10"
+                >
+                  Work in Progress
+                </Link>
                 {/* <a onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-white/10" href="/despre">
                   About Us
                 </a> */}
