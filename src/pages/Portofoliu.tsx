@@ -1,13 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import P1 from "../assets/P1.webp";
-import P2 from "../assets/IasiOutdoor.jpeg";
-import P3 from "../assets/MuzeuIzvorulRece11.jpeg";
-import P4 from "../assets/TheNorthFace5.jpeg";
-import P5 from "../assets/ApartamentRezidential5.jpeg";
-import P6 from "../assets/BirouUnirii4.jpeg";
-import P7 from "../assets/CityGate1.jpeg";
-import P8 from "../assets/KAO1.jpeg";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "../lib/supabaseClient";
 
 type Project = {
   id: string;
@@ -16,7 +9,7 @@ type Project = {
   imageUrl: string;
   numberLabel: string;
   slug: string;
-  categoryId: string;
+  categoryId: string | null;
 };
 
 type Category = {
@@ -24,62 +17,128 @@ type Category = {
   name: string;
 };
 
+type PortfolioProjectDb = {
+  id: string;
+  slug: string;
+  title: string;
+  portfolio_description: string | null;
+  cover_image: string | null;
+  category_id: string | null;
+  display_order: number | null;
+  created_at?: string | null;
+};
+
 const ALL_ID = "toate";
 const VISIBLE_COUNT = 4;
 
-const categories: Category[] = [
-  { id: ALL_ID, name: "Toate categoriile" },
-  { id: "casa-vacanta-lac", name: "Iluminat Arhitectural" },
-  { id: "casa-vacanta-iasi", name: "Iluminat Decorativ" },
-  { id: "casa-vacanta", name: "Iluminat Exterior" },
-  { id: "snagov-lac", name: "Materiale Electrice" },
-  { id: "snagov", name: "Oglinzi & Decoratiuni" },
-  { id: "casa-vacanta-2", name: "Profile + Banda LED" },
-];
-
-const allProjects: Project[] = [
-  { id: "p1", title: "Proiectele Orion Grup", description: "Lucrăm cu o gamă largă de clienți, de la proprietari de locuințe la corporații mari și suntem capabili să oferim soluții de iluminat personalizate pentru orice proiect.", imageUrl: P1, numberLabel: "01", slug: "/proiect1", categoryId: "casa-vacanta-lac" },
-  { id: "p2", title: "Clădiri & Fațade", description: "Punem în valoare arhitectura prin scenarii de lumină gândite pe volum, textură și materiale. Accent pe eficiență, uniformitate și control inteligent.", imageUrl: P2, numberLabel: "02", slug: "/proiect2", categoryId: "casa-vacanta-iasi" },
-  { id: "p3", title: "Interioare Premium", description: "Iluminat decorativ și funcțional pentru spații premium: temperatură de culoare corectă, CRI ridicat și integrare discretă în design.", imageUrl: P3, numberLabel: "03", slug: "/proiect3", categoryId: "casa-vacanta" },
-  { id: "p4", title: "Industrial & Logistică", description: "Soluții robuste pentru hale și depozite: optimizare consum, uniformitate pe zone de lucru, mentenanță simplificată și standarde de siguranță.", imageUrl: P4, numberLabel: "04", slug: "/proiect4", categoryId: "snagov-lac" },
-  { id: "p5", title: "Retail & Showroom", description: "Lumină care vinde: accent pe produse, contrast controlat și scene adaptate în funcție de sezon, colecții sau zone de interes.", imageUrl: P5, numberLabel: "05", slug: "/proiect5", categoryId: "snagov" },
-  { id: "p6", title: "Spații Exterioare", description: "Iluminat exterior pentru grădini, alei și zone pietonale: confort vizual, durabilitate și protecție la intemperii (IP corespunzător).", imageUrl: P6, numberLabel: "06", slug: "/proiect6", categoryId: "casa-vacanta-2" },
-  { id: "p7", title: "Hotel & HoReCa", description: "Atmosferă și experiență: scenarii calde, zone de accent, dimming, control pe ore și integrare cu ambientul.", imageUrl: P7, numberLabel: "07", slug: "/proiect7", categoryId: "sinaia" },
-  { id: "p8", title: "Office & Corporate", description: "Productivitate și confort: lumină neutră, anti-glare, zonare inteligentă și control în funcție de prezență / lumină naturală.", imageUrl: P8, numberLabel: "08", slug: "/proiect8", categoryId: "casa-vacanta-lac" },
-];
+function numberLabel(index: number) {
+  return String(index + 1).padStart(2, "0");
+}
 
 export default function Portofoliu() {
   const navigate = useNavigate();
 
+  const [categories, setCategories] = useState<Category[]>([
+    { id: ALL_ID, name: "Toate categoriile" },
+  ]);
+  const [allProjects, setAllProjects] = useState<Project[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(ALL_ID);
   const [startIndex, setStartIndex] = useState(0);
-  const [selectedId, setSelectedId] = useState(allProjects[0].id);
+  const [selectedId, setSelectedId] = useState<string>("");
   const [animKey, setAnimKey] = useState(0);
   const [dir] = useState<"next" | "prev">("next");
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let alive = true;
+
+    async function loadData() {
+      setLoading(true);
+      setLoadError(null);
+
+      const [{ data: cats, error: catsErr }, { data: projects, error: projectsErr }] =
+        await Promise.all([
+          supabase
+            .from("portfolio_categories")
+            .select("id,name")
+            .order("display_order", { ascending: true, nullsFirst: false })
+            .order("name", { ascending: true }),
+          supabase
+            .from("portfolio_projects")
+            .select("id,slug,title,portfolio_description,cover_image,category_id,display_order,created_at")
+            .order("display_order", { ascending: true, nullsFirst: false })
+            .order("created_at", { ascending: true }),
+        ]);
+      if (!alive) return;
+
+      if (catsErr) {
+        setLoadError(catsErr.message);
+        setLoading(false);
+        return;
+      }
+
+      if (projectsErr) {
+        setLoadError(projectsErr.message);
+        setLoading(false);
+        return;
+      }
+
+      const nextCategories: Category[] = [
+        { id: ALL_ID, name: "Toate categoriile" },
+        ...((cats ?? []) as Category[]),
+      ];
+
+      const nextProjects: Project[] = ((projects ?? []) as PortfolioProjectDb[]).map((p, index) => ({
+        id: p.id,
+        title: p.title,
+        description: p.portfolio_description ?? "",
+        imageUrl: p.cover_image ?? "",
+        numberLabel: numberLabel(index),
+        slug: p.slug,
+        categoryId: p.category_id,
+      }));
+
+      setCategories(nextCategories);
+      setAllProjects(nextProjects);
+      setSelectedId(nextProjects[0]?.id ?? "");
+      setLoading(false);
+    }
+
+    loadData();
+
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   const filteredProjects = useMemo(() => {
     if (selectedCategoryId === ALL_ID) return allProjects;
     return allProjects.filter((p) => p.categoryId === selectedCategoryId);
-  }, [selectedCategoryId]);
+  }, [allProjects, selectedCategoryId]);
 
   const projectsToShow = filteredProjects.length > 0 ? filteredProjects : allProjects;
 
   useEffect(() => {
     setStartIndex(0);
-    setSelectedId(projectsToShow[0]?.id ?? allProjects[0].id);
-  }, [selectedCategoryId]);
+    setSelectedId(projectsToShow[0]?.id ?? "");
+  }, [selectedCategoryId, projectsToShow.length]);
 
   const visibleProjects = useMemo(() => {
+    if (!projectsToShow.length) return [];
+
     return Array.from(
       { length: Math.min(VISIBLE_COUNT, projectsToShow.length) },
-      (_, i) => projectsToShow[(startIndex + i) % projectsToShow.length],
+      (_, i) => projectsToShow[(startIndex + i) % projectsToShow.length]
     );
   }, [projectsToShow, startIndex]);
 
   const selected =
-    projectsToShow.find((p) => p.id === selectedId) ?? projectsToShow[0] ?? allProjects[0];
+    projectsToShow.find((p) => p.id === selectedId) ?? projectsToShow[0] ?? null;
 
   const goNext = () => {
+    if (!projectsToShow.length) return;
+
     setStartIndex((prev) => {
       const nextStart = (prev + VISIBLE_COUNT) % projectsToShow.length;
       setSelectedId(projectsToShow[nextStart].id);
@@ -88,39 +147,51 @@ export default function Portofoliu() {
     setAnimKey((k) => k + 1);
   };
 
+  if (loading) {
+    return (
+      <main className="min-h-screen pt-[var(--nav-h)] grid place-items-center text-white">
+        <div className="text-sm text-white/70">Se încarcă portofoliul...</div>
+      </main>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <main className="min-h-screen pt-[var(--nav-h)] grid place-items-center text-white px-6">
+        <div className="text-center text-red-400">Nu am putut încărca portofoliul: {loadError}</div>
+      </main>
+    );
+  }
+
+  if (!allProjects.length || !selected) {
+    return (
+      <main className="min-h-screen pt-[var(--nav-h)] grid place-items-center text-white px-6">
+        <div className="text-center text-white/70">Nu există proiecte în portofoliu momentan.</div>
+      </main>
+    );
+  }
+
   return (
     <div className="min-h-screen text-white pt-[var(--nav-h)] md:pt-0">
-
-      {/* ===== DESKTOP ===== */}
+      {/* DESKTOP */}
       <div className="hidden md:flex h-screen">
-
-        {/* LEFT — black diagonal backdrop */}
         <div
           className="absolute left-0 top-0 h-full bg-[#0a0b0d] z-10"
-          style={{
-            width: "38vw",
-            clipPath: "polygon(0 0, 100% 0, 80% 100%, 0 100%)",
-          }}
+          style={{ width: "38vw", clipPath: "polygon(0 0, 100% 0, 80% 100%, 0 100%)" }}
         />
 
-        {/* LEFT — categories on top of backdrop, same clip so white bar is cut diagonally */}
         <aside
           className="absolute left-0 top-0 h-full z-20 flex flex-col justify-center px-0 py-14"
-          style={{
-            width: "38vw",
-            clipPath: "polygon(0 0, 100% 0, 80% 100%, 0 100%)",
-          }}
+          style={{ width: "38vw", clipPath: "polygon(0 0, 100% 0, 80% 100%, 0 100%)" }}
         >
           <div
             className="animate-[slide-in-left_1.2s_cubic-bezier(0.16,1,0.3,1)_both] w-full"
             style={{ animationDelay: "150ms" }}
           >
-            {/* Section label */}
             <p className="text-white/40 text-xs font-medium tracking-[0.25em] uppercase mb-6 px-10 lg:px-14">
               Portofoliu
             </p>
 
-            {/* Category list — same button style as original category panel */}
             <div className="w-full space-y-1">
               {categories.map((cat) => {
                 const isSelected = cat.id === selectedCategoryId;
@@ -149,7 +220,6 @@ export default function Portofoliu() {
           </div>
         </aside>
 
-        {/* RIGHT — full width behind diagonal, original slice panel untouched */}
         <section className="absolute inset-0 overflow-hidden left-[25vw] z-0">
           <div
             key={`imgs-${animKey}`}
@@ -171,7 +241,7 @@ export default function Portofoliu() {
                   onFocus={() => setSelectedId(p.id)}
                   onClick={() => {
                     setSelectedId(p.id);
-                    if (p.slug) navigate(p.slug);
+                    navigate(`/portofoliu/${p.slug}`);
                   }}
                   className={[
                     "group relative h-full outline-none",
@@ -180,37 +250,26 @@ export default function Portofoliu() {
                     isActive ? "flex-[3_1_0%]" : "",
                   ].join(" ")}
                 >
-                  {/* Image */}
                   <div
                     className="absolute inset-0 bg-center bg-cover"
                     style={{ backgroundImage: `url(${p.imageUrl})` }}
                   />
-
-                  {/* Dark overlay */}
                   <div className="absolute inset-0 bg-black/40 group-hover:bg-black/25 transition-colors duration-500" />
-
-                  {/* Bottom number */}
                   <div className="absolute bottom-8 left-1/2 -translate-x-1/2 select-none">
                     <span className="text-white/85 text-[56px] lg:text-[72px] font-light tracking-widest">
                       {p.numberLabel}
                     </span>
                   </div>
-
-                  {/* Divider */}
                   <div className="absolute top-0 right-0 h-full w-px bg-white/10" />
                 </button>
               );
             })}
           </div>
 
-          {/* Next arrow */}
           <button
             type="button"
             onClick={goNext}
-            className="absolute right-6 top-1/2 -translate-y-1/2 grid place-items-center z-30
-               h-14 w-14 rounded-full bg-white/10 hover:bg-white/15
-               border border-white/15 backdrop-blur
-               transition duration-300 ease-in-out"
+            className="absolute right-6 top-1/2 -translate-y-1/2 grid place-items-center z-30 h-14 w-14 rounded-full bg-white/10 hover:bg-white/15 border border-white/15 backdrop-blur transition duration-300 ease-in-out"
             aria-label="Următoarele proiecte"
             title="Următoarele"
           >
@@ -221,9 +280,8 @@ export default function Portofoliu() {
         </section>
       </div>
 
-      {/* ===== MOBILE ===== */}
+      {/* MOBILE */}
       <div className="md:hidden px-5 py-8">
-        {/* Category chips */}
         <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-none -mx-5 px-5">
           {categories.map((cat) => (
             <button
@@ -253,7 +311,7 @@ export default function Portofoliu() {
             <button
               key={p.id}
               type="button"
-              onClick={() => setSelectedId(p.id)}
+              onClick={() => navigate(`/portofoliu/${p.slug}`)}
               className="relative h-44 rounded-xl overflow-hidden border border-white/10"
             >
               <div
@@ -271,8 +329,7 @@ export default function Portofoliu() {
         <button
           type="button"
           onClick={goNext}
-          className="mt-6 w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15
-                     transition duration-300 ease-in-out"
+          className="mt-6 w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 transition duration-300 ease-in-out"
         >
           Următoarele
         </button>

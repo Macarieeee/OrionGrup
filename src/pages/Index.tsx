@@ -6,7 +6,6 @@ import AboutUs from "../components/AboutUs";
 import WorkInProgressPreview from "../components/WorkInProgressPreview";
 
 export default function Index() {
-  const isLoggedIn = false;
 
   return (
     <>
@@ -14,7 +13,7 @@ export default function Index() {
       <MiddleSection />
       <Shop />
       <AboutUs />
-      <WorkInProgressPreview isLoggedIn={isLoggedIn} />
+      <WorkInProgressPreview />
       <Brands speedMs={18000} />
     </>
   );

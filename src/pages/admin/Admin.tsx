@@ -3,11 +3,19 @@ import { supabase } from "../../lib/supabaseClient";
 import AdminLogin from "./AdminLogin";
 import ProductsAdmin from "./ProductsAdmin";
 import CategoriesAdmin from "./CategoriesAdmin";
+import PortfolioProjectsAdmin from "./PortfolioProjectsAdmin";
+import PortfolioCategoriesAdmin from "./PortfolioCategoriesAdmin";
+
+type AdminTab =
+  | "products"
+  | "categories"
+  | "portfolio-projects"
+  | "portfolio-categories";
 
 export default function Admin() {
   const [sessionReady, setSessionReady] = useState(false);
   const [isAuthed, setIsAuthed] = useState(false);
-  const [tab, setTab] = useState<"products" | "categories">("products");
+  const [tab, setTab] = useState<AdminTab>("products");
 
   useEffect(() => {
     let alive = true;
@@ -45,7 +53,9 @@ export default function Admin() {
         <div className="flex items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl font-semibold">Admin Dashboard</h1>
-            <p className="mt-1 text-white/60">CRUD produse, categorii, imagini (Supabase).</p>
+            <p className="mt-1 text-white/60">
+              CRUD produse, categorii, portofoliu și imagini.
+            </p>
           </div>
 
           <button
@@ -56,7 +66,7 @@ export default function Admin() {
           </button>
         </div>
 
-        <div className="mt-8 flex gap-2">
+        <div className="mt-8 flex flex-wrap gap-2">
           <button
             onClick={() => setTab("products")}
             className={`rounded-xl px-4 py-2 text-sm transition duration-300 ease-in-out ${
@@ -65,18 +75,40 @@ export default function Admin() {
           >
             Produse
           </button>
+
           <button
             onClick={() => setTab("categories")}
             className={`rounded-xl px-4 py-2 text-sm transition duration-300 ease-in-out ${
               tab === "categories" ? "bg-white text-black" : "bg-white/10 hover:bg-white/15"
             }`}
           >
-            Categorii
+            Categorii produse
+          </button>
+
+          <button
+            onClick={() => setTab("portfolio-projects")}
+            className={`rounded-xl px-4 py-2 text-sm transition duration-300 ease-in-out ${
+              tab === "portfolio-projects" ? "bg-white text-black" : "bg-white/10 hover:bg-white/15"
+            }`}
+          >
+            Proiecte portofoliu
+          </button>
+
+          <button
+            onClick={() => setTab("portfolio-categories")}
+            className={`rounded-xl px-4 py-2 text-sm transition duration-300 ease-in-out ${
+              tab === "portfolio-categories" ? "bg-white text-black" : "bg-white/10 hover:bg-white/15"
+            }`}
+          >
+            Categorii portofoliu
           </button>
         </div>
 
         <div className="mt-8">
-          {tab === "products" ? <ProductsAdmin /> : <CategoriesAdmin />}
+          {tab === "products" ? <ProductsAdmin /> : null}
+          {tab === "categories" ? <CategoriesAdmin /> : null}
+          {tab === "portfolio-projects" ? <PortfolioProjectsAdmin /> : null}
+          {tab === "portfolio-categories" ? <PortfolioCategoriesAdmin /> : null}
         </div>
       </div>
     </main>

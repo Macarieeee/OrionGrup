@@ -19,6 +19,8 @@ type ProductRowDb = {
   dimensions_text: string | null;
   documents: DocRow[] | null;
   display_order: number | null;
+  price: number | null;
+  currency: string | null;
   created_at?: string | null;
 };
 
@@ -40,6 +42,8 @@ const emptyForm: ProductRowDb = {
   dimensions_text: "",
   documents: [],
   display_order: null,
+  price: null,
+  currency: "RON",
 };
 
 function slugify(input: string) {
@@ -119,7 +123,7 @@ export default function ProductsAdmin() {
       supabase
         .from("shop_products")
         .select(
-          "id,brand,name,code,subtitle,description,images,solutions,specs,dimensions_images,dimensions_text,documents,display_order,created_at"
+          "id,brand,name,code,subtitle,description,images,solutions,specs,dimensions_images,dimensions_text,documents,display_order,price,currency,created_at"
         )
         .order("display_order", { ascending: true, nullsFirst: false })
         .order("created_at", { ascending: true }),
@@ -173,6 +177,8 @@ export default function ProductsAdmin() {
       dimensions_text: p.dimensions_text ?? "",
       documents: Array.isArray(p.documents) ? p.documents : [],
       display_order: p.display_order ?? null,
+      price: p.price ?? null,
+      currency: p.currency ?? "RON",
       created_at: p.created_at ?? null,
     });
 
@@ -234,6 +240,8 @@ export default function ProductsAdmin() {
             .filter((d) => d.label && d.url)
           : [],
         display_order: form.display_order,
+        price: form.price === null || form.price === undefined ? null : Number(form.price),
+        currency: form.currency?.trim() ? form.currency.trim().toUpperCase() : "RON",
       };
 
       if (!payload.id || !payload.brand || !payload.name) {
@@ -388,6 +396,35 @@ export default function ProductsAdmin() {
               }))
             }
           />
+
+          <div className="grid grid-cols-1 sm:grid-cols-[1fr_120px] gap-2">
+            <input
+              type="number"
+              step="0.01"
+              min="0"
+              className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
+              placeholder="Preț — lasă gol pentru «La cerere»"
+              value={form.price ?? ""}
+              onChange={(e) =>
+                setForm((p) => ({
+                  ...p,
+                  price: e.target.value === "" ? null : Number(e.target.value),
+                }))
+              }
+            />
+
+            <input
+              className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
+              placeholder="Monedă"
+              value={form.currency ?? "RON"}
+              onChange={(e) =>
+                setForm((p) => ({
+                  ...p,
+                  currency: e.target.value.toUpperCase(),
+                }))
+              }
+            />
+          </div>
 
           <input
             className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
@@ -732,6 +769,9 @@ export default function ProductsAdmin() {
                   </div>
                   <div className="text-white/50 text-xs">
                     Ordine: {p.display_order ?? "nesetată"}
+                  </div>
+                  <div className="text-white/50 text-xs">
+                    Preț: {p.price && Number(p.price) > 0 ? `${Number(p.price).toLocaleString("ro-RO")} ${p.currency ?? "RON"}` : "La cerere"}
                   </div>
                   {safeArr(p.solutions).length ? (
                     <div className="mt-1 text-white/60 text-xs truncate">

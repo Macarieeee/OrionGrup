@@ -23,6 +23,8 @@ import AdminResetPassword from "./pages/admin/AdminResetPassword";
 import Cataloage from "./pages/Cataloage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import WorkInProgressPage from "./pages/WorkInProgressPage";
+import ProjectPageSupabase from "./pages/ProjectPageSupabase";
+import TermsAndConditions from "./pages/TermsAndConditions";
 export default function App() {
   return (
     <>
@@ -36,6 +38,7 @@ export default function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/reset" element={<AdminResetPassword />} />
           <Route path="/" element={<Index />} />
+          <Route path="/termeni-si-conditii" element={<TermsAndConditions />} />
           <Route path="/portofoliu" element={<Portofoliu />} />
           <Route path="/despre" element={<DespreNoi />} />
           <Route path="/proiect1" element={<Proiect1 />} />
@@ -48,6 +51,7 @@ export default function App() {
           <Route path="/proiect8" element={<Proiect8 />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/shop/:productId" element={<ProductPage />} />
+          <Route path="/portofoliu/:slug" element={<ProjectPageSupabase />} />
           <Route
   path="/cataloage"
   element={
@@ -57,7 +61,14 @@ export default function App() {
   }
 />
 
-          <Route path="/work-in-progress" element={<WorkInProgressPage />} />
+<Route
+  path="/work-in-progress"
+  element={
+    <ProtectedRoute>
+      <WorkInProgressPage />
+    </ProtectedRoute>
+  }
+/>
         </Routes>
       </main>
 

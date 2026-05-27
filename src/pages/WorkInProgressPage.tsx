@@ -1,12 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, Eye, Lock, X } from "lucide-react";
 import { Link } from "react-router-dom";
-
-type WorkInProgressProps = {
-  isLoggedIn?: boolean;
-};
-
-
+import { supabase } from "../lib/supabaseClient";
 
 type WorkItem = {
   id: string;
@@ -67,10 +62,40 @@ const workItems: WorkItem[] = [
   },
 ];
 
-export default function WorkInProgress({
-  isLoggedIn = false,
-}: WorkInProgressProps) {
+export default function WorkInProgressPage() {
   const [activeImage, setActiveImage] = useState<WorkItem | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      setIsLoggedIn(!!user);
+      setCheckingAuth(false);
+    };
+
+    checkUser();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsLoggedIn(!!session?.user);
+      setCheckingAuth(false);
+
+      if (!session?.user) {
+        setActiveImage(null);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const locked = checkingAuth || !isLoggedIn;
 
   return (
     <main className="min-h-screen bg-[#0a0b0d] text-white pt-[var(--nav-h)]">
@@ -101,7 +126,7 @@ export default function WorkInProgress({
           </p>
         </div>
 
-        {!isLoggedIn && (
+        {!checkingAuth && !isLoggedIn && (
           <div className="mt-12 rounded-[2rem] border border-white/10 bg-[#101113] p-8">
             <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
               <div>
@@ -117,12 +142,18 @@ export default function WorkInProgress({
               </div>
 
               <Link
-                to="/login"
+                to="/sign-in"
                 className="inline-flex w-fit items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-bold text-black transition hover:bg-white/85"
               >
                 Autentifică-te
               </Link>
             </div>
+          </div>
+        )}
+
+        {checkingAuth && (
+          <div className="mt-12 rounded-[2rem] border border-white/10 bg-[#101113] p-8">
+            <p className="text-sm text-white/50">Se verifică accesul...</p>
           </div>
         )}
 
@@ -137,21 +168,23 @@ export default function WorkInProgress({
                 <img
                   src={item.image}
                   alt={item.title}
-                  className={`h-full w-full object-cover transition duration-700 group-hover:scale-[1.035] ${
-                    isLoggedIn ? "" : "blur-md brightness-[0.38]"
+                  className={`h-full w-full object-cover transition duration-700 ${
+                    locked
+                      ? "scale-105 blur-md brightness-[0.38]"
+                      : "group-hover:scale-[1.035]"
                   }`}
                 />
 
-                {!isLoggedIn && (
+                {locked && (
                   <div className="absolute inset-0 flex items-center justify-center bg-black/25">
                     <div className="flex items-center gap-2 rounded-full border border-white/15 bg-black/60 px-4 py-2 text-xs font-semibold text-white/70 backdrop-blur-md">
                       <Lock className="h-3.5 w-3.5" />
-                      Blocat
+                      {checkingAuth ? "Se verifică..." : "Blocat"}
                     </div>
                   </div>
                 )}
 
-                {isLoggedIn && (
+                {!locked && (
                   <button
                     type="button"
                     onClick={() => setActiveImage(item)}
@@ -175,6 +208,17 @@ export default function WorkInProgress({
                 <p className="mt-3 text-sm leading-relaxed text-white/50">
                   {item.description}
                 </p>
+
+                {!locked && (
+                  <button
+                    type="button"
+                    onClick={() => setActiveImage(item)}
+                    className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs font-semibold text-white/70 transition hover:bg-white hover:text-black"
+                  >
+                    <Eye className="h-3.5 w-3.5" />
+                    Vezi imaginea
+                  </button>
+                )}
               </div>
             </article>
           ))}

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePreloadImages } from "../hooks/usePreloadImages";
 import { supabase } from "../lib/supabaseClient";
@@ -21,6 +21,42 @@ type ProductCardVM = {
   created_at?: string | null;
 };
 
+const FAVORITES_STORAGE_KEY = "orion_favorite_products";
+function GridIconLarge() {
+  return (
+    <svg
+      width="58"
+      height="58"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      className="text-black/80 transition duration-300 group-hover:scale-110"
+    >
+      <path
+        d="M4 4h6v6H4V4Zm10 0h6v6h-6V4ZM4 14h6v6H4v-6Zm10 0h6v6h-6v-6Z"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+function readFavoriteProductsFromStorage(): ProductCardVM[] {
+  if (typeof window === "undefined") return [];
+
+  try {
+    const raw = window.localStorage.getItem(FAVORITES_STORAGE_KEY);
+    if (!raw) return [];
+
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed.filter((item: Partial<ProductCardVM>) => item?.id && item?.name);
+  } catch {
+    return [];
+  }
+}
+
 export default function Shop() {
   const openProduct = (id: string) => {
     sessionStorage.setItem("shop_scroll_y", String(window.scrollY));
@@ -33,6 +69,9 @@ export default function Shop() {
   const [allSolutions, setAllSolutions] = useState<Solution[]>([]);
   const [loadingData, setLoadingData] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [favoriteProducts, setFavoriteProducts] = useState<ProductCardVM[]>(
+    readFavoriteProductsFromStorage
+  );
 
   // ✅ Fetch from Supabase (categories + products)
   useEffect(() => {
@@ -104,6 +143,44 @@ export default function Shop() {
     };
   }, []);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    window.localStorage.setItem(
+      FAVORITES_STORAGE_KEY,
+      JSON.stringify(favoriteProducts)
+    );
+
+    window.dispatchEvent(new Event("orion:favorites-changed"));
+  }, [favoriteProducts]);
+
+  const isFavorite = (productId: string) =>
+    favoriteProducts.some((product) => product.id === productId);
+
+  const toggleFavorite = (product: ProductCardVM) => {
+    setFavoriteProducts((prev) => {
+      const alreadySaved = prev.some((item) => item.id === product.id);
+
+      if (alreadySaved) {
+        return prev.filter((item) => item.id !== product.id);
+      }
+
+      return [
+        ...prev,
+        {
+          id: product.id,
+          brand: product.brand,
+          name: product.name,
+          subtitle: product.subtitle ?? null,
+          imageUrl: product.imageUrl,
+          solutions: product.solutions ?? [],
+          display_order: product.display_order ?? null,
+          created_at: product.created_at ?? null,
+        },
+      ];
+    });
+  };
+
   // ✅ preload all images (tiles + products) BEFORE rendering page
   const allImageUrls = useMemo(() => {
     const tileUrls = tiles.map((t) => t.imageUrl).filter(Boolean);
@@ -166,78 +243,24 @@ export default function Shop() {
 
   return (
     <main className="text-white pt-[var(--nav-h)]">
-      {/* CATEGORY GRID (3x3) */}
-      <section className="w-full h-[60vh] px-4 lg:px-[20vw]">
-        <div className="h-full">
-          <div className="grid h-full grid-cols-3 grid-rows-3 gap-6">
-            {tiles.map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => {
-                  setSelectedSolutions([t.label]);
-                  document
-                    .getElementById("product-selector")
-                    ?.scrollIntoView({ behavior: "smooth", block: "start" });
-                }}
-                className="
-                  group
-                  relative
-                  rounded-3xl
-                  overflow-hidden
-                  border
-                  border-white/10
-                  hover:border-white/30
-                  transition
-                  duration-300
-                "
-              >
-                <img
-                  src={t.imageUrl}
-                  alt={t.label}
-                  className="
-                    absolute inset-0
-                    h-full w-full
-                    object-cover
-                    scale-100
-                    group-hover:scale-105
-                    transition
-                    duration-500
-                  "
-                  loading="lazy"
-                />
-
-                {/* IMPORTANT: overlay-ul e decorativ => nu blochează click */}
-                <div
-                  className="
-                    pointer-events-none
-                    absolute inset-0
-                    bg-black/45
-                    group-hover:bg-black/30
-                    transition
-                    duration-300
-                  "
-                />
-
-                <div className="relative z-10 h-full w-full flex items-center justify-center px-4">
-                  <span
-                    className="
-                      text-center
-                      text-sm
-                      md:text-base
-                      font-semibold
-                      tracking-wide
-                      text-white
-                      drop-shadow
-                    "
-                  >
-                    {t.label}
-                  </span>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
+      {/* CATEGORY CAROUSEL */}
+      <section className="w-full px-4 lg:px-10 pt-10 pb-6">
+        <CategoryCarousel
+          tiles={tiles}
+          activeLabels={selectedSolutions}
+          onSelect={(label) => {
+            setSelectedSolutions([label]);
+            document
+              .getElementById("product-selector")
+              ?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }}
+          onClearAll={() => {
+            clearAll();
+            document
+              .getElementById("product-selector")
+              ?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }}
+        />
       </section>
 
       {/* PRODUCT SELECTOR (poza 2) */}
@@ -376,6 +399,8 @@ export default function Shop() {
                       key={p.id}
                       p={p}
                       onOpen={() => openProduct(p.id)}
+                      isFavorite={isFavorite(p.id)}
+                      onToggleFavorite={() => toggleFavorite(p)}
                     />
                   ))}
                 </div>
@@ -386,6 +411,8 @@ export default function Shop() {
                       key={p.id}
                       p={p}
                       onOpen={() => openProduct(p.id)}
+                      isFavorite={isFavorite(p.id)}
+                      onToggleFavorite={() => toggleFavorite(p)}
                     />
                   ))}
                 </div>
@@ -400,10 +427,273 @@ export default function Shop() {
 
 /* -------------------- Small UI components -------------------- */
 
-function ProductCard({ p, onOpen }: { p: ProductCardVM; onOpen: () => void }) {
+
+function CategoryCarousel({
+  tiles,
+  activeLabels,
+  onSelect,
+  onClearAll,
+}: {
+  tiles: CategoryTile[];
+  activeLabels: Solution[];
+  onSelect: (label: Solution) => void;
+  onClearAll: () => void;
+}) {
+  const scrollerRef = useRef<HTMLDivElement | null>(null);
+  const dragState = useRef({
+    isDown: false,
+    startX: 0,
+    scrollLeft: 0,
+    moved: false,
+  });
+
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
+
+  const updateEnds = () => {
+    const el = scrollerRef.current;
+    if (!el) return;
+
+    const maxScroll = el.scrollWidth - el.clientWidth - 1;
+    setAtStart(el.scrollLeft <= 1);
+    setAtEnd(el.scrollLeft >= maxScroll);
+  };
+
+  useEffect(() => {
+    updateEnds();
+
+    const el = scrollerRef.current;
+    if (!el) return;
+
+    const onScroll = () => requestAnimationFrame(updateEnds);
+
+    el.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", updateEnds);
+
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", updateEnds);
+    };
+  }, [tiles.length]);
+
+  const scrollByPage = (direction: -1 | 1) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+
+    el.scrollBy({
+      left: direction * Math.max(280, el.clientWidth * 0.75),
+      behavior: "smooth",
+    });
+  };
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+
+    dragState.current = {
+      isDown: true,
+      startX: e.pageX - el.offsetLeft,
+      scrollLeft: el.scrollLeft,
+      moved: false,
+    };
+
+    el.classList.add("cursor-grabbing");
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = scrollerRef.current;
+    const state = dragState.current;
+
+    if (!el || !state.isDown) return;
+
+    e.preventDefault();
+
+    const x = e.pageX - el.offsetLeft;
+    const walk = x - state.startX;
+
+    if (Math.abs(walk) > 5) {
+      state.moved = true;
+    }
+
+    el.scrollLeft = state.scrollLeft - walk;
+  };
+
+  const stopDrag = () => {
+    const el = scrollerRef.current;
+    dragState.current.isDown = false;
+    el?.classList.remove("cursor-grabbing");
+  };
+
   return (
-    <button type="button" onClick={onOpen} className="group text-left">
-      <div className="relative aspect-square overflow-hidden rounded-3xl border border-white/10">
+    <div className="relative mx-auto w-full max-w-7xl">
+      <button
+        type="button"
+        onClick={() => scrollByPage(-1)}
+        disabled={atStart}
+        aria-label="Mută categoriile spre stânga"
+        className={[
+          "absolute left-0 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border backdrop-blur transition duration-300",
+          "bg-black/60 text-white border-white/15",
+          atStart ? "pointer-events-none opacity-30" : "hover:bg-black/80 hover:border-white/30",
+        ].join(" ")}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M15 6l-6 6 6 6"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        onClick={() => scrollByPage(1)}
+        disabled={atEnd}
+        aria-label="Mută categoriile spre dreapta"
+        className={[
+          "absolute right-0 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border backdrop-blur transition duration-300",
+          "bg-black/60 text-white border-white/15",
+          atEnd ? "pointer-events-none opacity-30" : "hover:bg-black/80 hover:border-white/30",
+        ].join(" ")}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M9 6l6 6-6 6"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-black/20 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-black/20 to-transparent" />
+
+      <div
+        ref={scrollerRef}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={stopDrag}
+        onMouseLeave={stopDrag}
+        className="no-scrollbar flex cursor-grab snap-x snap-mandatory gap-8 overflow-x-auto scroll-smooth px-14 py-4 select-none"
+      >
+        {/* ALL PRODUCTS */}
+        <button
+          type="button"
+          onClick={(e) => {
+            if (dragState.current.moved) {
+              e.preventDefault();
+              dragState.current.moved = false;
+              return;
+            }
+
+            onClearAll();
+          }}
+          className="group flex w-[130px] shrink-0 snap-start flex-col text-center"
+        >
+          <div
+            className={[
+              "relative flex h-[180px] w-full items-center justify-center overflow-hidden rounded-3xl bg-white transition duration-300",
+              activeLabels.length === 0
+                ? "ring-2 ring-white shadow-[0_18px_50px_rgba(255,255,255,0.16)]"
+                : "ring-1 ring-white/10 hover:ring-white/30",
+            ].join(" ")}
+          >
+            <GridIconLarge />
+          </div>
+
+          <div
+  className={[
+    "mt-4 flex min-h-[44px] items-start justify-center text-sm font-bold uppercase tracking-[0.08em] leading-tight transition duration-300",
+    activeLabels.length === 0
+      ? "text-white"
+      : "text-white/85 group-hover:text-white",
+  ].join(" ")}
+>
+  All products
+</div>
+        </button>
+
+        {tiles.map((tile) => {
+          const active = activeLabels.includes(tile.label);
+
+          return (
+            <button
+              key={tile.id}
+              type="button"
+              onClick={(e) => {
+                if (dragState.current.moved) {
+                  e.preventDefault();
+                  dragState.current.moved = false;
+                  return;
+                }
+
+                onSelect(tile.label);
+              }}
+              className="group flex w-[130px] shrink-0 snap-start flex-col text-center"
+            >
+              <div
+                className={[
+                  "relative flex h-[180px] w-full items-center justify-center overflow-hidden rounded-3xl bg-white transition duration-300",
+                  active
+                    ? "ring-2 ring-white shadow-[0_18px_50px_rgba(255,255,255,0.16)]"
+                    : "ring-1 ring-white/10 hover:ring-white/30",
+                ].join(" ")}
+              >
+                <img
+                  src={tile.imageUrl}
+                  alt={tile.label}
+                  draggable={false}
+                  loading="lazy"
+                  className="h-full w-full object-contain transition duration-500 group-hover:scale-105"
+                />
+              </div>
+
+              <div
+                className={[
+                  "mt-4 flex min-h-[44px] items-start justify-center text-sm font-bold uppercase tracking-[0.08em] leading-tight transition duration-300",
+                  active ? "text-white" : "text-white/85 group-hover:text-white",
+                ].join(" ")}
+              >
+                {tile.label}
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function ProductCard({
+  p,
+  onOpen,
+  isFavorite,
+  onToggleFavorite,
+}: {
+  p: ProductCardVM;
+  onOpen: () => void;
+  isFavorite: boolean;
+  onToggleFavorite: () => void;
+}) {
+  return (
+    <article className="group text-left">
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={onOpen}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onOpen();
+          }
+        }}
+        className="relative aspect-square cursor-pointer overflow-hidden rounded-3xl border border-white/10"
+      >
         {p.imageUrl ? (
           <img
             src={p.imageUrl}
@@ -418,35 +708,54 @@ function ProductCard({ p, onOpen }: { p: ProductCardVM; onOpen: () => void }) {
         )}
 
         <button
-          className="absolute top-4 right-4 h-10 w-10 rounded-full border border-white/15 bg-black/30 backdrop-blur
-                     grid place-items-center text-white/80 hover:text-white hover:border-white/30 transition"
-          title="Save"
+          className={[
+            "absolute top-4 right-4 h-11 w-11 rounded-full border backdrop-blur",
+            "grid place-items-center transition duration-300",
+            isFavorite
+              ? "border-white bg-white text-black hover:bg-white/90"
+              : "border-white/15 bg-black/35 text-white/80 hover:text-white hover:border-white/30 hover:bg-black/50",
+          ].join(" ")}
+          title={isFavorite ? "Elimină de la favorite" : "Adaugă la favorite"}
+          aria-label={isFavorite ? "Elimină de la favorite" : "Adaugă la favorite"}
           type="button"
           onClick={(e) => {
             e.stopPropagation();
+            onToggleFavorite();
           }}
         >
-          <HeartIcon />
+          <HeartIcon filled={isFavorite} />
         </button>
       </div>
 
-      <div className="mt-4 text-white/85">{p.brand}</div>
-      <div className="mt-1 text-sm text-white/60">{p.name}</div>
-      {p.subtitle ? (
-        <div className="mt-1 text-xs text-white/45">{p.subtitle}</div>
-      ) : null}
-    </button>
+      <button type="button" onClick={onOpen} className="mt-4 block w-full text-left">
+        <div className="text-white/85">{p.brand}</div>
+        <div className="mt-1 text-sm text-white/60">{p.name}</div>
+        {p.subtitle ? (
+          <div className="mt-1 text-xs text-white/45">{p.subtitle}</div>
+        ) : null}
+      </button>
+    </article>
   );
 }
 
-function ProductRow({ p, onOpen }: { p: ProductCardVM; onOpen: () => void }) {
+function ProductRow({
+  p,
+  onOpen,
+  isFavorite,
+  onToggleFavorite,
+}: {
+  p: ProductCardVM;
+  onOpen: () => void;
+  isFavorite: boolean;
+  onToggleFavorite: () => void;
+}) {
   return (
-    <button
-      type="button"
-      onClick={onOpen}
-      className="w-full text-left flex items-center gap-6 rounded-2xl border border-white/10 p-4"
-    >
-      <div className="relative h-20 w-20 overflow-hidden rounded-xl border border-white/10">
+    <article className="w-full flex items-center gap-6 rounded-2xl border border-white/10 p-4">
+      <button
+        type="button"
+        onClick={onOpen}
+        className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-white/10"
+      >
         {p.imageUrl ? (
           <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover" />
         ) : (
@@ -454,28 +763,35 @@ function ProductRow({ p, onOpen }: { p: ProductCardVM; onOpen: () => void }) {
             No image
           </div>
         )}
-      </div>
+      </button>
 
-      <div className="flex-1">
+      <button type="button" onClick={onOpen} className="min-w-0 flex-1 text-left">
         <div className="text-white/85">{p.brand}</div>
         <div className="text-sm text-white/60">{p.name}</div>
         {p.subtitle ? (
           <div className="text-xs text-white/45">{p.subtitle}</div>
         ) : null}
-      </div>
+      </button>
 
       <button
-        className="h-10 w-10 rounded-full border border-white/15 bg-black/30 backdrop-blur
-                   grid place-items-center text-white/80 hover:text-white hover:border-white/30 transition"
-        title="Save"
+        className={[
+          "h-11 w-11 shrink-0 rounded-full border backdrop-blur",
+          "grid place-items-center transition duration-300",
+          isFavorite
+            ? "border-white bg-white text-black hover:bg-white/90"
+            : "border-white/15 bg-black/30 text-white/80 hover:text-white hover:border-white/30 hover:bg-black/50",
+        ].join(" ")}
+        title={isFavorite ? "Elimină de la favorite" : "Adaugă la favorite"}
+        aria-label={isFavorite ? "Elimină de la favorite" : "Adaugă la favorite"}
         type="button"
         onClick={(e) => {
           e.stopPropagation();
+          onToggleFavorite();
         }}
       >
-        <HeartIcon />
+        <HeartIcon filled={isFavorite} />
       </button>
-    </button>
+    </article>
   );
 }
 
@@ -518,13 +834,15 @@ function ChevronDown() {
   );
 }
 
-function HeartIcon() {
+function HeartIcon({ filled = false }: { filled?: boolean }) {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
       <path
-        d="M12 21s-7-4.35-9.5-8.5C.5 9 2.4 6 5.8 6c1.9 0 3.2 1 4.2 2.2C11 7 12.3 6 14.2 6 17.6 6 19.5 9 21.5 12.5 19 16.65 12 21 12 21z"
+        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"
+        fill={filled ? "currentColor" : "none"}
         stroke="currentColor"
-        strokeWidth="1.6"
+        strokeWidth="1.8"
+        strokeLinecap="round"
         strokeLinejoin="round"
       />
     </svg>

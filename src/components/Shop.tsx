@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
+
+const FAVORITES_STORAGE_KEY = "orion_favorite_products";
 
 /* ---------------------------------------------------
    Util: hook simplu pentru "in viewport"
@@ -46,7 +48,7 @@ function animStyle(
   key: "fade-up" | "slide-in-right" | "pop",
   durMs: number,
   delayMs = 0
-): React.CSSProperties {
+): CSSProperties {
   return on
     ? {
         animation: `${key} ${durMs}ms cubic-bezier(0.16,1,0.3,1) both`,
@@ -63,7 +65,33 @@ type Product = {
   name: string;
   description: string;
   image?: string;
+  brand?: string;
 };
+
+type FavoriteProduct = {
+  id: string;
+  brand: string;
+  name: string;
+  subtitle?: string | null;
+  imageUrl: string;
+  solutions?: string[];
+};
+
+function readFavoriteProductsFromStorage(): FavoriteProduct[] {
+  if (typeof window === "undefined") return [];
+
+  try {
+    const raw = window.localStorage.getItem(FAVORITES_STORAGE_KEY);
+    if (!raw) return [];
+
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed.filter((item: Partial<FavoriteProduct>) => item?.id && item?.name);
+  } catch {
+    return [];
+  }
+}
 
 /* imagine albă 800x600 (SVG data URI) */
 const WHITE_IMG =
@@ -74,6 +102,9 @@ const WHITE_IMG =
 --------------------------------------------------- */
 export default function Shop() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [favoriteProducts, setFavoriteProducts] = useState<FavoriteProduct[]>(
+    readFavoriteProductsFromStorage
+  );
   const [loadingData, setLoadingData] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
 
@@ -99,7 +130,7 @@ export default function Shop() {
 
       const { data, error } = await supabase
         .from("shop_products")
-        .select("id,name,subtitle,images")
+        .select("id,brand,name,subtitle,images")
         .order("name", { ascending: true });
 
       if (!alive) return;
@@ -112,6 +143,7 @@ export default function Shop() {
 
       const mappedProducts: Product[] = (data ?? []).map((p: any) => ({
         id: p.id,
+        brand: p.brand ?? "",
         name: p.name,
         description: p.subtitle || "",
         image: p.images?.[0] ?? WHITE_IMG,
@@ -125,6 +157,42 @@ export default function Shop() {
       alive = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    window.localStorage.setItem(
+      FAVORITES_STORAGE_KEY,
+      JSON.stringify(favoriteProducts)
+    );
+
+    window.dispatchEvent(new Event("orion:favorites-changed"));
+  }, [favoriteProducts]);
+
+  const isFavorite = (productId: string) =>
+    favoriteProducts.some((product) => product.id === productId);
+
+  const toggleFavorite = (product: Product) => {
+    setFavoriteProducts((prev) => {
+      const alreadySaved = prev.some((item) => item.id === product.id);
+
+      if (alreadySaved) {
+        return prev.filter((item) => item.id !== product.id);
+      }
+
+      return [
+        ...prev,
+        {
+          id: product.id,
+          brand: product.brand ?? "",
+          name: product.name,
+          subtitle: product.description || null,
+          imageUrl: product.image ?? "",
+          solutions: [],
+        },
+      ];
+    });
+  };
 
   return (
     <section className="w-full bg-background text-foreground">
@@ -157,7 +225,12 @@ export default function Shop() {
           ) : products.length === 0 ? (
             <div className="py-10 text-sm text-muted">Nu există produse momentan.</div>
           ) : (
-            <ProductCarousel items={products} railIn={railIn} />
+            <ProductCarousel
+              items={products}
+              railIn={railIn}
+              isFavorite={isFavorite}
+              toggleFavorite={toggleFavorite}
+            />
           )}
         </div>
 
@@ -182,9 +255,13 @@ export default function Shop() {
 function ProductCarousel({
   items,
   railIn,
+  isFavorite,
+  toggleFavorite,
 }: {
   items: Product[];
   railIn: boolean;
+  isFavorite: (productId: string) => boolean;
+  toggleFavorite: (product: Product) => void;
 }) {
   const scroller = useRef<HTMLUListElement>(null);
   const [atStart, setAtStart] = useState(true);
@@ -280,7 +357,13 @@ function ProductCarousel({
             key={p.id}
             className="snap-start shrink-0 basis-[80%] sm:basis-[60%] md:basis-[calc(33.333%-16px)] lg:basis-[calc(25%-18px)]"
           >
-            <Card product={p} index={i} railIn={railIn} />
+            <Card
+              product={p}
+              index={i}
+              railIn={railIn}
+              isFavorite={isFavorite(p.id)}
+              onToggleFavorite={() => toggleFavorite(p)}
+            />
           </li>
         ))}
       </ul>
@@ -295,35 +378,74 @@ function Card({
   product,
   index,
   railIn,
+  isFavorite,
+  onToggleFavorite,
 }: {
   product: Product;
   index: number;
   railIn: boolean;
+  isFavorite: boolean;
+  onToggleFavorite: () => void;
 }) {
   const src = product.image || WHITE_IMG;
   const delay = 180 + index * 60;
 
   return (
-    <Link
-      to={`/shop/${product.id}`}
-      className="block group rounded-2xl border border-white/12 bg-white/6 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,.35)] overflow-hidden transition hover:scale-[1.02]"
+    <article
+      className="group relative rounded-2xl border border-white/12 bg-white/6 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,.35)] overflow-hidden transition hover:scale-[1.02]"
       style={animStyle(railIn, "fade-up", 2800, delay)}
     >
-      <figure className="relative aspect-[4/3] bg-white flex items-center justify-center">
-        <img
-          src={src}
-          alt={product.name}
-          loading="lazy"
-          className="h-full w-full object-contain"
-        />
-      </figure>
+      <button
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          onToggleFavorite();
+        }}
+        className={[
+          "absolute right-4 top-4 z-30 grid h-11 w-11 place-items-center rounded-full border backdrop-blur transition duration-300",
+          isFavorite
+            ? "border-white bg-white text-black hover:bg-white/90"
+            : "border-white/20 bg-black/35 text-white hover:border-white/40 hover:bg-black/55",
+        ].join(" ")}
+        aria-label={isFavorite ? "Elimină de la favorite" : "Adaugă la favorite"}
+        title={isFavorite ? "Elimină de la favorite" : "Adaugă la favorite"}
+      >
+        <HeartIcon filled={isFavorite} />
+      </button>
 
-      <div className="p-4">
-        <h3 className="font-semibold text-foreground">{product.name}</h3>
-        <p className="mt-1 text-sm text-muted line-clamp-2">
-          {product.description}
-        </p>
-      </div>
-    </Link>
+      <Link to={`/shop/${product.id}`} className="block">
+        <figure className="relative aspect-[4/3] bg-white flex items-center justify-center">
+          <img
+            src={src}
+            alt={product.name}
+            loading="lazy"
+            className="h-full w-full object-contain"
+          />
+        </figure>
+
+        <div className="p-4">
+          <h3 className="font-semibold text-foreground">{product.name}</h3>
+          <p className="mt-1 text-sm text-muted line-clamp-2">
+            {product.description}
+          </p>
+        </div>
+      </Link>
+    </article>
+  );
+}
+
+function HeartIcon({ filled = false }: { filled?: boolean }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"
+        fill={filled ? "currentColor" : "none"}
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }

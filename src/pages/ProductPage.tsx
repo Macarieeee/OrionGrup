@@ -3,27 +3,69 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import type { ShopProduct } from "../data/shopCatalog";
 
+type ProductPageProduct = ShopProduct & {
+  price?: number | null;
+  currency?: string | null;
+};
+
+type FavoriteProduct = {
+  id: string;
+  brand: string;
+  name: string;
+  code?: string | null;
+  subtitle?: string | null;
+  imageUrl: string;
+  images?: string[];
+  solutions?: string[];
+  price?: number | null;
+  currency?: string | null;
+};
+
+const FAVORITES_STORAGE_KEY = "orion_favorite_products";
+
 export default function ProductPage() {
   const { productId } = useParams();
   const navigate = useNavigate();
 
-  const [product, setProduct] = useState<ShopProduct | null>(null);
-  const [related, setRelated] = useState<ShopProduct[]>([]);
+  const [product, setProduct] = useState<ProductPageProduct | null>(null);
+  const [related, setRelated] = useState<ProductPageProduct[]>([]);
+  const [favoriteProducts, setFavoriteProducts] = useState<FavoriteProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
 
   const [activeImg, setActiveImg] = useState(0);
   const [dimPreview, setDimPreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [openSections, setOpenSections] = useState<
     Array<"specs" | "dimensions" | "catalog" | "bimcad">
   >(["specs"]);
 
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(FAVORITES_STORAGE_KEY);
+      if (!raw) return;
+
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        setFavoriteProducts(parsed);
+      }
+    } catch {
+      setFavoriteProducts([]);
+    }
+  }, []);
+
+  // ESC close modal
   // ESC close modal
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setDimPreview(null);
+      if (e.key === "Escape") {
+        setDimPreview(null);
+        setImagePreview(null);
+      }
     };
+
     window.addEventListener("keydown", onKey);
+
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
@@ -53,7 +95,7 @@ export default function ProductPage() {
       const { data, error } = await supabase
         .from("shop_products")
         .select(
-          "id,brand,name,code,subtitle,description,images,solutions,specs,dimensions_images,dimensions_text,documents"
+          "id,brand,name,code,subtitle,description,images,solutions,specs,dimensions_images,dimensions_text,documents,price,currency"
         )
         .eq("id", productId)
         .maybeSingle();
@@ -72,7 +114,7 @@ export default function ProductPage() {
         return;
       }
 
-      const mapped: ShopProduct = {
+      const mapped: ProductPageProduct = {
         id: data.id,
         brand: data.brand,
         name: data.name,
@@ -87,6 +129,8 @@ export default function ProductPage() {
           text: data.dimensions_text ?? undefined,
         },
         documents: Array.isArray(data.documents) ? data.documents : [],
+        price: data.price ?? null,
+        currency: data.currency ?? "RON",
       };
 
       setProduct(mapped);
@@ -96,7 +140,7 @@ export default function ProductPage() {
         const { data: relData, error: relErr } = await supabase
           .from("shop_products")
           .select(
-            "id,brand,name,code,subtitle,description,images,solutions,specs,dimensions_images,dimensions_text,documents"
+            "id,brand,name,code,subtitle,description,images,solutions,specs,dimensions_images,dimensions_text,documents,price,currency"
           )
           .neq("id", mapped.id)
           .overlaps("solutions", mapped.solutions)
@@ -105,7 +149,7 @@ export default function ProductPage() {
         if (!alive) return;
 
         if (!relErr) {
-          const relMapped: ShopProduct[] = (relData ?? []).map((r: any) => ({
+          const relMapped: ProductPageProduct[] = (relData ?? []).map((r: any) => ({
             id: r.id,
             brand: r.brand,
             name: r.name,
@@ -120,6 +164,8 @@ export default function ProductPage() {
               text: r.dimensions_text ?? undefined,
             },
             documents: Array.isArray(r.documents) ? r.documents : [],
+            price: r.price ?? null,
+            currency: r.currency ?? "RON",
           }));
 
           setRelated(relMapped);
@@ -136,6 +182,59 @@ export default function ProductPage() {
 
   const images = product?.images ?? [];
   const heroImg = images[Math.min(activeImg, Math.max(images.length - 1, 0))];
+  const isFavorite = product
+    ? favoriteProducts.some((item) => item.id === product.id)
+    : false;
+
+  const formattedPrice = useMemo(() => {
+    const rawPrice = product?.price;
+
+    if (rawPrice === null || rawPrice === undefined) {
+      return "La cerere";
+    }
+
+    const numericPrice = Number(rawPrice);
+
+    if (!Number.isFinite(numericPrice) || numericPrice <= 0) {
+      return "La cerere";
+    }
+
+    return new Intl.NumberFormat("ro-RO", {
+      style: "currency",
+      currency: product?.currency || "RON",
+      maximumFractionDigits: 2,
+    }).format(numericPrice);
+  }, [product?.price, product?.currency]);
+
+  const toggleFavorite = () => {
+    if (!product) return;
+
+    setFavoriteProducts((prev) => {
+      const exists = prev.some((item) => item.id === product.id);
+
+      const next = exists
+        ? prev.filter((item) => item.id !== product.id)
+        : [
+          ...prev,
+          {
+            id: product.id,
+            brand: product.brand,
+            name: product.name,
+            code: product.code ?? null,
+            subtitle: product.subtitle ?? null,
+            imageUrl: product.images?.[0] ?? "",
+            images: product.images ?? [],
+            solutions: product.solutions ?? [],
+            price: product.price ?? null,
+            currency: product.currency ?? "RON",
+          },
+        ];
+
+      localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(next));
+      window.dispatchEvent(new Event("orion:favorites-changed"));
+      return next;
+    });
+  };
 
   const docsCatalog = useMemo(
     () =>
@@ -188,11 +287,23 @@ export default function ProductPage() {
             <div className="relative rounded-3xl overflow-hidden">
               <div className="aspect-[4/3] md:aspect-[16/10]">
                 {heroImg ? (
-                  <img
-                    src={heroImg}
-                    alt={`${product.brand} ${product.name}`}
-                    className="h-full w-full object-contain p-6"
-                  />
+                  <button
+                    type="button"
+                    onClick={() => setImagePreview(heroImg)}
+                    className="group h-full w-full cursor-zoom-in"
+                    aria-label="Deschide imaginea produsului"
+                  >
+                    <img
+                      src={heroImg}
+                      alt={`${product.brand} ${product.name}`}
+                      className="h-full w-full object-contain p-6 transition duration-500 group-hover:scale-[1.025]"
+                      draggable={false}
+                    />
+
+                    <div className="pointer-events-none absolute bottom-5 left-1/2 -translate-x-1/2 rounded-full border border-white/15 bg-black/60 px-4 py-2 text-xs font-semibold text-white/80 opacity-0 backdrop-blur-md transition duration-300 group-hover:opacity-100">
+                      Click pentru mărire
+                    </div>
+                  </button>
                 ) : (
                   <div className="h-full w-full grid place-items-center text-black/50">
                     No image
@@ -279,11 +390,44 @@ export default function ProductPage() {
 
           {/* RIGHT: PRODUCT INFO + CTA */}
           <aside className="lg:sticky lg:top-[calc(var(--nav-h)+18px)] h-fit">
-            <div className="text-black/70 text-sm">{product.brand}</div>
-            <h1 className="mt-2 text-2xl md:text-3xl font-semibold tracking-tight">
-              {product.name}
-            </h1>
-            <div className="mt-2 text-black/55 text-sm">Cod: {product.code}</div>
+            <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-6 items-start">
+              <div>
+                <div className="text-black/70 text-sm">{product.brand}</div>
+                <h1 className="mt-2 text-2xl md:text-3xl font-semibold tracking-tight">
+                  {product.name}
+                </h1>
+                <div className="mt-2 text-black/55 text-sm">Cod: {product.code}</div>
+              </div>
+
+              <div className="flex flex-row items-center justify-start gap-3">
+                {/* PRICE */}
+                <div className="min-w-[100px] rounded-[1.25rem] bg-white px-5 py-4 shadow-[0_6px_18px_rgba(0,0,0,0.10)]">
+                  <div className="text-[10px] uppercase tracking-[0.24em] text-black/45">
+                    Preț
+                  </div>
+
+                  <div className="mt-1.5 text-lg sm:text-xl font-semibold text-black">
+                    {formattedPrice}
+                  </div>
+                </div>
+
+                {/* FAVORITE */}
+                <button
+                  type="button"
+                  onClick={toggleFavorite}
+                  className={[
+                    "flex h-[58px] w-[58px] shrink-0 items-center justify-center rounded-full border bg-white shadow-[0_6px_18px_rgba(0,0,0,0.10)] transition duration-300 ease-in-out",
+                    isFavorite
+                      ? "border-black text-black"
+                      : "border-black/15 text-black hover:border-black/40",
+                  ].join(" ")}
+                  aria-label={isFavorite ? "Elimină de la favorite" : "Adaugă la favorite"}
+                  title={isFavorite ? "Elimină de la favorite" : "Adaugă la favorite"}
+                >
+                  <HeartIcon filled={isFavorite} />
+                </button>
+              </div>
+            </div>
 
             {product.subtitle ? (
               <div className="mt-3 text-black/70">{product.subtitle}</div>
@@ -441,7 +585,55 @@ export default function ProductPage() {
           </div>
         </div>
       ) : null}
+      {/* PRODUCT IMAGE PREVIEW */}
+      {imagePreview ? (
+        <div
+          className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/85 p-6 backdrop-blur-md"
+          onClick={() => setImagePreview(null)}
+        >
+          <button
+            type="button"
+            onClick={() => setImagePreview(null)}
+            className="absolute right-5 top-5 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition hover:bg-white/20"
+            aria-label="Închide imaginea"
+          >
+            ×
+          </button>
+
+          <div
+            className="max-h-[90vh] max-w-[92vw] overflow-hidden rounded-2xl bg-white"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={imagePreview}
+              alt="Imagine produs mărită"
+              className="max-h-[90vh] max-w-[92vw] object-contain"
+              draggable={false}
+            />
+          </div>
+        </div>
+      ) : null}
     </main>
+  );
+}
+
+function HeartIcon({ filled = false }: { filled?: boolean }) {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill={filled ? "currentColor" : "none"}
+      aria-hidden="true"
+    >
+      <path
+        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
