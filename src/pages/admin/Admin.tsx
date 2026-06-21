@@ -5,12 +5,16 @@ import ProductsAdmin from "./ProductsAdmin";
 import CategoriesAdmin from "./CategoriesAdmin";
 import PortfolioProjectsAdmin from "./PortfolioProjectsAdmin";
 import PortfolioCategoriesAdmin from "./PortfolioCategoriesAdmin";
+import CatalogsAdmin from "./CatalogsAdmin";
+import CatalogCategoriesAdmin from "./CatalogCategoriesAdmin";
 
 type AdminTab =
   | "products"
   | "categories"
   | "portfolio-projects"
-  | "portfolio-categories";
+  | "portfolio-categories"
+  | "catalogs"
+  | "catalog-categories";
 
 export default function Admin() {
   const [sessionReady, setSessionReady] = useState(false);
@@ -102,6 +106,24 @@ export default function Admin() {
           >
             Categorii portofoliu
           </button>
+
+          <button
+            onClick={() => setTab("catalogs")}
+            className={`rounded-xl px-4 py-2 text-sm transition duration-300 ease-in-out ${
+              tab === "catalogs" ? "bg-white text-black" : "bg-white/10 hover:bg-white/15"
+            }`}
+          >
+            Cataloage
+          </button>
+
+          <button
+            onClick={() => setTab("catalog-categories")}
+            className={`rounded-xl px-4 py-2 text-sm transition duration-300 ease-in-out ${
+              tab === "catalog-categories" ? "bg-white text-black" : "bg-white/10 hover:bg-white/15"
+            }`}
+          >
+            Categorii cataloage
+          </button>
         </div>
 
         <div className="mt-8">
@@ -109,6 +131,8 @@ export default function Admin() {
           {tab === "categories" ? <CategoriesAdmin /> : null}
           {tab === "portfolio-projects" ? <PortfolioProjectsAdmin /> : null}
           {tab === "portfolio-categories" ? <PortfolioCategoriesAdmin /> : null}
+          {tab === "catalogs" ? <CatalogsAdmin /> : null}
+          {tab === "catalog-categories" ? <CatalogCategoriesAdmin /> : null}
         </div>
       </div>
     </main>

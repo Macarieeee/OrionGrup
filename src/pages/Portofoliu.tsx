@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
+import { useLanguage } from "../language/LanguageContext";
 
 type Project = {
   id: string;
@@ -21,7 +22,9 @@ type PortfolioProjectDb = {
   id: string;
   slug: string;
   title: string;
+  title_en: string | null;
   portfolio_description: string | null;
+  portfolio_description_en: string | null;
   cover_image: string | null;
   category_id: string | null;
   display_order: number | null;
@@ -37,6 +40,7 @@ function numberLabel(index: number) {
 
 export default function Portofoliu() {
   const navigate = useNavigate();
+  const { language } = useLanguage();
 
   const [categories, setCategories] = useState<Category[]>([
     { id: ALL_ID, name: "Toate categoriile" },
@@ -66,7 +70,8 @@ export default function Portofoliu() {
             .order("name", { ascending: true }),
           supabase
             .from("portfolio_projects")
-            .select("id,slug,title,portfolio_description,cover_image,category_id,display_order,created_at")
+            .select("id,slug,title,title_en,portfolio_description,portfolio_description_en,cover_image,category_id,display_order,created_at")
+            .eq("is_active", true)
             .order("display_order", { ascending: true, nullsFirst: false })
             .order("created_at", { ascending: true }),
         ]);
@@ -91,8 +96,11 @@ export default function Portofoliu() {
 
       const nextProjects: Project[] = ((projects ?? []) as PortfolioProjectDb[]).map((p, index) => ({
         id: p.id,
-        title: p.title,
-        description: p.portfolio_description ?? "",
+        title: language === "en" && p.title_en ? p.title_en : p.title,
+        description:
+          language === "en" && p.portfolio_description_en
+            ? p.portfolio_description_en
+            : p.portfolio_description ?? "",
         imageUrl: p.cover_image ?? "",
         numberLabel: numberLabel(index),
         slug: p.slug,
@@ -110,7 +118,7 @@ export default function Portofoliu() {
     return () => {
       alive = false;
     };
-  }, []);
+  }, [language]);
 
   const filteredProjects = useMemo(() => {
     if (selectedCategoryId === ALL_ID) return allProjects;

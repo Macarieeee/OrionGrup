@@ -11,13 +11,19 @@ type PortfolioProjectDb = {
   id?: string;
   slug: string;
   title: string;
+  title_en: string | null;
   badge_label: string | null;
+  badge_label_en: string | null;
   portfolio_description: string | null;
+  portfolio_description_en: string | null;
   main_description: string | null;
+  main_description_en: string | null;
   cover_image: string | null;
   main_images: string[] | null;
   site_title: string | null;
+  site_title_en: string | null;
   site_description: string | null;
+  site_description_en: string | null;
   site_images: string[] | null;
   category_id: string | null;
   display_order: number | null;
@@ -30,13 +36,19 @@ const BUCKET = "portfolio";
 const emptyForm: PortfolioProjectDb = {
   slug: "",
   title: "",
+  title_en: "",
   badge_label: "",
+  badge_label_en: "",
   portfolio_description: "",
+  portfolio_description_en: "",
   main_description: "",
+  main_description_en: "",
   cover_image: "",
   main_images: [],
   site_title: "De pe șantier la realitate",
+  site_title_en: "From Site to Reality",
   site_description: "",
+  site_description_en: "",
   site_images: [],
   category_id: null,
   display_order: null,
@@ -127,7 +139,7 @@ export default function PortfolioProjectsAdmin() {
         supabase
           .from("portfolio_projects")
           .select(
-            "id,slug,title,badge_label,portfolio_description,main_description,cover_image,main_images,site_title,site_description,site_images,category_id,display_order,is_active,created_at"
+            "id,slug,title,title_en,badge_label,badge_label_en,portfolio_description,portfolio_description_en,main_description,main_description_en,cover_image,main_images,site_title,site_title_en,site_description,site_description_en,site_images,category_id,display_order,is_active,created_at"
           )
           .order("display_order", { ascending: true, nullsFirst: false })
           .order("created_at", { ascending: true }),
@@ -157,7 +169,9 @@ export default function PortfolioProjectsAdmin() {
     if (!search) return items;
 
     return items.filter((item) => {
-      const haystack = `${item.title} ${item.slug} ${item.badge_label ?? ""}`.toLowerCase();
+      const haystack = `${item.title} ${item.title_en ?? ""} ${item.slug} ${
+        item.badge_label ?? ""
+      } ${item.badge_label_en ?? ""}`.toLowerCase();
       return haystack.includes(search);
     });
   }, [items, q]);
@@ -178,13 +192,19 @@ export default function PortfolioProjectsAdmin() {
       id: project.id,
       slug: project.slug ?? "",
       title: project.title ?? "",
+      title_en: project.title_en ?? "",
       badge_label: project.badge_label ?? "",
+      badge_label_en: project.badge_label_en ?? "",
       portfolio_description: project.portfolio_description ?? "",
+      portfolio_description_en: project.portfolio_description_en ?? "",
       main_description: project.main_description ?? "",
+      main_description_en: project.main_description_en ?? "",
       cover_image: project.cover_image ?? "",
       main_images: safeArr(project.main_images),
       site_title: project.site_title ?? "De pe șantier la realitate",
+      site_title_en: project.site_title_en ?? "From Site to Reality",
       site_description: project.site_description ?? "",
+      site_description_en: project.site_description_en ?? "",
       site_images: safeArr(project.site_images),
       category_id: project.category_id ?? null,
       display_order: project.display_order ?? null,
@@ -305,15 +325,27 @@ export default function PortfolioProjectsAdmin() {
       const payload = {
         slug: form.slug.trim(),
         title: form.title.trim(),
+        title_en: form.title_en?.trim() ? form.title_en.trim() : null,
         badge_label: form.badge_label?.trim() ? form.badge_label.trim() : null,
+        badge_label_en: form.badge_label_en?.trim() ? form.badge_label_en.trim() : null,
         portfolio_description: form.portfolio_description?.trim()
           ? form.portfolio_description.trim()
           : null,
+        portfolio_description_en: form.portfolio_description_en?.trim()
+          ? form.portfolio_description_en.trim()
+          : null,
         main_description: form.main_description?.trim() ? form.main_description.trim() : null,
+        main_description_en: form.main_description_en?.trim()
+          ? form.main_description_en.trim()
+          : null,
         cover_image: cover_image || null,
         main_images,
         site_title: form.site_title?.trim() ? form.site_title.trim() : "De pe șantier la realitate",
+        site_title_en: form.site_title_en?.trim() ? form.site_title_en.trim() : null,
         site_description: form.site_description?.trim() ? form.site_description.trim() : null,
+        site_description_en: form.site_description_en?.trim()
+          ? form.site_description_en.trim()
+          : null,
         site_images,
         category_id: form.category_id || null,
         display_order:
@@ -399,19 +431,57 @@ export default function PortfolioProjectsAdmin() {
             </button>
           </div>
 
-          <input
-            className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
-            placeholder="Titlu proiect"
-            value={form.title}
-            onChange={(e) => setForm((prev) => ({ ...prev, title: e.target.value }))}
-          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <label className="block">
+              <span className="mb-1 block text-xs font-semibold uppercase tracking-[0.14em] text-white/45">
+                Titlu RO
+              </span>
+              <input
+                className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
+                placeholder="Titlu proiect"
+                value={form.title}
+                onChange={(e) => setForm((prev) => ({ ...prev, title: e.target.value }))}
+              />
+            </label>
 
-          <input
-            className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
-            placeholder="Badge ex: Indoor Lighting"
-            value={form.badge_label ?? ""}
-            onChange={(e) => setForm((prev) => ({ ...prev, badge_label: e.target.value }))}
-          />
+            <label className="block">
+              <span className="mb-1 block text-xs font-semibold uppercase tracking-[0.14em] text-white/45">
+                Titlu EN
+              </span>
+              <input
+                className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
+                placeholder="Project title"
+                value={form.title_en ?? ""}
+                onChange={(e) => setForm((prev) => ({ ...prev, title_en: e.target.value }))}
+              />
+            </label>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <label className="block">
+              <span className="mb-1 block text-xs font-semibold uppercase tracking-[0.14em] text-white/45">
+                Badge RO
+              </span>
+              <input
+                className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
+                placeholder="Ex: Iluminat interior"
+                value={form.badge_label ?? ""}
+                onChange={(e) => setForm((prev) => ({ ...prev, badge_label: e.target.value }))}
+              />
+            </label>
+
+            <label className="block">
+              <span className="mb-1 block text-xs font-semibold uppercase tracking-[0.14em] text-white/45">
+                Badge EN
+              </span>
+              <input
+                className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
+                placeholder="Ex: Indoor Lighting"
+                value={form.badge_label_en ?? ""}
+                onChange={(e) => setForm((prev) => ({ ...prev, badge_label_en: e.target.value }))}
+              />
+            </label>
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-[1fr_150px] gap-2">
             <select
@@ -463,10 +533,28 @@ export default function PortfolioProjectsAdmin() {
           />
 
           <textarea
+            className="w-full min-h-[110px] rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
+            placeholder="Descriere scurta EN pentru pagina Portfolio"
+            value={form.portfolio_description_en ?? ""}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, portfolio_description_en: e.target.value }))
+            }
+          />
+
+          <textarea
             className="w-full min-h-[130px] rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
             placeholder="Descriere principală pentru pagina proiectului"
             value={form.main_description ?? ""}
             onChange={(e) => setForm((prev) => ({ ...prev, main_description: e.target.value }))}
+          />
+
+          <textarea
+            className="w-full min-h-[130px] rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
+            placeholder="Descriere principala EN pentru pagina proiectului"
+            value={form.main_description_en ?? ""}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, main_description_en: e.target.value }))
+            }
           />
 
           {/* COVER */}
@@ -565,11 +653,27 @@ export default function PortfolioProjectsAdmin() {
               onChange={(e) => setForm((prev) => ({ ...prev, site_title: e.target.value }))}
             />
 
+            <input
+              className="mt-3 w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
+              placeholder="Titlu sectiune EN"
+              value={form.site_title_en ?? ""}
+              onChange={(e) => setForm((prev) => ({ ...prev, site_title_en: e.target.value }))}
+            />
+
             <textarea
               className="mt-3 w-full min-h-[110px] rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
               placeholder="Descriere secțiune"
               value={form.site_description ?? ""}
               onChange={(e) => setForm((prev) => ({ ...prev, site_description: e.target.value }))}
+            />
+
+            <textarea
+              className="mt-3 w-full min-h-[110px] rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
+              placeholder="Descriere sectiune EN"
+              value={form.site_description_en ?? ""}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, site_description_en: e.target.value }))
+              }
             />
 
             <div className="mt-3">

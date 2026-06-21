@@ -25,9 +25,11 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import WorkInProgressPage from "./pages/WorkInProgressPage";
 import ProjectPageSupabase from "./pages/ProjectPageSupabase";
 import TermsAndConditions from "./pages/TermsAndConditions";
+import LanguageToggle from "./components/LanguageToggle";
+import { LanguageProvider } from "./language/LanguageContext";
 export default function App() {
   return (
-    <>
+    <LanguageProvider>
       <Navbar />
 
       {/* padding-top pentru navbar fixed */}
@@ -73,6 +75,7 @@ export default function App() {
       </main>
 
       <Footer />
-    </>
+      <LanguageToggle />
+    </LanguageProvider>
   );
 }

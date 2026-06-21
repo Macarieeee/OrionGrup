@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Landmark } from "lucide-react";
 import { supabase } from "../lib/supabaseClient";
+import { useLanguage } from "../language/LanguageContext";
 
 const NAVBAR_H = 96;
 
@@ -9,11 +10,16 @@ type PortfolioProjectDb = {
   id: string;
   slug: string;
   title: string;
+  title_en: string | null;
   badge_label: string | null;
+  badge_label_en: string | null;
   main_description: string | null;
+  main_description_en: string | null;
   main_images: string[] | null;
   site_title: string | null;
+  site_title_en: string | null;
   site_description: string | null;
+  site_description_en: string | null;
   site_images: string[] | null;
 };
 
@@ -35,16 +41,20 @@ function safeStringArray(value: unknown): string[] {
     : [];
 }
 
-function mapProject(row: PortfolioProjectDb): PortfolioProject {
+function pickLocalized(language: "ro" | "en", roValue: string | null, enValue: string | null, fallback = "") {
+  return language === "en" && enValue?.trim() ? enValue : roValue ?? fallback;
+}
+
+function mapProject(row: PortfolioProjectDb, language: "ro" | "en"): PortfolioProject {
   return {
     id: row.id,
     slug: row.slug,
-    title: row.title,
-    badgeLabel: row.badge_label ?? "Proiect Orion Grup",
-    mainDescription: row.main_description ?? "",
+    title: pickLocalized(language, row.title, row.title_en),
+    badgeLabel: pickLocalized(language, row.badge_label, row.badge_label_en, "Proiect Orion Grup"),
+    mainDescription: pickLocalized(language, row.main_description, row.main_description_en),
     mainImages: safeStringArray(row.main_images),
-    siteTitle: row.site_title ?? "De pe șantier la realitate",
-    siteDescription: row.site_description ?? "",
+    siteTitle: pickLocalized(language, row.site_title, row.site_title_en, "De pe șantier la realitate"),
+    siteDescription: pickLocalized(language, row.site_description, row.site_description_en),
     siteImages: safeStringArray(row.site_images),
   };
 }
@@ -52,6 +62,7 @@ function mapProject(row: PortfolioProjectDb): PortfolioProject {
 export default function ProjectPageSupabase() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { language } = useLanguage();
 
   const [project, setProject] = useState<PortfolioProject | null>(null);
   const [loading, setLoading] = useState(true);
@@ -74,9 +85,10 @@ export default function ProjectPageSupabase() {
       const { data, error } = await supabase
         .from("portfolio_projects")
         .select(
-          "id,slug,title,badge_label,main_description,main_images,site_title,site_description,site_images"
+          "id,slug,title,title_en,badge_label,badge_label_en,main_description,main_description_en,main_images,site_title,site_title_en,site_description,site_description_en,site_images"
         )
         .eq("slug", slug)
+        .eq("is_active", true)
         .maybeSingle();
 
       if (!alive) return;
@@ -93,7 +105,7 @@ export default function ProjectPageSupabase() {
         return;
       }
 
-      setProject(mapProject(data as PortfolioProjectDb));
+      setProject(mapProject(data as PortfolioProjectDb, language));
       setLoading(false);
     }
 
@@ -102,7 +114,7 @@ export default function ProjectPageSupabase() {
     return () => {
       alive = false;
     };
-  }, [slug]);
+  }, [slug, language]);
 
   const mainImages = useMemo(() => project?.mainImages.slice(0, 4) ?? [], [project]);
   const siteImages = useMemo(() => project?.siteImages ?? [], [project]);
@@ -441,4 +453,3 @@ function ProjectImageSlider({ images, compact = false }: { images: string[]; com
     </div>
   );
 }
-

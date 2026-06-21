@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
-import type { ChangeEvent } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 
 const FAVORITES_STORAGE_KEY = "orion_favorite_products";
 const MAX_ATTACHMENT_SIZE_BYTES = 4 * 1024 * 1024; // 4 MB - safe pentru Vercel Functions
+const CONTACT_ENDPOINT = "/api/contact";
 
 type FavoriteProduct = {
   id?: string;
@@ -12,10 +13,14 @@ type FavoriteProduct = {
 };
 
 export default function Footer() {
+  const formRef = useRef<HTMLFormElement | null>(null);
   const [favoriteNames, setFavoriteNames] = useState<string[]>([]);
   const [message, setMessage] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [fileError, setFileError] = useState<string | null>(null);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const refreshFavorites = () => {
     try {
@@ -95,6 +100,84 @@ export default function Footer() {
     setFileError(null);
   };
 
+  const fileToBase64 = (file: File) => {
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const result = reader.result;
+        if (typeof result !== "string") {
+          reject(new Error("Fisier invalid."));
+          return;
+        }
+
+        resolve(result.split(",")[1] ?? "");
+      };
+
+      reader.onerror = () => reject(new Error("Fisierul nu a putut fi citit."));
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (fileError || isSubmitting) return;
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const attachment = formData.get("attachment");
+
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+    setSubmitMessage("");
+
+    try {
+      const attachmentFile = attachment instanceof File && attachment.size > 0
+        ? {
+            name: attachment.name,
+            type: attachment.type || "application/octet-stream",
+            content: await fileToBase64(attachment),
+          }
+        : null;
+
+      const response = await fetch(CONTACT_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: String(formData.get("name") ?? "").trim(),
+          email: String(formData.get("email") ?? "").trim(),
+          phone: String(formData.get("phone") ?? "").trim(),
+          cui: String(formData.get("cui") ?? "").trim(),
+          message: message.trim(),
+          favoriteProducts: favoriteNames,
+          acceptedTerms,
+          attachment: attachmentFile,
+        }),
+      });
+
+      const result = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        throw new Error(result?.message || "Mesajul nu a putut fi trimis.");
+      }
+
+      setSubmitStatus("success");
+      setSubmitMessage("Cererea a fost trimisa. Vei primi si un email de confirmare.");
+      setAcceptedTerms(false);
+      setFileError(null);
+      setMessage(favoriteMessage);
+      formRef.current?.reset();
+    } catch (error) {
+      setSubmitStatus("error");
+      setSubmitMessage(error instanceof Error ? error.message : "Mesajul nu a putut fi trimis.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <footer className="relative w-full bg-[#0a0b0d] text-gray-400 overflow-hidden">
       {/* === CTA Section === */}
@@ -121,7 +204,12 @@ export default function Footer() {
               Completează formularul, iar noi revenim către tine cât mai repede cu toate detaliile necesare.
             </p>
 
-            <form id="contact-form" className="w-full max-w-md mx-auto space-y-4">
+            <form
+              id="contact-form"
+              ref={formRef}
+              onSubmit={handleSubmit}
+              className="w-full max-w-md mx-auto space-y-4"
+            >
               <input
                 type="text"
                 name="name"
@@ -221,16 +309,28 @@ export default function Footer() {
 
               <button
                 type="submit"
-                disabled={!acceptedTerms || Boolean(fileError)}
+                disabled={!acceptedTerms || Boolean(fileError) || isSubmitting}
                 className={[
                   "w-full px-6 py-3 rounded-xl text-white font-medium transition duration-300 ease-in-out",
-                  acceptedTerms && !fileError
+                  acceptedTerms && !fileError && !isSubmitting
                     ? "bg-indigo-600 hover:bg-indigo-500"
                     : "bg-indigo-600/40 cursor-not-allowed",
                 ].join(" ")}
               >
-                Trimite mesajul
+                {isSubmitting ? "Se trimite..." : "Trimite mesajul"}
               </button>
+
+              {submitMessage ? (
+                <p
+                  className={[
+                    "text-sm",
+                    submitStatus === "success" ? "text-green-300" : "text-red-300",
+                  ].join(" ")}
+                  role={submitStatus === "error" ? "alert" : "status"}
+                >
+                  {submitMessage}
+                </p>
+              ) : null}
             </form>
           </div>
         </div>
