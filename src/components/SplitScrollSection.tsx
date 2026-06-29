@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
+import { Link } from "react-router-dom";
 import { GlowSweep, Beam } from "./Hero";
 import Portfolio1 from "../assets/videoilluminazionepolittico_corta.gif";
 import Portfolio2 from "../assets/IasiOutdoor.jpeg";
@@ -49,16 +50,26 @@ const cards: CardData[] = [
   },
 ];
 
+const projectRoutes: Record<string, string> = {
+  "1": "/proiect1",
+  "2": "/proiect2",
+  "3": "/portofoliu",
+  "4": "/proiect7",
+  "5": "/proiect5",
+};
+
 
 function AnimatedCard({
   title,
   text,
   image,
+  href,
   reverse,
 }: {
   title: string;
   text: string;
   image: string;
+  href: string;
   reverse?: boolean;
 }) {
   const triggerRef = useRef<HTMLDivElement>(null);
@@ -85,9 +96,14 @@ function AnimatedCard({
   return (
     <div className="relative w-full mb-16">
       <div ref={triggerRef} className="absolute top-1/2 h-px w-full" />
+      <Link
+        to={href}
+        aria-label={`Vezi proiectul ${title}`}
+        className="block outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0b0d]"
+      >
 
       {/* DESKTOP layout */}
-      <div className="hidden md:flex items-center justify-center h-[50vh] relative">
+      <div className="hidden md:flex items-center justify-center h-[50vh] relative cursor-pointer">
         <motion.div
           animate={controlsText}
           initial={{ x: "0%" }}
@@ -143,6 +159,7 @@ function AnimatedCard({
     <p className="text-base text-gray-300">{text}</p>
   </motion.div>
 </div>
+      </Link>
     </div>
   );
 }
@@ -218,6 +235,7 @@ export default function MiddleSection() {
     title={card.title}
     text={card.text}
     image={card.image}
+    href={projectRoutes[card.id]}
     reverse={card.reverse}
   />
 ))}

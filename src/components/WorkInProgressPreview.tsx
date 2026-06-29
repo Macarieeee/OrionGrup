@@ -123,32 +123,31 @@ export default function WorkInProgressPreview() {
           </div>
 
           {/* RIGHT */}
-          {/* RIGHT */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="relative col-span-2 overflow-hidden rounded-[2rem] border border-white/10 bg-[#101113] sm:col-span-1 sm:h-[560px]">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#101113] sm:h-[560px] sm:rounded-[2rem]">
               <PreviewImage
                 src={workImages[0]}
                 alt="Lucrare Orion Grup în desfășurare"
-                className="h-[380px] sm:h-full"
+                className="aspect-[4/3] sm:h-full sm:aspect-auto"
                 onClick={() => setSelectedImage(workImages[0])}
               />
             </div>
 
             <div className="flex flex-col gap-4">
-              <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#101113]">
+              <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#101113] sm:rounded-[2rem]">
                 <PreviewImage
                   src={workImages[1]}
                   alt="Șantier Orion Grup"
-                  className="h-[270px]"
+                  className="aspect-[4/3] sm:h-[270px] sm:aspect-auto"
                   onClick={() => setSelectedImage(workImages[1])}
                 />
               </div>
 
-              <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#101113]">
+              <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#101113] sm:rounded-[2rem]">
                 <PreviewImage
                   src={workImages[2]}
                   alt="Instalație de iluminat în lucru"
-                  className="h-[270px]"
+                  className="aspect-[4/3] sm:h-[270px] sm:aspect-auto"
                   onClick={() => setSelectedImage(workImages[2])}
                 />
               </div>

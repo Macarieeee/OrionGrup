@@ -11,6 +11,8 @@ type WorkItem = {
   image: string;
 };
 
+const base = import.meta.env.BASE_URL;
+
 const workItems: WorkItem[] = [
   {
     id: "santier-1",
@@ -18,7 +20,7 @@ const workItems: WorkItem[] = [
     location: "Proiect rezidențial",
     description:
       "Etapă de montaj și poziționare pentru corpurile de iluminat integrate în proiect.",
-    image: "/work-in-progress/santier-1.jpg",
+    image: `${base}work-in-progress/santier-1.jpeg`,
   },
   {
     id: "santier-2",
@@ -26,7 +28,7 @@ const workItems: WorkItem[] = [
     location: "Spațiu comercial",
     description:
       "Lucrări de pregătire, cablare și verificare pentru sistemele de iluminat.",
-    image: "/work-in-progress/santier-2.jpg",
+    image: `${base}work-in-progress/santier-2.jpeg`,
   },
   {
     id: "santier-3",
@@ -34,7 +36,7 @@ const workItems: WorkItem[] = [
     location: "Interior modern",
     description:
       "Verificări tehnice și ajustări înainte de finalizarea proiectului.",
-    image: "/work-in-progress/santier-3.jpg",
+    image: `${base}work-in-progress/santier-3.jpeg`,
   },
   {
     id: "santier-4",
@@ -42,7 +44,7 @@ const workItems: WorkItem[] = [
     location: "Lucrare în execuție",
     description:
       "Imagini din procesul de instalare și integrare a soluțiilor Orion Grup.",
-    image: "/work-in-progress/santier-4.jpg",
+    image: `${base}work-in-progress/santier-3.png`,
   },
   {
     id: "santier-5",
@@ -50,7 +52,7 @@ const workItems: WorkItem[] = [
     location: "Proiect premium",
     description:
       "Ultimele intervenții înainte de recepție și predarea lucrării către client.",
-    image: "/work-in-progress/santier-5.jpg",
+    image: `${base}work-in-progress/santier-3.jpeg`,
   },
   {
     id: "santier-6",
@@ -58,7 +60,7 @@ const workItems: WorkItem[] = [
     location: "Proiect în lucru",
     description:
       "Corpuri de iluminat montate, testate și pregătite pentru etapa finală.",
-    image: "/work-in-progress/santier-6.jpg",
+    image: `${base}work-in-progress/santier-3.png`,
   },
 ];
 
