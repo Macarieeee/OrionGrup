@@ -4,7 +4,7 @@ import Brands from "../components/Brands";
 import MiddleSection from "../components/SplitScrollSection";
 import AboutUs from "../components/AboutUs";
 import WorkInProgressPreview from "../components/WorkInProgressPreview";
-import LightingRoomSection from "../components/LightingRoomSection";
+// import LightingRoomSection from "../components/LightingRoomSection";
 
 export default function Index() {
 
@@ -12,7 +12,7 @@ export default function Index() {
     <>
       <Hero />
       <MiddleSection />
-      <LightingRoomSection />
+      {/* <LightingRoomSection /> */}
       <Shop />
       <AboutUs />
       <WorkInProgressPreview />

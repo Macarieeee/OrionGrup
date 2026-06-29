@@ -5,7 +5,7 @@ import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 
 const FAVORITES_STORAGE_KEY = "orion_favorite_products";
 const MAX_ATTACHMENT_SIZE_BYTES = 4 * 1024 * 1024; // 4 MB - safe pentru Vercel Functions
-const CONTACT_ENDPOINT = "/api/contact";
+const CONTACT_ENDPOINT = "/api/contact.php";
 
 type FavoriteProduct = {
   id?: string;
