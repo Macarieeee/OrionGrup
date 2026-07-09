@@ -1,6 +1,6 @@
 import { Landmark } from "lucide-react";
 // import imaginile tale:
-import Img1 from "../../assets/theNorthFace1.jpeg";
+import Img1 from "../../assets/TheNorthFace1.jpeg";
 import Img2 from "../../assets/TheNorthFace2.jpeg";
 import Img4 from "../../assets/TheNorthFace3.jpeg";
 import Img3 from "../../assets/TheNorthFace4.jpeg";
