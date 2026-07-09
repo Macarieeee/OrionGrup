@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+import { Instagram, Linkedin } from "lucide-react";
 
 const FAVORITES_STORAGE_KEY = "orion_favorite_products";
 const MAX_ATTACHMENT_SIZE_BYTES = 4 * 1024 * 1024; // 4 MB - safe pentru Vercel Functions
@@ -21,6 +21,8 @@ export default function Footer() {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const [submitMessage, setSubmitMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterMessage, setNewsletterMessage] = useState("");
 
   const refreshFavorites = () => {
     try {
@@ -176,6 +178,15 @@ export default function Footer() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleNewsletterSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setNewsletterMessage(
+      "Abonarea publica la newsletter va fi disponibila in curand. Pana atunci, poti crea un cont si bifa optiunea de newsletter."
+    );
+    setNewsletterEmail("");
   };
 
   return (
@@ -349,13 +360,15 @@ export default function Footer() {
 
           {/* Col 2: Company */}
           <div>
-            <h3 className="text-white text-lg font-semibold mb-4">Company</h3>
+            <h3 className="text-white text-lg font-semibold mb-4">Companie</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white">Features</a></li>
-              <li><a href="#" className="hover:text-white">Company</a></li>
-              <li><a href="#" className="hover:text-white">Blog</a></li>
+              <li><Link to="/" className="hover:text-white">Acasa</Link></li>
+              <li><Link to="/despre" className="hover:text-white">Despre noi</Link></li>
+              <li><Link to="/portofoliu" className="hover:text-white">Portofoliu</Link></li>
               <li><Link to="/shop" className="hover:text-white">Shop</Link></li>
-              <li><Link to="/termeni-si-conditii" className="hover:text-white">Termeni și Condiții</Link></li>
+              <li><Link to="/cataloage" className="hover:text-white">Cataloage</Link></li>
+              <li><Link to="/work-in-progress" className="hover:text-white">Work in Progress</Link></li>
+              <li><a href="#footer-contact" className="hover:text-white">Contact</a></li>
             </ul>
           </div>
 
@@ -363,22 +376,80 @@ export default function Footer() {
           <div>
             <h3 className="text-white text-lg font-semibold mb-4">Social Media</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white flex items-center gap-2"><Instagram className="w-4 h-4" /> Instagram</a></li>
-              <li><a href="#" className="hover:text-white flex items-center gap-2"><Facebook className="w-4 h-4" /> Facebook</a></li>
-              <li><a href="#" className="hover:text-white flex items-center gap-2"><Linkedin className="w-4 h-4" /> LinkedIn</a></li>
-              <li><a href="#" className="hover:text-white flex items-center gap-2"><Twitter className="w-4 h-4" /> Twitter</a></li>
+              <li>
+                <a
+                  href="https://www.instagram.com/oriongrup.ro/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-white flex items-center gap-2"
+                >
+                  <Instagram className="w-4 h-4" /> Instagram
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.linkedin.com/company/orion-grup/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-white flex items-center gap-2"
+                >
+                  <Linkedin className="w-4 h-4" /> LinkedIn
+                </a>
+              </li>
             </ul>
           </div>
 
-          {/* Col 4: Webflow Stuff */}
+          {/* Col 4: Resources */}
           <div>
-            <h3 className="text-white text-lg font-semibold mb-4">Stuff</h3>
+            <h3 className="text-white text-lg font-semibold mb-4">Resurse</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white">Style Guide</a></li>
-              <li><a href="#" className="hover:text-white">Licensing</a></li>
-              <li><a href="#" className="hover:text-white">Instructions</a></li>
-              <li><a href="#" className="hover:text-white">Change Log</a></li>
+              <li><Link to="/termeni-si-conditii" className="hover:text-white">Termeni si conditii</Link></li>
+              <li><Link to="/politica-de-confidentialitate" className="hover:text-white">Politica de confidentialitate</Link></li>
+              <li><Link to="/sign-in" className="hover:text-white">Cont client si newsletter</Link></li>
+              <li><a href="#footer-contact" className="hover:text-white">Cerere oferta</a></li>
             </ul>
+          </div>
+        </div>
+
+        <div className="mx-auto mt-12 max-w-7xl rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-[1fr_420px] md:items-center">
+            <div>
+              <h3 className="text-xl font-semibold text-white">Abonare la newsletter</h3>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-gray-400">
+                Primeste noutati despre colectii, cataloage si solutii de iluminat Orion Grup. Rubrica este pregatita pentru conectarea abonarii publice.
+              </p>
+            </div>
+
+            <form onSubmit={handleNewsletterSubmit} className="space-y-3">
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <input
+                  type="email"
+                  value={newsletterEmail}
+                  onChange={(event) => {
+                    setNewsletterEmail(event.target.value);
+                    setNewsletterMessage("");
+                  }}
+                  placeholder="email@exemplu.ro"
+                  required
+                  className="min-w-0 flex-1 rounded-xl border border-white/10 bg-black/35 px-4 py-3 text-white outline-none placeholder:text-gray-500 focus:ring-2 focus:ring-indigo-500"
+                />
+                <button
+                  type="submit"
+                  className="rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black transition hover:bg-white/90"
+                >
+                  Aboneaza-te
+                </button>
+              </div>
+              {newsletterMessage ? (
+                <p className="text-xs leading-relaxed text-gray-400" role="status">
+                  {newsletterMessage}
+                </p>
+              ) : (
+                <p className="text-xs leading-relaxed text-gray-500">
+                  Prin abonare vei accepta prelucrarea adresei de email conform politicii de confidentialitate.
+                </p>
+              )}
+            </form>
           </div>
         </div>
       </div>

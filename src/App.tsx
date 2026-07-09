@@ -25,6 +25,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import WorkInProgressPage from "./pages/WorkInProgressPage";
 import ProjectPageSupabase from "./pages/ProjectPageSupabase";
 import TermsAndConditions from "./pages/TermsAndConditions";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import LanguageToggle from "./components/LanguageToggle";
 import { LanguageProvider } from "./language/LanguageContext";
 export default function App() {
@@ -41,6 +42,7 @@ export default function App() {
           <Route path="/admin/reset" element={<AdminResetPassword />} />
           <Route path="/" element={<Index />} />
           <Route path="/termeni-si-conditii" element={<TermsAndConditions />} />
+          <Route path="/politica-de-confidentialitate" element={<PrivacyPolicy />} />
           <Route path="/portofoliu" element={<Portofoliu />} />
           <Route path="/despre" element={<DespreNoi />} />
           <Route path="/proiect1" element={<Proiect1 />} />

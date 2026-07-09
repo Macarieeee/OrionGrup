@@ -1,12 +1,18 @@
 import * as THREE from "three";
-import { Reflector } from "three/examples/jsm/objects/Reflector.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
+import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter.js";
 
 export function createRoomScene(container) {
 if (!container) {
   return () => {};
 }
+
+const isCoarsePointer = window.matchMedia?.("(pointer: coarse)")?.matches ?? false;
+const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+const isLowPowerDevice = isCoarsePointer || prefersReducedMotion || window.devicePixelRatio > 2;
+const maxPixelRatio = isLowPowerDevice ? 1 : 1.35;
+const targetFrameMs = isLowPowerDevice ? 1000 / 24 : 1000 / 30;
 
 const getViewport = () => {
   const rect = container.getBoundingClientRect();
@@ -17,10 +23,13 @@ const getViewport = () => {
 };
 
 const viewport = getViewport();
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer({
+  antialias: !isLowPowerDevice,
+  powerPreference: "low-power",
+});
 renderer.setSize(viewport.width, viewport.height);
-renderer.setPixelRatio(Math.min(2, window.devicePixelRatio));
-renderer.shadowMap.enabled = true;
+renderer.setPixelRatio(Math.min(maxPixelRatio, window.devicePixelRatio || 1));
+renderer.shadowMap.enabled = !isLowPowerDevice;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.domElement.style.display = "block";
 renderer.domElement.style.width = "100%";
@@ -854,12 +863,17 @@ function addRightWallMirror({
 } = {}) {
   const mirrorGeometry = new THREE.PlaneGeometry(width, height);
 
-  const mirror = new Reflector(mirrorGeometry, {
-    clipBias: 0.003,
-    textureWidth: getViewport().width * window.devicePixelRatio,
-    textureHeight: getViewport().height * window.devicePixelRatio,
-    color: 0x777777,
-  });
+  const mirror = new THREE.Mesh(
+    mirrorGeometry,
+    new THREE.MeshPhysicalMaterial({
+      color: "#dfe7e8",
+      metalness: 0.72,
+      roughness: 0.18,
+      transparent: true,
+      opacity: 0.78,
+      side: THREE.DoubleSide,
+    })
+  );
 
   // Peretele din dreapta este pe axa X, deci rotim oglinda ca să stea pe el
   mirror.rotation.y = -Math.PI / 2;
@@ -1797,8 +1811,8 @@ scene.add(centerCollar);
   // lumină reală, caldă/rece controlată din consolă, orientată spre masă
   const tableLight = new THREE.PointLight(0xffd49a, 0.85, 5.2, 1.35);
   tableLight.position.set(lampX, lampY - 0.08, lampZ);
-  tableLight.castShadow = true;
-  tableLight.shadow.mapSize.set(1024, 1024);
+  tableLight.castShadow = !isLowPowerDevice;
+  tableLight.shadow.mapSize.set(isLowPowerDevice ? 256 : 512, isLowPowerDevice ? 256 : 512);
   lampGroup.add(tableLight);
 
   architecturalLightGroups.push({
@@ -1919,15 +1933,48 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.7));
 // --- Render loop ---
 let frameId = 0;
 let disposed = false;
+let active = true;
+let inViewport = true;
+let lastFrameTime = 0;
 
-function animate() {
+function renderFrame(time = 0) {
   if (disposed) return;
-  frameId = requestAnimationFrame(animate);
+  frameId = 0;
+
+  if (!active || document.hidden) return;
+
+  if (time - lastFrameTime < targetFrameMs) {
+    scheduleFrame();
+    return;
+  }
+
+  lastFrameTime = time;
   clampCameraTarget();
   controls.update();
   renderer.render(scene, camera);
+  scheduleFrame();
 }
-animate();
+
+function scheduleFrame() {
+  if (disposed || frameId || !active || document.hidden) return;
+  frameId = requestAnimationFrame(renderFrame);
+}
+
+function setActive(nextActive) {
+  active = nextActive;
+
+  if (!active && frameId) {
+    cancelAnimationFrame(frameId);
+    frameId = 0;
+    return;
+  }
+
+  if (active) {
+    lastFrameTime = 0;
+    scheduleFrame();
+  }
+}
+scheduleFrame();
 
 function resize() {
   const { width, height } = getViewport();
@@ -1941,14 +1988,70 @@ resizeObserver.observe(container);
 window.addEventListener("resize", resize);
 resize();
 
+const sceneObserver =
+  "IntersectionObserver" in window
+    ? new IntersectionObserver(
+        ([entry]) => {
+          inViewport = Boolean(entry?.isIntersecting);
+          setActive(inViewport && !document.hidden);
+        },
+        {
+          root: null,
+          rootMargin: "120px 0px",
+          threshold: 0.01,
+        }
+      )
+    : null;
+
+sceneObserver?.observe(container);
+
+function handleVisibilityChange() {
+  setActive(inViewport && !document.hidden);
+}
+
+document.addEventListener("visibilitychange", handleVisibilityChange);
+
+const exporter = new GLTFExporter();
+
+const exportRoom = () => {
+  exporter.parse(
+    scene,
+    (result) => {
+      const blob = new Blob([result], { type: "model/gltf-binary" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = "camera.glb";
+      link.click();
+
+      setTimeout(() => URL.revokeObjectURL(url), 0);
+      console.log("GLB exported!");
+    },
+    (error) => {
+      console.error(error);
+    },
+    {
+      binary: true,
+    }
+  );
+};
+
+window.exportRoom = exportRoom;
+
 return () => {
   disposed = true;
   cancelAnimationFrame(frameId);
   resizeObserver.disconnect();
+  sceneObserver?.disconnect();
   window.removeEventListener("resize", resize);
+  document.removeEventListener("visibilitychange", handleVisibilityChange);
   controls.dispose();
   renderer.dispose();
   renderer.domElement.remove();
+  if (window.exportRoom === exportRoom) {
+    delete window.exportRoom;
+  }
   scene.traverse((object) => {
     if (object.geometry) object.geometry.dispose();
     if (object.material) {

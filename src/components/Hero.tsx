@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function GlowSweep({
   className = "",
@@ -148,21 +149,12 @@ export default function Hero() {
             </p>
 
             <div className="flex w-[22vw] flex-col items-start gap-3 2xl:flex-row">
-              <button className="rounded-xl bg-primary text-ink px-4 py-2.5 font-semibold shadow-lg hover:bg-primary/90 active:translate-y-px transition text-[11px] whitespace-nowrap">
+              <Link
+                to="/shop"
+                className="rounded-xl bg-primary text-ink px-4 py-2.5 font-semibold shadow-lg hover:bg-primary/90 active:translate-y-px transition text-[11px] whitespace-nowrap"
+              >
                 Începe-ți proiectul
-              </button>
-
-              <button className="rounded-xl bg-secondary text-ink px-4 py-2.5 font-semibold shadow inline-flex items-center justify-center gap-2 hover:bg-secondary/90 active:translate-y-px transition text-[11px] whitespace-nowrap">
-                <svg
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                  className="h-3.5 w-3.5 shrink-0"
-                  fill="currentColor"
-                >
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-                Camera 3D
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -184,13 +176,9 @@ export default function Hero() {
           </p>
 
           <div className="flex gap-3 mt-2">
-            <button className="rounded-xl bg-primary text-ink px-4 py-2 font-semibold shadow-lg hover:bg-primary/90 active:translate-y-px transition text-sm">
+            <Link to="/shop" className="rounded-xl bg-primary text-ink px-4 py-2 font-semibold shadow-lg hover:bg-primary/90 active:translate-y-px transition text-sm">
               Începe-ți proiectul
-            </button>
-
-            <button className="rounded-xl bg-secondary text-ink px-4 py-2 font-semibold shadow inline-flex items-center gap-2 hover:bg-secondary/90 active:translate-y-px transition text-sm">
-              Camera 3D
-            </button>
+            </Link>
           </div>
         </div>
 

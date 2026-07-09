@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { formatPrice, normalizeCurrency } from "../lib/currency";
 import { supabase } from "../lib/supabaseClient";
 import type { ShopProduct } from "../data/shopCatalog";
 
@@ -130,7 +131,7 @@ export default function ProductPage() {
         },
         documents: Array.isArray(data.documents) ? data.documents : [],
         price: data.price ?? null,
-        currency: data.currency ?? "RON",
+        currency: normalizeCurrency(data.currency),
       };
 
       setProduct(mapped);
@@ -165,7 +166,7 @@ export default function ProductPage() {
             },
             documents: Array.isArray(r.documents) ? r.documents : [],
             price: r.price ?? null,
-            currency: r.currency ?? "RON",
+            currency: normalizeCurrency(r.currency),
           }));
 
           setRelated(relMapped);
@@ -186,25 +187,10 @@ export default function ProductPage() {
     ? favoriteProducts.some((item) => item.id === product.id)
     : false;
 
-  const formattedPrice = useMemo(() => {
-    const rawPrice = product?.price;
-
-    if (rawPrice === null || rawPrice === undefined) {
-      return "La cerere";
-    }
-
-    const numericPrice = Number(rawPrice);
-
-    if (!Number.isFinite(numericPrice) || numericPrice <= 0) {
-      return "La cerere";
-    }
-
-    return new Intl.NumberFormat("ro-RO", {
-      style: "currency",
-      currency: product?.currency || "RON",
-      maximumFractionDigits: 2,
-    }).format(numericPrice);
-  }, [product?.price, product?.currency]);
+  const formattedPrice = useMemo(
+    () => formatPrice(product?.price, product?.currency, 2),
+    [product?.price, product?.currency]
+  );
 
   const toggleFavorite = () => {
     if (!product) return;
@@ -226,7 +212,7 @@ export default function ProductPage() {
             images: product.images ?? [],
             solutions: product.solutions ?? [],
             price: product.price ?? null,
-            currency: product.currency ?? "RON",
+            currency: normalizeCurrency(product.currency),
           },
         ];
 

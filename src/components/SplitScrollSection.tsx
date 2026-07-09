@@ -2,62 +2,40 @@ import React, { useRef } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { GlowSweep, Beam } from "./Hero";
-import Portfolio1 from "../assets/videoilluminazionepolittico_corta.gif";
-import Portfolio2 from "../assets/IasiOutdoor.jpeg";
-import Portfolio3 from "../assets/new-loft.jpg";
-import Portfolio4 from "../assets/OfficeProject.jpeg";
-import Portfolio5 from "../assets/PenthousePrimaverii.jpeg";
+import { supabase } from "../lib/supabaseClient";
+import { useLanguage } from "../language/LanguageContext";
+
 type CardData = {
   id: string;
   title: string;
   text: string;
   image: string;
+  href: string;
   reverse?: boolean;
 };
 
-const cards: CardData[] = [
-  {
-    id: "1",
-    title: "Catedrala Mântuirii Neamului",
-    text: "Prin utilizarea policandelor, am creat un ambient luminos care pune în valoare fiecare detaliu arhitectural al Catedralei Mântuirii Neamului, transformând-o într-un reper vizual atât ziua, cât și noaptea.",
-    image: Portfolio1, // pune imaginile tale în /public/images/
-  },
-  {
-    id: "2",
-    title: "Monarch Mansion Galați",
-    text: "Proiectul a pus accent pe conturarea volumelor și evidențierea elementelor decorative printr-un sistem de iluminat arhitectural atent poziționat. Rezultatul este o fațadă care capătă profunzime și personalitate.",
-    image: Portfolio2,
-    reverse: true,
-  },
-  {
-    id: "3",
-    title: "Loft Lounge",
-    text: "Iluminarea Loft Lounge a fost gândită pentru a susține identitatea exclusivistă a locației, printr-un joc subtil de lumini și umbre care amplifică textura materialelor și creează o atmosferă memorabilă.",
-    image: Portfolio3,
-  },
-  {
-    id: "4",
-    title: "Twin Towers City Gate",
-    text: "Acest proiect evidențiază integrarea unui sistem de iluminat arhitectural modern într-un spațiu de office/recepție, bazat pe linii LED geometrice care accentuează structura și creează un efect vizual sofisticat.",
-    image: Portfolio4,
-    reverse: true,
-  },
-  {
-    id: "5",
-    title: "Penthouse Primaverii",
-    text: "Living de penthouse cu iluminat pe șină și spoturi discrete, care scot frumos în evidență peretele din piatră și zona TV. Lumina caldă creează o atmosferă plăcută și elegantă, perfectă pentru un spațiu modern și relaxant.",
-    image: Portfolio5,
-  },
-];
-
-const projectRoutes: Record<string, string> = {
-  "1": "/proiect1",
-  "2": "/proiect2",
-  "3": "/portofoliu",
-  "4": "/proiect7",
-  "5": "/proiect5",
+type PortfolioProjectDb = {
+  id: string;
+  slug: string;
+  title: string;
+  title_en: string | null;
+  portfolio_description: string | null;
+  portfolio_description_en: string | null;
+  cover_image: string | null;
+  display_order: number | null;
+  created_at?: string | null;
 };
 
+const HOMEPAGE_PROJECT_LIMIT = 5;
+
+function pickLocalized(
+  language: "ro" | "en",
+  roValue: string | null,
+  enValue: string | null,
+  fallback = ""
+) {
+  return language === "en" && enValue?.trim() ? enValue : roValue ?? fallback;
+}
 
 function AnimatedCard({
   title,
@@ -101,64 +79,57 @@ function AnimatedCard({
         aria-label={`Vezi proiectul ${title}`}
         className="block outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0b0d]"
       >
+        <div className="hidden md:flex items-center justify-center h-[50vh] relative cursor-pointer">
+          <motion.div
+            animate={controlsText}
+            initial={{ x: "0%" }}
+            className={`absolute z-10 ${reverse ? "text-right" : "text-left"} text-white`}
+          >
+            <h2 className="text-4xl font-bold mb-4">{title}</h2>
+            <p className="text-lg text-gray-300 max-w-md">{text}</p>
+          </motion.div>
 
-      {/* DESKTOP layout */}
-      <div className="hidden md:flex items-center justify-center h-[50vh] relative cursor-pointer">
-        <motion.div
-          animate={controlsText}
-          initial={{ x: "0%" }}
-          className={`absolute z-10 ${reverse ? "text-right" : "text-left"} text-white`}
-        >
-          <h1 className="text-4xl font-bold mb-4">{title}</h1>
-          <p className="text-lg text-gray-300 max-w-md">{text}</p>
-        </motion.div>
+          <motion.div
+            animate={controlsPlaceholder}
+            initial={{ x: "0%" }}
+            className="relative z-20 w-[37vw] h-[40vh] rounded-2xl overflow-hidden bg-white/10 border border-white/20 backdrop-blur-md shadow-xl"
+          >
+            <img
+              src={image}
+              alt={title}
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </motion.div>
+        </div>
 
-        <motion.div
-  animate={controlsPlaceholder}
-  initial={{ x: "0%" }}
-  className="relative z-20 w-[37vw] h-[40vh] rounded-2xl overflow-hidden 
-             bg-white/10 border border-white/20 backdrop-blur-md shadow-xl"
->
-  <img
-    src={image}
-    alt={title}
-    className="w-full h-full object-cover"
-    loading="lazy"
-  />
-</motion.div>
-      </div>
+        <div className="flex flex-col md:hidden items-center justify-center w-full gap-4 px-4">
+          <motion.div
+            initial={{ x: -100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            viewport={{ once: false, amount: 0.2 }}
+            className="w-full h-56 rounded-2xl overflow-hidden bg-white/20 border border-white/30 backdrop-blur-md shadow-lg"
+          >
+            <img
+              src={image}
+              alt={title}
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </motion.div>
 
-{/* MOBILE layout */}
-<div className="flex flex-col md:hidden items-center justify-center w-full gap-4 px-4">
-  {/* Imaginea */}
-  <motion.div
-    initial={{ x: -100, opacity: 0 }}
-    whileInView={{ x: 0, opacity: 1 }}
-    transition={{ duration: 0.7, ease: "easeOut" }}
-    viewport={{ once: false, amount: 0.2 }}
-    className="w-full h-56 rounded-2xl overflow-hidden 
-               bg-white/20 border border-white/30 backdrop-blur-md shadow-lg"
-  >
-    <img
-      src={image}
-      alt={title}
-      className="w-full h-full object-cover"
-      loading="lazy"
-    />
-  </motion.div>
-
-  {/* Textul */}
-  <motion.div
-    initial={{ x: 100, opacity: 0 }}
-    whileInView={{ x: 0, opacity: 1 }}
-    transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
-    viewport={{ once: false, amount: 0.2 }}
-    className="text-center text-white"
-  >
-    <h1 className="text-2xl font-bold mb-2">{title}</h1>
-    <p className="text-base text-gray-300">{text}</p>
-  </motion.div>
-</div>
+          <motion.div
+            initial={{ x: 100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            className="text-center text-white"
+          >
+            <h2 className="text-2xl font-bold mb-2">{title}</h2>
+            <p className="text-base text-gray-300">{text}</p>
+          </motion.div>
+        </div>
       </Link>
     </div>
   );
@@ -167,19 +138,70 @@ function AnimatedCard({
 export default function MiddleSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const { language } = useLanguage();
+  const [cards, setCards] = React.useState<CardData[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [loadError, setLoadError] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    let alive = true;
+
+    async function loadProjects() {
+      setLoading(true);
+      setLoadError(null);
+
+      const { data, error } = await supabase
+        .from("portfolio_projects")
+        .select(
+          "id,slug,title,title_en,portfolio_description,portfolio_description_en,cover_image,display_order,created_at"
+        )
+        .eq("is_active", true)
+        .order("display_order", { ascending: true, nullsFirst: false })
+        .order("created_at", { ascending: true })
+        .limit(HOMEPAGE_PROJECT_LIMIT);
+
+      if (!alive) return;
+
+      if (error) {
+        setLoadError(error.message);
+        setCards([]);
+        setLoading(false);
+        return;
+      }
+
+      const nextCards = ((data ?? []) as PortfolioProjectDb[])
+        .filter((project) => project.slug && project.cover_image)
+        .map((project, index) => ({
+          id: project.id,
+          title: pickLocalized(language, project.title, project.title_en),
+          text: pickLocalized(
+            language,
+            project.portfolio_description,
+            project.portfolio_description_en
+          ),
+          image: project.cover_image ?? "",
+          href: `/portofoliu/${project.slug}`,
+          reverse: index % 2 === 1,
+        }));
+
+      setCards(nextCards);
+      setLoading(false);
+    }
+
+    loadProjects();
+
+    return () => {
+      alive = false;
+    };
+  }, [language]);
 
   return (
     <section ref={ref} className="relative w-screen overflow-hidden py-16">
-      {/* ===== BACKGROUND layers ===== */}
       <div className="absolute inset-0 z-[-30] bg-[#0a0b0d]" />
       <div
-        className="absolute inset-0 z-[-20] pointer-events-none
-          bg-[radial-gradient(120%_85%_at_0%_0%,#0e1116_0%,transparent_60%),
-              radial-gradient(120%_85%_at_100%_0%,#0e1116_0%,transparent_60%),
-              radial-gradient(170%_120%_at_50%_120%,#07090c_0%,#0a0b0d_60%)]"
+        className="absolute inset-0 z-[-20] pointer-events-none bg-[radial-gradient(120%_85%_at_0%_0%,#0e1116_0%,transparent_60%),radial-gradient(120%_85%_at_100%_0%,#0e1116_0%,transparent_60%),radial-gradient(170%_120%_at_50%_120%,#07090c_0%,#0a0b0d_60%)]"
       />
 
-      {/* ===== Fascicule stânga/dreapta pentru titlu ===== */}
       {isInView && (
         <>
           <GlowSweep
@@ -218,28 +240,39 @@ export default function MiddleSection() {
         </>
       )}
 
-      {/* ===== Titlu + descriere ===== */}
       <div className="relative text-center max-w-2xl mx-auto mb-16 px-4">
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 relative">
           Portofoliul Nostru
         </h1>
         <p className="text-md text-gray-300">
-          O scurtă previzualizare a efectului serviciilor și produselor noastre de înaltă calitate
+          O scurta previzualizare a efectului serviciilor si produselor noastre de inalta calitate
         </p>
       </div>
 
-      {/* ===== Cardurile animate ===== */}
-     {cards.map((card) => (
-  <AnimatedCard
-    key={card.id}
-    title={card.title}
-    text={card.text}
-    image={card.image}
-    href={projectRoutes[card.id]}
-    reverse={card.reverse}
-  />
-))}
-
+      {loading ? (
+        <div className="py-8 text-center text-sm text-white/60">
+          Se incarca proiectele...
+        </div>
+      ) : loadError ? (
+        <div className="py-8 text-center text-sm text-red-300">
+          Nu am putut incarca proiectele: {loadError}
+        </div>
+      ) : cards.length ? (
+        cards.map((card) => (
+          <AnimatedCard
+            key={card.id}
+            title={card.title}
+            text={card.text}
+            image={card.image}
+            href={card.href}
+            reverse={card.reverse}
+          />
+        ))
+      ) : (
+        <div className="py-8 text-center text-sm text-white/60">
+          Nu exista proiecte disponibile momentan.
+        </div>
+      )}
     </section>
   );
 }

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
-const lastUpdated = "28 mai 2026";
+const lastUpdated = "30 iunie 2026";
 const contactEmail = "contact@oriongrup.ro"; // Înlocuiește dacă Orion Grup folosește altă adresă oficială.
 
 export default function TermsAndConditions() {
@@ -65,7 +65,16 @@ export default function TermsAndConditions() {
               </p>
             </TermsSection>
 
-            <TermsSection title="6. Trimiterea emailurilor prin servicii terțe">
+            <TermsSection title="6. Abonarea la newsletter">
+              <p>
+                Site-ul poate include o rubrica dedicata abonarii la newsletter sau optiuni de abonare in cadrul contului de client. Abonarea la newsletter este optionala si se face doar printr-o actiune separata a utilizatorului, cum ar fi bifarea unei optiuni dedicate sau trimiterea formularului de abonare.
+              </p>
+              <p>
+                Newsletterul poate include noutati despre produse, cataloage, proiecte, recomandari, evenimente sau comunicari comerciale Orion Grup. Utilizatorul va putea solicita dezabonarea sau retragerea consimtamantului, iar datele folosite pentru newsletter nu vor conditiona trimiterea unei cereri de oferta.
+              </p>
+            </TermsSection>
+
+            <TermsSection title="7. Trimiterea emailurilor prin servicii terțe">
               <p>
                 Pentru procesarea formularului, site-ul poate folosi servicii tehnice terțe. Endpoint-ul formularului poate fi găzduit prin Vercel, iar emailurile pot fi trimise prin Resend. Aceste servicii sunt folosite pentru transmiterea tehnică a cererii către Orion Grup și, dacă este cazul, pentru trimiterea unui email automat de confirmare către utilizator.
               </p>
@@ -74,37 +83,37 @@ export default function TermsAndConditions() {
               </p>
             </TermsSection>
 
-            <TermsSection title="7. Confirmarea către utilizator">
+            <TermsSection title="8. Confirmarea către utilizator">
               <p>
                 După trimiterea formularului, utilizatorul poate primi un email automat de confirmare la adresa introdusă. Acest email are scop informativ și confirmă faptul că solicitarea a fost transmisă sau urmează să fie analizată. Răspunsul comercial efectiv poate fi transmis ulterior de echipa Orion Grup.
               </p>
             </TermsSection>
 
-            <TermsSection title="8. Obligațiile utilizatorului">
+            <TermsSection title="9. Obligațiile utilizatorului">
               <p>
                 Utilizatorul declară că datele introduse în formular sunt corecte, că are dreptul să transmită informațiile respective și că nu va folosi formularul pentru spam, abuz, conținut ilegal, tentative de fraudă sau transmiterea unor fișiere malițioase.
               </p>
             </TermsSection>
 
-            <TermsSection title="9. Securitate și limitări tehnice">
+            <TermsSection title="10. Securitate și limitări tehnice">
               <p>
                 Orion Grup va lua măsuri rezonabile pentru protejarea datelor transmise prin formular. Totuși, nicio metodă de transmitere electronică nu poate garanta securitate absolută. Pot exista erori tehnice, întârzieri de livrare, mesaje blocate de filtre antispam sau indisponibilități temporare ale serviciilor folosite.
               </p>
             </TermsSection>
 
-            <TermsSection title="10. Păstrarea datelor">
+            <TermsSection title="11. Păstrarea datelor">
               <p>
                 Datele transmise prin formular pot fi păstrate pe durata necesară pentru soluționarea cererii, comunicarea cu utilizatorul, întocmirea unei oferte și îndeplinirea eventualelor obligații legale sau comerciale. Dacă solicitarea nu duce la o colaborare, datele pot fi șterse la cererea utilizatorului, în limitele permise de lege.
               </p>
             </TermsSection>
 
-            <TermsSection title="11. Drepturile utilizatorului">
+            <TermsSection title="12. Drepturile utilizatorului">
               <p>
                 Utilizatorul poate solicita acces la datele transmise, corectarea acestora, ștergerea lor, restricționarea prelucrării sau opoziția față de anumite prelucrări, în condițiile legislației aplicabile privind protecția datelor. Pentru astfel de solicitări, utilizatorul poate contacta Orion Grup la adresa: <a href={`mailto:${contactEmail}`} className="text-white underline underline-offset-4 hover:text-indigo-300">{contactEmail}</a>.
               </p>
             </TermsSection>
 
-            <TermsSection title="12. Modificarea termenilor">
+            <TermsSection title="13. Modificarea termenilor">
               <p>
                 Orion Grup poate actualiza această pagină atunci când formularul, infrastructura tehnică, serviciile terțe folosite sau cerințele legale se modifică. Versiunea aplicabilă este cea publicată pe site la momentul folosirii formularului.
               </p>

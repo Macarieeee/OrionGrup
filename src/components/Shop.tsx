@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 
 const FAVORITES_STORAGE_KEY = "orion_favorite_products";
+const HOMEPAGE_PRODUCT_LIMIT = 12;
 
 /* ---------------------------------------------------
    Util: hook simplu pentru "in viewport"
@@ -131,7 +132,9 @@ export default function Shop() {
       const { data, error } = await supabase
         .from("shop_products")
         .select("id,brand,name,subtitle,images")
-        .order("name", { ascending: true });
+        .order("display_order", { ascending: true, nullsFirst: false })
+        .order("name", { ascending: true })
+        .limit(HOMEPAGE_PRODUCT_LIMIT);
 
       if (!alive) return;
 
@@ -392,7 +395,7 @@ function Card({
 
   return (
     <article
-      className="group relative rounded-2xl border border-white/12 bg-white/6 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,.35)] overflow-hidden transition hover:scale-[1.02]"
+      className="group relative rounded-2xl border border-white/12 bg-white/6 shadow-[0_14px_34px_rgba(0,0,0,.28)] overflow-hidden transition hover:scale-[1.02] md:backdrop-blur-md md:shadow-[0_20px_60px_rgba(0,0,0,.35)]"
       style={animStyle(railIn, "fade-up", 2800, delay)}
     >
       <button
@@ -420,6 +423,7 @@ function Card({
             src={src}
             alt={product.name}
             loading="lazy"
+            decoding="async"
             className="h-full w-full object-contain"
           />
         </figure>

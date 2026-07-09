@@ -1,4 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
+import {
+  adminCurrencies,
+  formatPrice,
+  normalizeAdminCurrency,
+} from "../../lib/currency";
 import { supabase } from "../../lib/supabaseClient";
 
 type SpecRow = { label: string; value: string };
@@ -178,7 +183,7 @@ export default function ProductsAdmin() {
       documents: Array.isArray(p.documents) ? p.documents : [],
       display_order: p.display_order ?? null,
       price: p.price ?? null,
-      currency: p.currency ?? "RON",
+      currency: normalizeAdminCurrency(p.currency),
       created_at: p.created_at ?? null,
     });
 
@@ -241,7 +246,7 @@ export default function ProductsAdmin() {
           : [],
         display_order: form.display_order,
         price: form.price === null || form.price === undefined ? null : Number(form.price),
-        currency: form.currency?.trim() ? form.currency.trim().toUpperCase() : "RON",
+        currency: normalizeAdminCurrency(form.currency),
       };
 
       if (!payload.id || !payload.brand || !payload.name) {
@@ -413,17 +418,22 @@ export default function ProductsAdmin() {
               }
             />
 
-            <input
+            <select
               className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
-              placeholder="Monedă"
-              value={form.currency ?? "RON"}
+              value={normalizeAdminCurrency(form.currency)}
               onChange={(e) =>
                 setForm((p) => ({
                   ...p,
-                  currency: e.target.value.toUpperCase(),
+                  currency: normalizeAdminCurrency(e.target.value),
                 }))
               }
-            />
+            >
+              {adminCurrencies.map((currency) => (
+                <option key={currency} value={currency}>
+                  {currency}
+                </option>
+              ))}
+            </select>
           </div>
 
           <input
@@ -440,9 +450,9 @@ export default function ProductsAdmin() {
             onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))}
           />
 
-          {/* Solutions/Categories */}
+          {/* Categories */}
           <div className="mt-2">
-            <div className="text-sm text-white/70 mb-2">Categorii (solutions)</div>
+            <div className="text-sm text-white/70 mb-2">Categorii</div>
             <div className="flex flex-wrap gap-2">
               {categories.map((c) => {
                 const active = (form.solutions ?? []).includes(c.label) || (form.solutions ?? []).includes(c.id);
@@ -771,7 +781,7 @@ export default function ProductsAdmin() {
                     Ordine: {p.display_order ?? "nesetată"}
                   </div>
                   <div className="text-white/50 text-xs">
-                    Preț: {p.price && Number(p.price) > 0 ? `${Number(p.price).toLocaleString("ro-RO")} ${p.currency ?? "RON"}` : "La cerere"}
+                    Preț: {formatPrice(p.price, p.currency)}
                   </div>
                   {safeArr(p.solutions).length ? (
                     <div className="mt-1 text-white/60 text-xs truncate">

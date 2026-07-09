@@ -2,11 +2,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePreloadImages } from "../hooks/usePreloadImages";
 import { supabase } from "../lib/supabaseClient";
-import type { Solution } from "../data/shopCatalog";
-
 type CategoryTile = {
   id: string;
-  label: Solution;
+  label: string;
   imageUrl: string;
 };
 
@@ -16,7 +14,7 @@ type ProductCardVM = {
   name: string;
   subtitle?: string | null;
   imageUrl: string;
-  solutions: Solution[];
+  solutions: string[];
   display_order?: number | null;
   created_at?: string | null;
 };
@@ -66,7 +64,6 @@ export default function Shop() {
 
   const [tiles, setTiles] = useState<CategoryTile[]>([]);
   const [products, setProducts] = useState<ProductCardVM[]>([]);
-  const [allSolutions, setAllSolutions] = useState<Solution[]>([]);
   const [loadingData, setLoadingData] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [favoriteProducts, setFavoriteProducts] = useState<ProductCardVM[]>(
@@ -125,16 +122,8 @@ export default function Shop() {
         created_at: p.created_at ?? null,
       }));
 
-      const nextAllSolutions = Array.from(
-        new Set([
-          ...nextTiles.map((t) => t.label),
-          ...nextProducts.flatMap((p) => p.solutions ?? []),
-        ])
-      ).sort((a, b) => a.localeCompare(b));
-
       setTiles(nextTiles);
       setProducts(nextProducts);
-      setAllSolutions(nextAllSolutions);
       setLoadingData(false);
     })();
 
@@ -206,27 +195,26 @@ export default function Shop() {
     // rAF ca să fie sigur după paint
     requestAnimationFrame(() => window.scrollTo(0, y));
   }, [loadingData, ready]);
-  // selected filter (Solutions)
-  const [selectedSolutions, setSelectedSolutions] = useState<Solution[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [layout, setLayout] = useState<"grid" | "list">("grid");
 
   const filteredProducts = useMemo(() => {
-    if (selectedSolutions.length === 0) return products;
+    if (selectedCategories.length === 0) return products;
     return products.filter((p) =>
-      selectedSolutions.some((s) => (p.solutions ?? []).includes(s))
+      selectedCategories.some((category) => (p.solutions ?? []).includes(category))
     );
-  }, [products, selectedSolutions]);
+  }, [products, selectedCategories]);
 
-  const toggleSolution = (s: Solution) => {
-    setSelectedSolutions((prev) =>
-      prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]
+  const toggleCategory = (category: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(category) ? prev.filter((x) => x !== category) : [...prev, category]
     );
   };
 
-  const clearAll = () => setSelectedSolutions([]);
+  const clearAll = () => setSelectedCategories([]);
 
   const watchingLabel =
-    selectedSolutions.length === 0 ? "All products" : selectedSolutions.join(", ");
+    selectedCategories.length === 0 ? "All products" : selectedCategories.join(", ");
 
   // ✅ block render until data is loaded AND images are loaded (or timeout)
   if (loadingData || !ready) {
@@ -247,9 +235,9 @@ export default function Shop() {
       <section className="w-full px-4 lg:px-10 pt-10 pb-6">
         <CategoryCarousel
           tiles={tiles}
-          activeLabels={selectedSolutions}
+          activeLabels={selectedCategories}
           onSelect={(label) => {
-            setSelectedSolutions([label]);
+            setSelectedCategories([label]);
             document
               .getElementById("product-selector")
               ?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -273,7 +261,7 @@ export default function Shop() {
             </div>
 
             <div className="mt-3 flex items-center gap-2 text-white/85">
-              {selectedSolutions.length > 0 ? (
+              {selectedCategories.length > 0 ? (
                 <>
                   <button
                     onClick={clearAll}
@@ -300,48 +288,41 @@ export default function Shop() {
 
             <div className="mt-8 h-px w-full bg-white/10" />
 
-            <div className="mt-8 text-lg font-semibold">Solutions</div>
-
-            <div className="mt-4 space-y-3">
-              {allSolutions.map((s) => {
-                const checked = selectedSolutions.includes(s);
-                return (
-                  <label
-                    key={s}
-                    className="flex items-center gap-3 text-sm text-white/80 hover:text-white transition cursor-pointer select-none"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => toggleSolution(s)}
-                      className="h-4 w-4 accent-white"
-                    />
-                    <span className={checked ? "text-white underline" : ""}>
-                      {s}
-                    </span>
-                  </label>
-                );
-              })}
-            </div>
-
             <div className="mt-10 space-y-6 text-white/85">
               <Collapsible title="Collections" defaultOpen={false} />
               <Collapsible title="Categories" defaultOpen={true}>
                 <div className="mt-3 space-y-2 text-sm text-white/70">
-                  <div className="hover:text-white transition cursor-pointer">
+                  <button
+                    type="button"
+                    onClick={clearAll}
+                    className={[
+                      "block text-left transition",
+                      selectedCategories.length === 0
+                        ? "text-white underline"
+                        : "hover:text-white",
+                    ].join(" ")}
+                  >
                     All Categories
-                  </div>
-                  <div className="hover:text-white transition cursor-pointer">
-                    Lighting
-                  </div>
-                  <div className="pl-4 space-y-2">
-                    <div className="hover:text-white transition cursor-pointer">
-                      Interior lighting
-                    </div>
-                    <div className="hover:text-white transition cursor-pointer">
-                      Outdoor lighting
-                    </div>
-                  </div>
+                  </button>
+                  {tiles.map((category) => {
+                    const checked = selectedCategories.includes(category.label);
+                    return (
+                      <label
+                        key={category.id}
+                        className="flex items-center gap-3 text-sm text-white/80 hover:text-white transition cursor-pointer select-none"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          onChange={() => toggleCategory(category.label)}
+                          className="h-4 w-4 accent-white"
+                        />
+                        <span className={checked ? "text-white underline" : ""}>
+                          {category.label}
+                        </span>
+                      </label>
+                    );
+                  })}
                 </div>
               </Collapsible>
               <Collapsible title="Materials" defaultOpen={false} />

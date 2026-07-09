@@ -1,10 +1,40 @@
 import { useEffect, useRef, useState } from "react";
 
 export default function LightingRoomSection() {
+  const sectionRef = useRef<HTMLElement | null>(null);
   const mountRef = useRef<HTMLDivElement | null>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    if (!("IntersectionObserver" in window)) {
+      setShouldLoad(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        setShouldLoad(true);
+        observer.disconnect();
+      },
+      {
+        root: null,
+        rootMargin: "350px 0px",
+        threshold: 0.01,
+      }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!shouldLoad) return;
+
     let cleanup: (() => void) | undefined;
     let cancelled = false;
 
@@ -29,10 +59,10 @@ export default function LightingRoomSection() {
       cancelled = true;
       cleanup?.();
     };
-  }, []);
+  }, [shouldLoad]);
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#08090b] pb-20 text-white md:py-28">
+    <section ref={sectionRef} className="relative w-full overflow-hidden bg-[#08090b] pb-20 text-white md:py-28">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-6 lg:grid-cols-[0.78fr_1.22fr] lg:gap-14">
         <div className="max-w-xl">
           <p className="text-sm font-semibold uppercase tracking-[0.22em] text-white/55">
@@ -61,6 +91,10 @@ export default function LightingRoomSection() {
           {loadError ? (
             <div className="grid h-[500px] place-items-center px-6 text-center text-sm text-black/70 md:h-[620px]">
               {loadError}
+            </div>
+          ) : !shouldLoad ? (
+            <div className="grid h-[500px] place-items-center px-6 text-center text-sm text-black/60 md:h-[620px]">
+              Camera 3D se incarca la apropierea de sectiune.
             </div>
           ) : (
             <div ref={mountRef} className="absolute inset-0" />
