@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Instagram, Linkedin } from "lucide-react";
+import { newsletterRequest } from "../lib/newsletter";
 
 const FAVORITES_STORAGE_KEY = "orion_favorite_products";
 const MAX_ATTACHMENT_SIZE_BYTES = 4 * 1024 * 1024; // 4 MB - safe pentru Vercel Functions
@@ -23,6 +24,7 @@ export default function Footer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterMessage, setNewsletterMessage] = useState("");
+  const [newsletterBusy, setNewsletterBusy] = useState(false);
 
   const refreshFavorites = () => {
     try {
@@ -180,13 +182,18 @@ export default function Footer() {
     }
   };
 
-  const handleNewsletterSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleNewsletterSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    setNewsletterMessage(
-      "Abonarea publica la newsletter va fi disponibila in curand. Pana atunci, poti crea un cont si bifa optiunea de newsletter."
-    );
-    setNewsletterEmail("");
+    if (newsletterBusy) return;
+    setNewsletterBusy(true);
+    setNewsletterMessage("");
+    try {
+      const result = await newsletterRequest<{ message: string }>({ action: 'subscribe', email: newsletterEmail, consent: true });
+      setNewsletterMessage(result.message);
+      setNewsletterEmail("");
+    } catch (error) {
+      setNewsletterMessage(error instanceof Error ? error.message : 'Abonarea nu a reușit.');
+    } finally { setNewsletterBusy(false); }
   };
 
   return (
@@ -416,7 +423,7 @@ export default function Footer() {
             <div>
               <h3 className="text-xl font-semibold text-white">Abonare la newsletter</h3>
               <p className="mt-2 max-w-2xl text-sm leading-relaxed text-gray-400">
-                Primeste noutati despre colectii, cataloage si solutii de iluminat Orion Grup. Rubrica este pregatita pentru conectarea abonarii publice.
+                Primește noutăți despre colecții, cataloage și soluții de iluminat Orion Grup. Te poți dezabona oricând din email.
               </p>
             </div>
 
@@ -425,6 +432,9 @@ export default function Footer() {
                 <input
                   type="email"
                   value={newsletterEmail}
+                  aria-label="Adresa de email pentru newsletter"
+                  maxLength={254}
+                  disabled={newsletterBusy}
                   onChange={(event) => {
                     setNewsletterEmail(event.target.value);
                     setNewsletterMessage("");
@@ -436,8 +446,9 @@ export default function Footer() {
                 <button
                   type="submit"
                   className="rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black transition hover:bg-white/90"
+                  disabled={newsletterBusy}
                 >
-                  Aboneaza-te
+                  {newsletterBusy ? 'Se înregistrează…' : 'Abonează-te'}
                 </button>
               </div>
               {newsletterMessage ? (
@@ -446,7 +457,7 @@ export default function Footer() {
                 </p>
               ) : (
                 <p className="text-xs leading-relaxed text-gray-500">
-                  Prin abonare vei accepta prelucrarea adresei de email conform politicii de confidentialitate.
+                  Prin apăsarea „Abonează-te”, accepți primirea newsletterului și prelucrarea adresei de email conform <Link to="/politica-de-confidentialitate" className="underline">politicii de confidențialitate</Link>.
                 </p>
               )}
             </form>

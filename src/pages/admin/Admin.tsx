@@ -7,6 +7,7 @@ import PortfolioProjectsAdmin from "./PortfolioProjectsAdmin";
 import PortfolioCategoriesAdmin from "./PortfolioCategoriesAdmin";
 import CatalogsAdmin from "./CatalogsAdmin";
 import CatalogCategoriesAdmin from "./CatalogCategoriesAdmin";
+import NewsletterAdmin from "./NewsletterAdmin";
 
 type AdminTab =
   | "products"
@@ -14,7 +15,8 @@ type AdminTab =
   | "portfolio-projects"
   | "portfolio-categories"
   | "catalogs"
-  | "catalog-categories";
+  | "catalog-categories"
+  | "newsletter";
 
 export default function Admin() {
   const [sessionReady, setSessionReady] = useState(false);
@@ -72,6 +74,10 @@ export default function Admin() {
 
         <div className="mt-8 flex flex-wrap gap-2">
           <button
+            onClick={() => setTab("newsletter")}
+            className={`rounded-xl px-4 py-2 text-sm transition ${tab === "newsletter" ? "bg-white text-black" : "bg-white/10 hover:bg-white/15"}`}
+          >Newsletter</button>
+          <button
             onClick={() => setTab("products")}
             className={`rounded-xl px-4 py-2 text-sm transition duration-300 ease-in-out ${
               tab === "products" ? "bg-white text-black" : "bg-white/10 hover:bg-white/15"
@@ -127,6 +133,7 @@ export default function Admin() {
         </div>
 
         <div className="mt-8">
+          {tab === "newsletter" ? <NewsletterAdmin /> : null}
           {tab === "products" ? <ProductsAdmin /> : null}
           {tab === "categories" ? <CategoriesAdmin /> : null}
           {tab === "portfolio-projects" ? <PortfolioProjectsAdmin /> : null}
