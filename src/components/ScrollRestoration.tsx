@@ -23,6 +23,14 @@ export default function ScrollRestoration() {
     const positions = readPositions();
     const key = location.pathname + location.search;
 
+    // Legacy contact links should land on the existing contact form.
+    if (location.pathname === "/contact") {
+      const frame = requestAnimationFrame(() => {
+        document.getElementById("footer-contact")?.scrollIntoView({ block: "start" });
+      });
+      return () => cancelAnimationFrame(frame);
+    }
+
     // dacă e back/forward -> restaurăm
     if (navType === "POP") {
       const y = positions[key];

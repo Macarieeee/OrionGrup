@@ -35,6 +35,27 @@ test('newsletter endpoint security and retry behavior', async t => {
     globalThis.fetch = async () => Response.json({ id: 'customer' });
     assert.equal((await request({ action: 'dashboard' }, { authorization: 'Bearer customer-token' })).status, 403);
   });
+  await t.test('admin can inspect missing sending settings without exposing secrets', async () => {
+    const previousSender = process.env.RESEND_FROM_EMAIL;
+    delete process.env.RESEND_FROM_EMAIL;
+    try {
+      globalThis.fetch = async input => String(input).includes('/auth/')
+        ? Response.json({ id: 'administrator' })
+        : Response.json([], { headers: { 'content-range': '0-0/0' } });
+      const response = await request({ action: 'dashboard' }, { authorization: 'Bearer admin' });
+      assert.equal(response.status, 200);
+      const result = response.result as { sending: { configured: boolean; missing: string[] } };
+      assert.equal(result.sending.configured, false);
+      assert.ok(result.sending.missing.includes('RESEND_FROM_EMAIL'));
+      assert.ok(!JSON.stringify(result).includes('re_test'));
+      assert.ok(!JSON.stringify(result).includes('test-service-key'));
+      const create = await request({ action: 'create' }, { authorization: 'Bearer admin' });
+      assert.equal(create.status, 503);
+    } finally {
+      if (previousSender === undefined) delete process.env.RESEND_FROM_EMAIL;
+      else process.env.RESEND_FROM_EMAIL = previousSender;
+    }
+  });
   await t.test('normalizes email and preserves duplicate/unsubscribed addresses', async () => {
     let inserts = 0;
     globalThis.fetch = async (input, init) => {

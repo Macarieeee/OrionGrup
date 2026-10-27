@@ -8,6 +8,17 @@ const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const escapeHtml = (text: string) => text.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 type Recipient = { id: string; email: string; token: string };
 
+function sendingConfiguration() {
+  const missing: string[] = [];
+  if (!process.env.RESEND_API_KEY?.trim()) missing.push('RESEND_API_KEY');
+  const sender = process.env.RESEND_FROM_EMAIL?.trim() || '';
+  if (!sender) missing.push('RESEND_FROM_EMAIL');
+  try {
+    if (new URL(process.env.NEWSLETTER_PUBLIC_API_URL || '').protocol !== 'https:') throw new Error();
+  } catch { missing.push('NEWSLETTER_PUBLIC_API_URL (URL HTTPS)'); }
+  return { configured: missing.length === 0, sender, missing };
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('Vary', 'Origin');
@@ -76,10 +87,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         db.from('newsletter_campaigns').select('id,subject,created_at,recipient_count,newsletter_batches(id,accepted_count,completed_at)').order('created_at', { ascending: false }).limit(20),
       ]);
       for (const result of results) if (result.error) throw result.error;
-      return res.status(200).json({ subscribers: results[0].data, total: results[0].count, campaigns: results[1].data });
+      return res.status(200).json({ subscribers: results[0].data, total: results[0].count, campaigns: results[1].data, sending: sendingConfiguration() });
     }
     if (!process.env.RESEND_API_KEY) throw new Error('Resend is not configured');
     if (body.action === 'create') {
+      const sending = sendingConfiguration();
+      if (!sending.configured) return res.status(503).json({ message: `Completează configurarea serverului: ${sending.missing.join(', ')}.` });
       const subject = typeof body.subject === 'string' ? body.subject.trim() : '';
       const message = typeof body.message === 'string' ? body.message.trim() : '';
       if (typeof body.id !== 'string' || !uuid.test(body.id) || !subject || subject.length > 200 || /[\r\n]/.test(subject) || !message || message.length > 20000) return res.status(400).json({ message: 'Subiectul sau mesajul este invalid.' });
@@ -87,7 +100,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (!endpoint || new URL(endpoint).protocol !== 'https:') throw new Error('Configure NEWSLETTER_PUBLIC_API_URL with the public HTTPS endpoint');
       const { error } = await db.rpc('create_newsletter_campaign', {
         campaign_id: body.id, campaign_subject: subject, campaign_message: message,
-        campaign_sender: process.env.RESEND_FROM_EMAIL || 'Orion Grup <noreply@oriongrup.eu>',
+        campaign_sender: sending.sender,
         campaign_endpoint: endpoint, administrator: auth.user.id,
       });
       if (error) throw error;

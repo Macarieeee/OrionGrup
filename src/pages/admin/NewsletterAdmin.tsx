@@ -9,6 +9,7 @@ type Campaign = {
 type Dashboard = {
   subscribers: { id: string; email: string; created_at: string }[];
   total: number; campaigns: Campaign[];
+  sending?: { configured: boolean; sender: string; missing: string[] };
 };
 
 export default function NewsletterAdmin() {
@@ -46,6 +47,15 @@ export default function NewsletterAdmin() {
         setSubject(''); setMessage(''); setConfirmed(false);
       }
     }
+  }
+
+  async function reloadDashboard() {
+    if (working.current) return;
+    setBusy(true);
+    setError('');
+    try { await refresh(); }
+    catch (err) { setError(err instanceof Error ? err.message : 'Nu am putut actualiza datele.'); }
+    finally { if (mounted.current) setBusy(false); }
   }
 
   async function send(id: string) {
@@ -90,10 +100,21 @@ export default function NewsletterAdmin() {
   return <section className="space-y-8">
     <div>
       <h2 className="text-2xl font-semibold">Newsletter</h2>
-      <p className="mt-2 text-white/60">{data ? `${data.total} abonați activi` : 'Se încarcă abonații…'}. Trimite noutățile Orion Grup prin email.</p>
+      <p className="mt-2 text-white/60">{data ? `${data.total} abonați activi` : error ? 'Abonații nu au putut fi încărcați' : 'Se încarcă abonații…'}. Trimite noutățile Orion Grup prin email.</p>
     </div>
     {error && <p role="alert" className="rounded-xl bg-red-500/10 p-4 text-red-300">{error}</p>}
     {status && <p role="status" className="rounded-xl bg-white/5 p-4 text-white/80">{status}</p>}
+    <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-white/10 p-5">
+      <div className="space-y-1 text-sm text-white/70">
+        {data?.sending ? <>
+          <p>Expeditor: <span className="text-white">{data.sending.sender || 'Neconfigurat'}</span></p>
+          {data.sending.configured
+            ? <p>Configurația de trimitere este completată. Domeniul și cheia trebuie să fie valide în Resend.</p>
+            : <p role="alert" className="text-amber-300">Lipsesc setările de server: {data.sending.missing.join(', ')}.</p>}
+        </> : <p>Lista abonaților și campaniile sunt încărcate din serverul newsletterului.</p>}
+      </div>
+      <button type="button" disabled={busy} onClick={() => void reloadDashboard()} className="rounded-xl bg-white/10 px-4 py-2 disabled:opacity-40">Actualizează datele</button>
+    </div>
     <div className="grid gap-6 lg:grid-cols-2">
       <form onSubmit={submit} className="space-y-4 rounded-2xl border border-white/10 p-6">
         <h3 className="text-lg font-semibold">Mesaj nou</h3>
@@ -101,7 +122,7 @@ export default function NewsletterAdmin() {
         <label className="block">Mesaj<textarea className={field} rows={10} value={message} required maxLength={20000} disabled={busy} onChange={e => { setMessage(e.target.value); setConfirmed(false); }} /></label>
         <p className="text-xs text-white/50">Text simplu, maximum 20.000 de caractere. Linkul de dezabonare este adăugat automat.</p>
         <label className="flex items-start gap-3 text-sm text-white/70"><input type="checkbox" required checked={confirmed} disabled={busy} onChange={e => setConfirmed(e.target.checked)} className="mt-1" />Confirm trimiterea către toți abonații activi din momentul pornirii campaniei.</label>
-        <button disabled={busy || !data?.total || !confirmed || !subject.trim() || !message.trim()} className="rounded-xl bg-white px-5 py-3 font-semibold text-black disabled:opacity-40">{busy ? 'Se trimite…' : 'Trimite newsletterul'}</button>
+        <button disabled={busy || data?.sending?.configured === false || !data?.total || !confirmed || !subject.trim() || !message.trim()} className="rounded-xl bg-white px-5 py-3 font-semibold text-black disabled:opacity-40">{busy ? 'Se trimite…' : 'Trimite newsletterul'}</button>
       </form>
       <div className="rounded-2xl border border-white/10 p-6">
         <h3 className="mb-4 text-lg font-semibold">Previzualizare</h3>

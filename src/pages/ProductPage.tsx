@@ -435,7 +435,7 @@ export default function ProductPage() {
               <button
                 type="button"
                 className="rounded-2xl bg-black text-white px-5 py-3 font-semibold hover:opacity-90 transition duration-300 ease-in-out"
-                onClick={() => navigate("/contact")}
+                onClick={() => document.getElementById("footer-contact")?.scrollIntoView({ behavior: "smooth", block: "start" })}
               >
                 Cere ofertă
               </button>
@@ -443,7 +443,7 @@ export default function ProductPage() {
               <button
                 type="button"
                 className="rounded-2xl bg-black/85 border border-white/15 px-5 py-3 text-white/85 hover:text-white hover:border-white/30 transition duration-300 ease-in-out"
-                onClick={() => navigate("/contact")}
+                onClick={() => document.getElementById("footer-contact")?.scrollIntoView({ behavior: "smooth", block: "start" })}
               >
                 Contactează-ne
               </button>

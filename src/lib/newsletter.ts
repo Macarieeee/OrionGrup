@@ -10,6 +10,9 @@ export async function newsletterRequest<T>(body: Record<string, unknown>, admin 
     headers.Authorization = `Bearer ${data.session.access_token}`;
   }
   const response = await fetch(endpoint, { method: 'POST', headers, body: JSON.stringify(body) });
+  if (!response.headers.get('content-type')?.includes('application/json')) {
+    throw new Error(`API-ul newsletterului nu răspunde cu date JSON (HTTP ${response.status}). Verifică adresa VITE_NEWSLETTER_API_URL și publicarea backendului.`);
+  }
   const result = await response.json().catch(() => null);
   if (!response.ok || !result) throw new Error(result?.message || 'Serviciul newsletter nu este disponibil. Încearcă din nou.');
   return result as T;

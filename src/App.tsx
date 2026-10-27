@@ -43,6 +43,8 @@ export default function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/reset" element={<AdminResetPassword />} />
+          {/* Contact content is the shared Footer below the routes. */}
+          <Route path="/contact" element={null} />
           <Route path="/" element={<Index />} />
           <Route path="/termeni-si-conditii" element={<TermsAndConditions />} />
           <Route path="/politica-de-confidentialitate" element={<PrivacyPolicy />} />
