@@ -160,42 +160,11 @@ export default function Navbar() {
     setOpen(false);
   };
 
-  const scrollToContactForm = () => {
-    const selectors = [
-      "#contact-form",
-      "#contactForm",
-      "#contact",
-      "#footer-contact",
-      "[data-contact-form]",
-      "footer form",
-      "footer",
-    ];
-
-    const target = selectors
-      .map((selector) => document.querySelector(selector))
-      .find(Boolean) as HTMLElement | undefined;
-
-    if (!target) return false;
-
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
-    return true;
-  };
-
   const handleRequestOffer = () => {
     setFavoritesOpen(false);
     setUserMenuOpen(false);
     setOpen(false);
-
-    const didScroll = scrollToContactForm();
-
-    // Fallback: dacă formularul/footerul nu există pe pagina curentă,
-    // mergem pe pagina de contact și încercăm din nou scroll-ul.
-    if (!didScroll) {
-      navigate("/contact");
-      window.setTimeout(() => {
-        scrollToContactForm();
-      }, 250);
-    }
+    navigate("/contact");
   };
 
   const userName = userEmail ? userEmail.split("@")[0] : "";
