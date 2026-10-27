@@ -1,4 +1,5 @@
 import "./App.css";
+import { isPasswordRecovery } from "./lib/supabaseClient";
 import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
@@ -29,6 +30,8 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import LanguageToggle from "./components/LanguageToggle";
 import { LanguageProvider } from "./language/LanguageContext";
 export default function App() {
+  // Do not mount navigation, private routes, or data loaders during recovery.
+  if (isPasswordRecovery) return <AdminResetPassword />;
   return (
     <LanguageProvider>
       <Navbar />

@@ -1,126 +1,86 @@
-import { useEffect, useState } from "react";
-import { supabase } from "../../lib/supabaseClient";
-import { useNavigate } from "react-router-dom";
+﻿import { useEffect, useState } from "react";
+import { recoveryClient, recoveryReady, supabase } from "../../lib/supabaseClient";
 
-function parseTokensFromUrl() {
-  // caută access_token și refresh_token oriunde în URL (hash sau query)
-  const full = window.location.href;
-
-  const mAccess = full.match(/access_token=([^&]+)/);
-  const mRefresh = full.match(/refresh_token=([^&]+)/);
-
-  if (!mAccess || !mRefresh) return null;
-
-  return {
-    access_token: decodeURIComponent(mAccess[1]),
-    refresh_token: decodeURIComponent(mRefresh[1]),
-  };
-}
 export default function AdminResetPassword() {
-  const nav = useNavigate();
   const [ready, setReady] = useState(false);
+  const [valid, setValid] = useState(false);
   const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
+  const [confirmation, setConfirmation] = useState("");
   const [busy, setBusy] = useState(false);
-  const [msg, setMsg] = useState<string | null>(null);
-  const [err, setErr] = useState<string | null>(null);
+  const [changed, setChanged] = useState(false);
+  const [done, setDone] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    // 1) încercăm să setăm sesiunea din tokenii din hash
-    (async () => {
-      setErr(null);
-      const tokens = parseTokensFromUrl();
-
-      // dacă nu sunt tokeni, poate deja ai sesiune din recovery flow
-      if (!tokens) {
-        const { data } = await supabase.auth.getSession();
-        setReady(true);
-        if (!data.session) {
-          setErr("Link invalid/expirat. Cere din nou reset password.");
-        }
-        return;
-      }
-
-      const { error } = await supabase.auth.setSession(tokens);
+    let active = true;
+    recoveryReady.then((ok) => {
+      if (!active) return;
+      setValid(ok);
       setReady(true);
-      if (error) setErr(error.message);
-    })();
+      if (!ok) setError("Link invalid sau expirat. Solicită un email nou de resetare.");
+    }).catch(() => {
+      if (!active) return;
+      setReady(true);
+      setError("Nu am putut verifica linkul. Solicită un email nou de resetare.");
+    });
+    return () => { active = false; };
   }, []);
 
-  const update = async () => {
-    setErr(null);
-    setMsg(null);
-
-    if (password.length < 8) {
-      setErr("Parola trebuie să aibă minim 8 caractere.");
+  async function submit(event: React.FormEvent) {
+    event.preventDefault();
+    if (!valid || !recoveryClient || busy) return;
+    setError("");
+    if (!changed && (password.length < 8 || password !== confirmation)) {
+      setError(password.length < 8 ? "Parola trebuie să aibă minimum 8 caractere." : "Parolele nu coincid.");
       return;
     }
-    if (password !== password2) {
-      setErr("Parolele nu coincid.");
-      return;
-    }
-
     setBusy(true);
-    const { error } = await supabase.auth.updateUser({ password });
-    setBusy(false);
-
-    if (error) {
-      setErr(error.message);
-      return;
+    try {
+      if (!changed) {
+        const { error } = await recoveryClient.auth.updateUser({ password });
+        if (error) throw error;
+        setChanged(true);
+        setPassword("");
+        setConfirmation("");
+      }
+      const { error: recoveryError } = await recoveryClient.auth.signOut({ scope: "global" });
+      if (recoveryError) throw new Error("Parola a fost schimbată, dar închiderea sesiunii a eșuat. Apasă din nou pentru a finaliza.");
+      const { error: normalError } = await supabase.auth.signOut({ scope: "local" });
+      if (normalError) throw new Error("Nu am putut închide sesiunea existentă. Încearcă din nou.");
+      setValid(false);
+      setDone(true);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Operația a eșuat. Încearcă din nou.");
+    } finally {
+      setBusy(false);
     }
-
-    setMsg("Parola a fost schimbată. Te poți loga acum.");
-    // opțional: te duce la /admin după 1s
-    setTimeout(() => nav("/admin"), 800);
-  };
+  }
 
   return (
-    <main className="min-h-screen pt-[var(--nav-h)] bg-[#0a0b0d] text-white grid place-items-center px-6">
+    <main className="min-h-screen bg-[#0a0b0d] text-white grid place-items-center px-6">
       <div className="w-full max-w-[460px] rounded-2xl border border-white/10 bg-white/[0.03] p-6">
         <h1 className="text-2xl font-semibold">Resetare parolă</h1>
-        <p className="mt-1 text-white/60 text-sm">
-          Setează o parolă nouă pentru contul tău de admin.
-        </p>
-
-        {!ready ? (
-          <div className="mt-6 text-white/70 text-sm">Se verifică link-ul…</div>
+        {!ready ? <p className="mt-6">Se verifică linkul…</p> : done ? (
+          <div className="mt-6 space-y-4">
+            <p role="status">Parola a fost schimbată. Autentifică-te cu adresa de email și noua parolă.</p>
+            <a className="block underline" href="/sign-in?mode=login">Mergi la autentificare</a>
+          </div>
         ) : (
-          <>
-            <div className="mt-6 space-y-3">
-              <input
-                className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
-                placeholder="Parolă nouă"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <input
-                className="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 outline-none"
-                placeholder="Confirmă parola"
-                type="password"
-                value={password2}
-                onChange={(e) => setPassword2(e.target.value)}
-              />
-
-              {err ? <div className="text-red-400 text-sm">{err}</div> : null}
-              {msg ? <div className="text-green-400 text-sm">{msg}</div> : null}
-
-              <button
-                disabled={busy}
-                onClick={update}
-                className="w-full rounded-xl bg-white text-black px-4 py-3 font-semibold hover:opacity-90 transition duration-300 ease-in-out disabled:opacity-60"
-              >
-                {busy ? "Se salvează…" : "Schimbă parola"}
-              </button>
-            </div>
-
-            <button
-              onClick={() => nav("/admin")}
-              className="mt-4 w-full rounded-xl bg-white/10 px-4 py-3 text-sm hover:bg-white/15 transition duration-300 ease-in-out"
-            >
-              Înapoi la Admin
+          <form onSubmit={submit} className="mt-6 space-y-4">
+            <p className="text-sm text-white/60">Alege o parolă nouă. După salvare va trebui să te autentifici.</p>
+            {!changed && <>
+              <label className="block">Parolă nouă
+                <input className="mt-2 w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3" type="password" autoComplete="new-password" minLength={8} required disabled={!valid || busy} value={password} onChange={(e) => setPassword(e.target.value)} />
+              </label>
+              <label className="block">Confirmă parola
+                <input className="mt-2 w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3" type="password" autoComplete="new-password" minLength={8} required disabled={!valid || busy} value={confirmation} onChange={(e) => setConfirmation(e.target.value)} />
+              </label>
+            </>}
+            {error && <p role="alert" className="text-red-400 text-sm">{error}</p>}
+            <button disabled={!valid || busy} className="w-full rounded-xl bg-white text-black px-4 py-3 font-semibold disabled:opacity-50">
+              {busy ? "Se salvează…" : changed ? "Finalizează resetarea" : "Schimbă parola"}
             </button>
-          </>
+          </form>
         )}
       </div>
     </main>

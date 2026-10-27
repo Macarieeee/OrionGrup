@@ -11,7 +11,9 @@ export default function SignIn() {
   const navigate = useNavigate();
 const location = useLocation();
 const from = (location.state as any)?.from?.pathname || "/";
-  const [mode, setMode] = useState<"register" | "login">("register");
+  const [mode, setMode] = useState<"register" | "login">(
+    new URLSearchParams(location.search).get("mode") === "login" ? "login" : "register"
+  );
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
