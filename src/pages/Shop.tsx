@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePreloadImages } from "../hooks/usePreloadImages";
 import { supabase } from "../lib/supabaseClient";
+import { Search, X } from "lucide-react";
+import { useLanguage } from "../language/LanguageContext";
 type CategoryTile = {
   id: string;
   label: string;
@@ -20,6 +22,8 @@ type ProductCardVM = {
 };
 
 const FAVORITES_STORAGE_KEY = "orion_favorite_products";
+const normalizeSearch = (value: string) =>
+  value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
 function GridIconLarge() {
   return (
     <svg
@@ -56,6 +60,8 @@ function readFavoriteProductsFromStorage(): ProductCardVM[] {
 }
 
 export default function Shop() {
+  const { language } = useLanguage();
+  const [searchQuery, setSearchQuery] = useState("");
   const openProduct = (id: string) => {
     sessionStorage.setItem("shop_scroll_y", String(window.scrollY));
     navigate(`/shop/${id}`);
@@ -199,11 +205,13 @@ export default function Shop() {
   const [layout, setLayout] = useState<"grid" | "list">("grid");
 
   const filteredProducts = useMemo(() => {
-    if (selectedCategories.length === 0) return products;
-    return products.filter((p) =>
-      selectedCategories.some((category) => (p.solutions ?? []).includes(category))
-    );
-  }, [products, selectedCategories]);
+    const query = normalizeSearch(searchQuery);
+    return products.filter((p) => {
+      const matchesCategory = selectedCategories.length === 0 ||
+        selectedCategories.some((category) => (p.solutions ?? []).includes(category));
+      return matchesCategory && normalizeSearch(p.name).includes(query);
+    });
+  }, [products, selectedCategories, searchQuery]);
 
   const toggleCategory = (category: string) => {
     setSelectedCategories((prev) =>
@@ -333,8 +341,37 @@ export default function Shop() {
 
           {/* RIGHT PRODUCTS */}
           <div>
+            <div role="search" className="mb-6">
+              <label htmlFor="shop-search" className="mb-2 block text-sm text-white/70">
+                {language === "ro" ? "Caută un produs" : "Find a product"}
+              </label>
+              <div className="relative">
+                <Search aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-white/50" />
+                <input
+                  id="shop-search"
+                  type="search"
+                  value={searchQuery}
+                  onChange={(event) => setSearchQuery(event.target.value)}
+                  placeholder={language === "ro" ? "Caută după numele produsului…" : "Search by product name…"}
+                  className="w-full rounded-xl border border-white/15 bg-white/[0.03] py-3 pl-12 pr-12 text-base text-white outline-none transition placeholder:text-white/40 focus:border-white/50 focus:ring-2 focus:ring-white/15 [&::-webkit-search-cancel-button]:appearance-none"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchQuery("");
+                      document.getElementById("shop-search")?.focus();
+                    }}
+                    aria-label={language === "ro" ? "Șterge căutarea" : "Clear search"}
+                    className="absolute right-1 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-lg text-white/60 transition hover:text-white focus-visible:outline focus-visible:outline-white"
+                  >
+                    <X aria-hidden="true" className="h-5 w-5" />
+                  </button>
+                )}
+              </div>
+            </div>
             <div className="flex items-center justify-between gap-4">
-              <div className="text-white/85 font-semibold">
+              <div aria-live="polite" aria-atomic="true" className="text-white/85 font-semibold">
                 {filteredProducts.length} Products
               </div>
 
@@ -373,7 +410,13 @@ export default function Shop() {
             </div>
 
             <div className="mt-8">
-              {layout === "grid" ? (
+              {filteredProducts.length === 0 ? (
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-12 text-center text-white/65">
+                  {language === "ro"
+                    ? "Nu am găsit produse. Încearcă alt nume sau schimbă filtrele selectate."
+                    : "No products found. Try another name or change the selected filters."}
+                </div>
+              ) : layout === "grid" ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-10 gap-y-14">
                   {filteredProducts.map((p) => (
                     <ProductCard
@@ -416,8 +459,8 @@ function CategoryCarousel({
   onClearAll,
 }: {
   tiles: CategoryTile[];
-  activeLabels: Solution[];
-  onSelect: (label: Solution) => void;
+  activeLabels: string[];
+  onSelect: (label: string) => void;
   onClearAll: () => void;
 }) {
   const scrollerRef = useRef<HTMLDivElement | null>(null);

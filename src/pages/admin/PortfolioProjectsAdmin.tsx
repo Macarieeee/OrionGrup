@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
+import { requirePortfolioMutation } from "../../lib/portfolioMutation";
 
 type PortfolioCategory = {
   id: string;
@@ -96,12 +97,12 @@ async function uploadMany(files: File[], folder: string) {
     const path = `${folder}/${crypto.randomUUID()}.${ext}`;
 
     const { error } = await supabase.storage.from(BUCKET).upload(path, file, {
-      upsert: true,
+      upsert: false,
       cacheControl: "3600",
       contentType: file.type,
     });
 
-    if (error) throw error;
+    if (error) throw new Error(`Încărcarea imaginii în Storage (bucket portfolio) a eșuat: ${error.message}`);
 
     const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
     urls.push(data.publicUrl);
@@ -121,6 +122,7 @@ export default function PortfolioProjectsAdmin() {
   const [q, setQ] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [mainFiles, setMainFiles] = useState<File[]>([]);
@@ -130,8 +132,8 @@ export default function PortfolioProjectsAdmin() {
   const [manualMainUrl, setManualMainUrl] = useState("");
   const [manualSiteUrl, setManualSiteUrl] = useState("");
 
-  const load = async () => {
-    setBusy(true);
+  const load = async (manageBusy = true) => {
+    if (manageBusy) setBusy(true);
     setErr(null);
 
     const [{ data: projects, error: projectsErr }, { data: cats, error: catsErr }] =
@@ -150,7 +152,7 @@ export default function PortfolioProjectsAdmin() {
           .order("name", { ascending: true }),
       ]);
 
-    setBusy(false);
+    if (manageBusy) setBusy(false);
 
     if (projectsErr) return setErr(projectsErr.message);
     if (catsErr) return setErr(catsErr.message);
@@ -177,6 +179,7 @@ export default function PortfolioProjectsAdmin() {
   }, [items, q]);
 
   const resetForm = () => {
+    setSuccess(null);
     setForm(emptyForm);
     setCoverFile(null);
     setMainFiles([]);
@@ -188,6 +191,7 @@ export default function PortfolioProjectsAdmin() {
   };
 
   const edit = (project: PortfolioProjectDb) => {
+    setSuccess(null);
     setForm({
       id: project.id,
       slug: project.slug ?? "",
@@ -299,10 +303,15 @@ export default function PortfolioProjectsAdmin() {
   };
 
   const save = async () => {
+    if (busy) return;
     setBusy(true);
     setErr(null);
+    setSuccess(null);
 
     try {
+      if (!form.slug.trim() || !form.title.trim()) {
+        throw new Error("Slug și titlul sunt obligatorii.");
+      }
       let cover_image = form.cover_image?.trim() || "";
       let main_images = safeArr(form.main_images);
       let site_images = safeArr(form.site_images);
@@ -363,18 +372,24 @@ export default function PortfolioProjectsAdmin() {
         payload.cover_image = main_images[0];
       }
 
-      if (form.id) {
-        const { error } = await supabase
+      // Keep successful uploads on a database failure so retrying does not upload them again.
+      setForm((previous) => ({ ...previous, cover_image, main_images, site_images }));
+      setCoverFile(null);
+      setMainFiles([]);
+      setSiteFiles([]);
+
+      const saved = form.id
+        ? requirePortfolioMutation(await supabase
           .from("portfolio_projects")
           .update(payload)
-          .eq("id", form.id);
+          .eq("id", form.id)
+          .select("id")
+          .maybeSingle())
+        : requirePortfolioMutation(await supabase.from("portfolio_projects")
+          .insert(payload).select("id").single());
 
-        if (error) throw error;
-      } else {
-        const { error } = await supabase.from("portfolio_projects").insert(payload);
-
-        if (error) throw error;
-      }
+      setForm((previous) => ({ ...previous, ...payload, id: saved.id }));
+      setSuccess("Proiectul a fost salvat cu succes.");
 
       setCoverFile(null);
       setMainFiles([]);
@@ -383,7 +398,7 @@ export default function PortfolioProjectsAdmin() {
       setManualMainUrl("");
       setManualSiteUrl("");
 
-      await load();
+      await load(false);
     } catch (e: any) {
       setErr(e.message || "Eroare la salvarea proiectului.");
     } finally {
@@ -709,7 +724,8 @@ export default function PortfolioProjectsAdmin() {
             <ImageList urls={safeArr(form.site_images)} onRemove={(url) => removeImage("site_images", url)} />
           </div>
 
-          {err ? <div className="text-sm text-red-400">{err}</div> : null}
+          {err ? <div role="alert" className="text-sm text-red-400">{err}</div> : null}
+          {success ? <div role="status" className="text-sm text-green-400">{success}</div> : null}
 
           <button
             type="button"
@@ -733,7 +749,7 @@ export default function PortfolioProjectsAdmin() {
           <div className="flex gap-2">
             <button
               type="button"
-              onClick={load}
+              onClick={() => load()}
               className="rounded-xl bg-white/10 px-3 py-2 text-sm hover:bg-white/15 transition duration-300 ease-in-out"
             >
               Refresh
